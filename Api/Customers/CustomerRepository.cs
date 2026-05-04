@@ -1,7 +1,9 @@
 ﻿using Api.Constants;
-using Api.Customers;
-using k8s.KubeConfigModels;
-using Microsoft.AspNetCore.Identity;
+using Api.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace Api.Customers;
+
 public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {
     public async Task<UserDto> AddAsync(RegisterUserDto dto)
@@ -19,10 +21,19 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             Status = UserStatus.Active
         };
 
-        context.Users.Add(entity);
-        await context.saveChangesAsync();
+        context.users.Add(entity);
+        await context.SaveChangesAsync();
 
-        return ToDto(entity)
-}
+        return ToDto(entity);
+    }
 
+    private static UserDto ToDto(UserEntity entity) => new()
+    {
+        Id = entity.Id,
+        FirstName = entity.FirstName,
+        MiddleName = entity.MiddleName,
+        LastName = entity.LastName,
+        Email = entity.Email,
+        CreatedDateTime = entity.CreatedDateTime
+    };
 }

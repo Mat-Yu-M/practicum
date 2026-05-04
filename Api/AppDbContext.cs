@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Api.Entities; // Adjust based on your folder name
+using Api.Entities;
 
-public class AppDbContext : DbContext
-{
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-    // This tells EF Core to create a 'Users' table based on your Entity
-    public DbSet<UserEntity> Users { get; set; }
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+{    public DbSet<UserEntity> users { get; set; }
 }
