@@ -1,23 +1,28 @@
-﻿using k8s.KubeConfigModels;
+﻿using Api.Constants;
+using Api.Customers;
+using k8s.KubeConfigModels;
 using Microsoft.AspNetCore.Identity;
-
-public async Task<UserDto> AddAsync(RegisterUserDto dto)
+public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {
-    string hashedPassword = _passwordHasher.HashPassword(dto.Password);
-
-    var entity = new UserEntity
+    public async Task<UserDto> AddAsync(RegisterUserDto dto)
     {
-        FirstName = dto.FirstName,
-        MiddleName = dto.MiddleName,
-        LastName = dto.LastName,
-        Email = dto.Email,
-        PasswordHasher = hashedPassword,
-        CreatedDateTime = DateTime.UtcNow,
-        Status = UserStatus.Active
-    };
+        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-    context.users.add(entity);
-    await context.saveChangesAsync();
+        var entity = new UserEntity
+        {
+            FirstName = dto.FirstName,
+            MiddleName = dto.MiddleName,
+            LastName = dto.LastName,
+            Email = dto.Email,
+            PasswordHasher = hashedPassword,
+            CreatedDateTime = DateTime.UtcNow,
+            Status = UserStatus.Active
+        };
 
-    return ToDto(entity)
+        context.Users.Add(entity);
+        await context.saveChangesAsync();
+
+        return ToDto(entity)
+}
+
 }
