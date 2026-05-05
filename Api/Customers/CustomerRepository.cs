@@ -21,7 +21,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             Status = UserStatus.Active
         };
 
-        context.users.Add(entity);
+        context.Users.Add(entity);
         await context.SaveChangesAsync();
 
         return ToDto(entity);
