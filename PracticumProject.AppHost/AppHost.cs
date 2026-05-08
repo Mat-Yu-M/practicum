@@ -9,6 +9,7 @@ var web = builder.AddExternalService("web", "http://localhost:3000");
 
 builder.AddProject<Projects.Api>("api").WithReference(myDb).WaitFor(myDb);
 
-builder.AddProject<Projects.Migrations>("migrations");
-
+builder.AddProject<Projects.Migrations>("migrations")
+    .WithReference(postgres) // ? this is what injects the connection string
+    .WaitFor(postgres);
 builder.Build().Run();
