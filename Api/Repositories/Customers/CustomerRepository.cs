@@ -1,8 +1,7 @@
 ﻿using Api.Constants;
 using Api.Entities;
-using Microsoft.EntityFrameworkCore;
 
-namespace Api.Customers;
+namespace Api.Repositories.Customers;
 
 public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {

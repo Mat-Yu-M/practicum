@@ -1,4 +1,4 @@
-﻿namespace Api.Customers;
+﻿namespace Api.Repositories.Customers;
 public sealed record UserDto
 {
     public long Id { get; init; }
