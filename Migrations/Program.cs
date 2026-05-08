@@ -10,10 +10,8 @@ builder.Services.AddWindowsService(o =>
     o.ServiceName = "Migrations";
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options
-        .UseNpgsql(builder.Configuration.GetConnectionString("db"))
-);
+builder.AddNpgsqlDbContext<AppDbContext>("practicumdb");
+
 
 builder.Services.AddHostedService<MigrationRunner>();
 
