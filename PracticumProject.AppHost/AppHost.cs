@@ -9,4 +9,6 @@ var web = builder.AddExternalService("web", "http://localhost:3000");
 
 builder.AddProject<Projects.Api>("api").WithReference(myDb).WaitFor(myDb);
 
+builder.AddProject<Projects.Migrations>("migrations");
+
 builder.Build().Run();
