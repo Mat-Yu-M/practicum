@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Sss.Migrations;
+namespace Migrations;
 
 public sealed class MigrationRunner(
     IServiceProvider serviceProvider,
