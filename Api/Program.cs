@@ -6,8 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options
-        .UseNpgsql(builder.Configuration.GetConnectionString("practicumdb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
