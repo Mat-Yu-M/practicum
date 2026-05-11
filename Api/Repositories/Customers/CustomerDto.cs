@@ -5,11 +5,11 @@ public sealed record UserDto
     public required string FirstName { get; init; }
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
-    public required string Email { get; init; }
+    public required string Email { get; init; } 
+    public required string Password { get; init; }
     public required DateTime CreatedDateTime { get; init; }
     public string? ModifiedBy { get; init; }
     public DateTime? ModifiedDateTime { get; init; }
-
     public string FullName => $"{FirstName} {MiddleName} {LastName}".Replace("  ", " ").Trim();
 }
 

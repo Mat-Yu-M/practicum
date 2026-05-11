@@ -33,6 +33,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
         Email = entity.Email,
+        Password = entity.PasswordHasher,
         CreatedDateTime = entity.CreatedDateTime
     };
 }
