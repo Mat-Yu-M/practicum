@@ -15,7 +15,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
             Email = dto.Email,
-            PasswordHasher = hashedPassword,
+            Password = hashedPassword,
             CreatedDateTime = DateTime.UtcNow,
             Status = UserStatus.Active
         };
@@ -33,9 +33,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
         Email = entity.Email,
-        Password = entity.PasswordHasher,
         CreatedDateTime = entity.CreatedDateTime,
         Status = entity.Status,
-
     };
 }

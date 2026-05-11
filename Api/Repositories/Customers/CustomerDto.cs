@@ -8,7 +8,6 @@ public sealed record UserDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public required string Email { get; init; } 
-    public required string Password { get; init; }
     public required UserStatus Status { get; init; }
     public required DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
 }
