@@ -1,8 +1,7 @@
 ﻿using Api.Constants;
 using Api.Entities;
-using Microsoft.EntityFrameworkCore;
 
-namespace Api.Customers;
+namespace Api.Repositories.Customers;
 
 public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {
@@ -16,9 +15,9 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
             Email = dto.Email,
-            PasswordHasher = hashedPassword,
+            Password = hashedPassword,
             CreatedDateTime = DateTime.UtcNow,
-            Status = UserStatus.Active
+            Status = UserStatus.Unverified
         };
 
         context.Users.Add(entity);
@@ -34,6 +33,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
         Email = entity.Email,
-        CreatedDateTime = entity.CreatedDateTime
+        CreatedDateTime = entity.CreatedDateTime,
+        Status = entity.Status,
     };
 }

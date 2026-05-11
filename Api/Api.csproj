@@ -24,6 +24,12 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Repositories\LoanProducts\" />
+    <Folder Include="Repositories\LoanCategories\" />
+    <Folder Include="Repositories\Loans\" />
+    <Folder Include="Repositories\AuditLogs\" />
+    <Folder Include="Repositories\CreditAssessments\" />
+    <Folder Include="Repositories\Repayment_Schedules\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

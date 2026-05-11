@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Entities;
+using Api.Constants;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -22,7 +23,8 @@ public class UsersController : ControllerBase
             MiddleName = req.MiddleName,
             LastName = req.LastName,
             Email = req.Email,
-            PasswordHasher = req.Password
+            Password = BCrypt.Net.BCrypt.HashPassword(req.Password),
+            Status = UserStatus.Unverified
         };
 
         _db.Users.Add(user);
