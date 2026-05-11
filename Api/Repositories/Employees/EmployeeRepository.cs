@@ -1,8 +1,5 @@
-﻿using Api.Constants;
-using Api.Entities;
-using Api.Repositories.Customers;
+﻿using Api.Entities;
 using Api.Repositories.Employees;
-using Humanizer;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository
 {

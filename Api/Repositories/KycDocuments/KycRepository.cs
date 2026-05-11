@@ -36,7 +36,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         AddressLine2 = entity.AddressLine2,
         AddressLine3 = entity.AddressLine3,
         FullName = entity.FullName,
-        DocumentImagePath = entity.doc
+        DocumentImagePath = entity.DocumentImagePath,
     };
 
 }
