@@ -1,7 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("postgres")
-                      .WithDataVolume();
+                      .WithDataVolume()
+                      .WithPgAdmin();
 
 var myDb = postgres.AddDatabase("practicumdb");
 
