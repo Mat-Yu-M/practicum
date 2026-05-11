@@ -2,8 +2,8 @@
 {
     public enum UserStatus
     {
-        Active,
-        Inactive,
+        Unverified,
+        Verified,
         Pending
     }
 }

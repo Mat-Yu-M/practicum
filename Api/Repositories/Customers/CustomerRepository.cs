@@ -17,7 +17,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             Email = dto.Email,
             Password = hashedPassword,
             CreatedDateTime = DateTime.UtcNow,
-            Status = UserStatus.Active
+            Status = UserStatus.Unverified
         };
 
         context.Users.Add(entity);
