@@ -3,7 +3,7 @@
 public sealed class KycEntity
 {
     public long Id { get; init; }
-    public int UserId { get; set; }
+    public long UserId { get; set; }
     public UserEntity User { get; set; } = null!;
     public string? DocumentType { get; init; }
     public required string Country { get; init; }

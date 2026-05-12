@@ -8,7 +8,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         var entity = new KycEntity
         {
         Id = dto.Id,
-        CustomerId = dto.CustomerId,
+        UserId = dto.UserId,
         DocumentType = dto.DocumentType,
         Country = dto.Country,
         ZipCode = dto.ZipCode,
@@ -28,7 +28,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
     private static KycDto ToDto(KycEntity entity) => new()
     {
         Id = entity.Id,
-        CustomerId = entity.CustomerId,
+        UserId = entity.UserId,
         DocumentType = entity.DocumentType,
         Country = entity.Country,
         ZipCode = entity.ZipCode,

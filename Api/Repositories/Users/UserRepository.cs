@@ -3,7 +3,7 @@ using Api.Entities;
 
 namespace Api.Repositories.Customers;
 
-public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
+public sealed class UserRepository(AppDbContext context) : IUserRepository
 {
     public async Task<UserDto> AddAsync(RegisterUserDto dto)
     {
