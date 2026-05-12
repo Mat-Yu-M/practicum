@@ -12,6 +12,7 @@ public sealed class UserEntity
     public required string Password { get; set; }
     public decimal Balance { get; set; } = 0;
     public UserStatus Status { get; set; }
+    public ICollection<KycEntity> KycRecords { get; set; } = [];
     public DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
 
 }
