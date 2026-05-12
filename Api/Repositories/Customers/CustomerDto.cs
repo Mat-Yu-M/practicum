@@ -9,6 +9,7 @@ public sealed record UserDto
     public required string LastName { get; init; }
     public required string Email { get; init; } 
     public required UserStatus Status { get; init; }
+    public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
 }
 
@@ -21,6 +22,7 @@ public sealed record AddUserDto
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }
+    public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }
 
@@ -33,6 +35,7 @@ public sealed record UpdateUserDto
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }
+    public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }
 
@@ -45,5 +48,6 @@ public sealed record RegisterUserDto
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }
+    public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }

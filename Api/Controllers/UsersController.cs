@@ -24,7 +24,8 @@ public class UsersController : ControllerBase
             LastName = req.LastName,
             Email = req.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(req.Password),
-            Status = UserStatus.Unverified
+            Status = UserStatus.Unverified,
+            Balance = req.Balance
         };
 
         _db.Users.Add(user);
@@ -39,5 +40,6 @@ public record CreateUserRequest(
     string MiddleName,
     string LastName,
     string Email,
-    string Password
+    string Password,
+    decimal Balance
 );

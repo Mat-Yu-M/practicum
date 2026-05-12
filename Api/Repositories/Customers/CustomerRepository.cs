@@ -18,6 +18,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             Password = hashedPassword,
             CreatedDateTime = DateTime.UtcNow,
             Status = UserStatus.Unverified
+            Balance = dto.Balance
         };
 
         context.Users.Add(entity);
@@ -35,5 +36,6 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         Email = entity.Email,
         CreatedDateTime = entity.CreatedDateTime,
         Status = entity.Status,
+        Balance = entity.Balance
     };
 }
