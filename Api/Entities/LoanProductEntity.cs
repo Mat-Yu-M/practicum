@@ -2,7 +2,7 @@
 
 namespace Api.Entities;
 
-public sealed class LoanProduct
+public sealed class LoanProductEntity
 {
     public long Id { get; init; }
     public required string Name { get; init; }
