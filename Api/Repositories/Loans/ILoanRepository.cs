@@ -2,5 +2,6 @@
 {
     public interface ILoanRepository
     {
+        Task Task<LoanDto> AddAsync(AddLoanDto dto)
     }
 }
