@@ -1,4 +1,6 @@
 ﻿using Api.Constants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Entities;
 
@@ -15,4 +17,18 @@ public sealed class UserEntity
     public ICollection<KycEntity> KycRecords { get; set; } = [];
     public DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
 
+}
+
+public sealed class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
+{
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
+    {
+        builder.ToTable("users");
+
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Email).IsRequired();
+        builder.Property(u => u.Password).IsRequired();
+
+    }
 }

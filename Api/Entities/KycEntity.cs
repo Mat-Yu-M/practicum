@@ -1,4 +1,7 @@
-﻿namespace Api.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Api.Entities;
 
 public sealed class KycEntity
 {
@@ -16,5 +19,17 @@ public sealed class KycEntity
     public required string FullName { get; init; }
     public required string DocumentImagePath { get; init; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+}
+public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
+{
+    public void Configure(EntityTypeBuilder<KycEntity> builder)
+    {
+        builder.ToTable("kyc");
 
+        builder.HasKey(k => k.Id);
+
+        builder.HasOne(k => k.User)
+               .WithMany(u => u.KycRecords)
+               .HasForeignKey(k => k.UserId);
+    }
 }

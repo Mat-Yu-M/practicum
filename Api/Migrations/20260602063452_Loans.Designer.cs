@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260602063452_Loans")]
+    partial class Loans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,48 +180,6 @@ namespace Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("loans", (string)null);
-                });
-
-            modelBuilder.Entity("Api.Entities.LoanProductEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("InterestRate")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("LoanCategory")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("MaximumAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("MaximumTermMonths")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("MinimumAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("MinimumTermMonths")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("loan_products", (string)null);
                 });
 
             modelBuilder.Entity("Api.Entities.UserEntity", b =>

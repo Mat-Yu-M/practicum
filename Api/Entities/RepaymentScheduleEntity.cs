@@ -1,11 +1,12 @@
-﻿namespace Api.Entities
-{
-    public class RepaymentScheduleEntity
+﻿
+    public sealed record RepaymentScheduleEntity
     {
-        public long id;
-        public long loanId;
-        public long userId;
-        public decimal amount;
-        public DateTime dueDate;
+        public long Id { get; init; }
+        public long LoanId { get; init; }
+        public long UserId { get; init; }
+        public decimal Amount { get; init; }
+        public decimal Balance { get; init; }
+        public decimal InterestRate { get; init; }
+        public DateTime DueDate { get; init; }
     }
-}
+

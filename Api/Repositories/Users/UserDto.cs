@@ -1,4 +1,7 @@
 ﻿using Api.Constants;
+using Api.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Repositories.Customers;
 public sealed record UserDto
