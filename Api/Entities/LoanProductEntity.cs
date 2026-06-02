@@ -1,4 +1,6 @@
 ﻿using Api.Constants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Entities;
 
@@ -14,4 +16,13 @@ public sealed class LoanProductEntity
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+}
+
+public sealed class LoanProductEntityConfiguration : IEntityTypeConfiguration<LoanProductEntity>
+{
+    public void Configure(EntityTypeBuilder<LoanProductEntity> builder)
+    {
+        builder.ToTable("loan_products");
+        builder.HasKey(lp => lp.Id);
+    }
 }
