@@ -1,4 +1,7 @@
 ﻿using Api.Constants;
+using Api.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Repositories.Customers;
 public sealed record UserDto
@@ -50,4 +53,16 @@ public sealed record RegisterUserDto
     public required UserStatus Status { get; init; }
     public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
+}
+public sealed class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
+{
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
+    {
+        builder.ToTable("users");
+
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Email).IsRequired();
+        builder.Property(u => u.Password).IsRequired();
+    }
 }
