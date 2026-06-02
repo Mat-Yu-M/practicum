@@ -28,7 +28,6 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
 
         builder.HasKey(k => k.Id);
 
-        // one user can have many kyc attempts
         builder.HasOne(k => k.User)
                .WithMany(u => u.KycRecords)
                .HasForeignKey(k => k.UserId);
