@@ -1,4 +1,6 @@
-﻿namespace Api.Entities;
+﻿using Api.Constants;
+
+namespace Api.Entities;
 
 public sealed class Loan 
 { 
@@ -10,9 +12,11 @@ public required string LoanName { get; set; }
 public required string Description { get; set; }
 public required decimal Amount { get; set; }
 public required decimal InterestRate { get; set; }
+public required CommonStatus status { get; set; }
 public required DateTime StartDate { get; set; }
 public required DateTime EndDate { get; set; }
-public required DateTime ApprovedAt { get; set; }
+public required DateTime ApprovedDate { get; set; }
 public required DateTime ApprovedBy { get; set; }
-public required DateTime CreatedAt { get; set; }
+public required DateTime CreatedDate { get; set; }
+
 }

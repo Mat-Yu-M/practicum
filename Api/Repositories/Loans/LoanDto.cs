@@ -15,3 +15,8 @@
     public required DateTime CreatedDate { get; set; }
 
 }
+
+public sealed record AddLoanDto
+{
+
+}
