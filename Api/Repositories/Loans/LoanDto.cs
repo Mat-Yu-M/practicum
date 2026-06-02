@@ -10,7 +10,7 @@ public sealed record LoanDto
     public required string Description { get; set; }
     public required decimal Amount { get; set; }
     public required decimal InterestRate { get; set; }
-    public required CommonStatus CommonStatus { get; set; }
+    public required CommonStatus Status { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public required DateTime ApprovedDate { get; set; }
@@ -29,7 +29,7 @@ public sealed record AddLoanDto
     public required string Description { get; set; }
     public required decimal Amount { get; set; }
     public required decimal InterestRate { get; set; }
-    public required CommonStatus CommonStatus { get; set; }
+    public required CommonStatus Status { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public required DateTime ApprovedDate { get; set; }

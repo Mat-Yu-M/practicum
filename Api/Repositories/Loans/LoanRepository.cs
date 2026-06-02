@@ -15,7 +15,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
             Description= dto.Description,
             Amount = dto.Amount,
             InterestRate= dto.InterestRate,
-            CommonStatus= dto.CommonStatus,
+            Status = dto.Status,
             StartDate=dto.StartDate,
             EndDate = dto.EndDate,
             ApprovedDate=dto.ApprovedDate,
@@ -26,7 +26,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         context.Loan.Add(entity);
         await context.SaveChangesAsync();
 
-        return ToDto(entity)
+        return ToDto(entity);
     }
 
     private static LoanDto ToDto(LoanEntity entity) => new()
@@ -39,7 +39,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         Description = entity.Description,
         Amount= entity.Amount,
         InterestRate = entity.InterestRate,
-        CommonStatus = entity.CommonStatus,
+        Status = entity.Status,
         StartDate=entity.StartDate,
         EndDate= entity.EndDate,
         ApprovedDate=entity.ApprovedDate,
