@@ -1,6 +1,6 @@
 ﻿using Api.Entities;
 
-namespace Api.Repositories.LoanProducts
+namespace Api.Repositories.LoanProducts;
 
 public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRepository
 {
