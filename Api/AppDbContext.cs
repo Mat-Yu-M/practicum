@@ -10,4 +10,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public virtual DbSet<UserEntity> Users { get; set; } = null;
     public virtual DbSet<EmployeeEntity> Employees { get; set; } = null;
     public virtual DbSet<KycEntity> Kyc { get; set; } = null;
+    public virtual DbSet<LoanEntity> Loan { get; set; } = null;
 }

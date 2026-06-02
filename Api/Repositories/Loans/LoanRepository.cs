@@ -1,6 +1,19 @@
-﻿namespace Api.Repositories.Loans
+﻿using Api.Entities;
+using Microsoft.AspNetCore.SignalR;
+using System.Net.Sockets;
+
+namespace Api.Repositories.Loans;
+
+public sealed class LoanRepository(AppDbContext context) : ILoanRepository
 {
-    public class LoanRepository
+    public async Task<LoanDto> AddAsync(AddLoanDto dto)
     {
+        var entity = new LoanEntity
+        {
+            Id = dto.Id,
+            UserId = dto.UserId,
+                        Name = dto.Name, 
+
+        };
     }
 }
