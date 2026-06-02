@@ -1,4 +1,7 @@
 ﻿using Api.Constants;
+using Api.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public sealed record CustomerHistoryEntity
 {
@@ -11,4 +14,14 @@ public sealed record CustomerHistoryEntity
     public string? Action { get; init; }
     public string? ApprovedBy { get; init; }
     public DateTime ApprovedAt { get; init; } = DateTime.UtcNow;
+}
+
+public sealed class CustomerHistoryEntityConfiguration : IEntityTypeConfiguration<CustomerHistoryEntity>
+{
+    public void Configure(EntityTypeBuilder<CustomerHistoryEntity> builder)
+    {
+        builder.ToTable("customer_history");
+
+        builder.HasKey(ch => ch.Id);
+    }
 }
