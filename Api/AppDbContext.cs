@@ -2,7 +2,12 @@
 using Api.Entities;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options){
-    public DbSet<UserEntity> users { get; set; }
-    public DbSet<EmployeeEntity> employees { get; set; }
-    public DbSet<KycEntity> kyc { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
+    public virtual DbSet<UserEntity> Users { get; set; } = null;
+    public virtual DbSet<EmployeeEntity> Employees { get; set; } = null;
+    public virtual DbSet<KycEntity> Kyc { get; set; } = null;
 }
