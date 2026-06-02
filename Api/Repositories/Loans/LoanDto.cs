@@ -14,7 +14,7 @@ public sealed record LoanDto
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public required DateTime ApprovedDate { get; set; }
-    public required DateTime ApprovedBy { get; set; }
+    public required string ApprovedBy { get; set; }
     public required DateTime CreatedDate { get; set; }
 
 }
@@ -33,7 +33,7 @@ public sealed record AddLoanDto
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public required DateTime ApprovedDate { get; set; }
-    public required DateTime ApprovedBy { get; set; }
+    public required string ApprovedBy { get; set; }
     public required DateTime CreatedDate { get; set; }
 
 }
