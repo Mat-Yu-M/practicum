@@ -1,5 +1,8 @@
 ﻿
-    public sealed record RepaymentScheduleEntity
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+public sealed record RepaymentScheduleEntity
     {
         public long Id { get; init; }
         public long LoanId { get; init; }
@@ -10,3 +13,18 @@
         public DateTime DueDate { get; init; }
     }
 
+public sealed class RepaymentScheduleEntityConfiguration : IEntityTypeConfiguration<RepaymentScheduleEntity>
+
+{
+
+    public void Configure(EntityTypeBuilder<RepaymentScheduleEntity> builder)
+
+    {
+
+        builder.ToTable("repayment_schedules");
+
+        builder.HasKey(rs => rs.Id);
+
+    }
+
+}
