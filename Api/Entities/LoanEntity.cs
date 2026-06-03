@@ -17,8 +17,8 @@ public required decimal InterestRate { get; set; }
 public required CommonStatus Status { get; set; }
 public required DateTime StartDate { get; set; }
 public required DateTime EndDate { get; set; }
-public required DateTime ApprovedDate { get; set; }
-public required DateTime ApprovedBy { get; set; }
+public required DateTime? ApprovedDate { get; set; }
+public long? ApprovedBy { get; set; }
 public required DateTime CreatedDate { get; set; }
 
 }
@@ -29,5 +29,10 @@ public sealed class LoanEntityConfiguration : IEntityTypeConfiguration<LoanEntit
     {
         builder.ToTable("loans");
         builder.HasKey(l => l.Id);
+
+        builder.HasOne<LoanProductEntity>()
+               .WithMany()
+               .HasForeignKey(l => l.LoanProductId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }
