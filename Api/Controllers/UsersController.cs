@@ -33,13 +33,26 @@ public class UsersController : ControllerBase
 
         return Created($"/api/users/{user.Id}", new { user.Id, user.Email });
     }
-}
 
-public record CreateUserRequest(
+
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _db.Users.ToListAsync();
+
+        if (users == null)
+            return NotFound(new { message = "No users found." });
+
+        return Ok(users.Select(u => new { u.Id, u.FirstName, u.LastName, u.Status, u.Balance }));
+    }
+
+
+    public record CreateUserRequest(
     string FirstName,
     string MiddleName,
     string LastName,
     string Email,
     string Password,
     decimal Balance
-);
+    );
+}

@@ -16,6 +16,7 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
             MaximumAmount = dto.MaximumAmount,
             MinimumTermMonths = dto.MinimumTermMonths,
             MaximumTermMonths = dto.MaximumTermMonths,
+            IsPromotion = dto.IsPromotion,
             CreatedAt = dto.CreatedAt
         };
 
@@ -36,6 +37,7 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         MaximumAmount = entity.MaximumAmount,
         MinimumTermMonths = entity.MinimumTermMonths,
         MaximumTermMonths = entity.MaximumTermMonths,
+        IsPromotion = entity.IsPromotion,
         CreatedAt = entity.CreatedAt
     };
 }
