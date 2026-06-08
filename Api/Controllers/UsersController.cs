@@ -46,6 +46,33 @@ public class UsersController : ControllerBase
         return Ok(users.Select(u => new { u.Id, u.FirstName, u.LastName, u.Status, u.Balance }));
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest req)
+    {
+        var user = await _db.Users.FindAsync(id);
+
+        if (user == null)
+            return NotFound(new { message = "User not found." });
+
+        user.FirstName = req.FirstName;
+        user.MiddleName = req.MiddleName;
+        user.LastName = req.LastName;
+        user.Email = req.Email;
+        user.Balance = req.Balance;
+
+        await _db.SaveChangesAsync();
+
+        return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance });
+    }
+
+    public record UpdateUserRequest(
+    string FirstName,
+    string MiddleName,
+    string LastName,
+    string Email,
+    decimal Balance,
+    UserStatus Status
+    );
 
     public record CreateUserRequest(
     string FirstName,
