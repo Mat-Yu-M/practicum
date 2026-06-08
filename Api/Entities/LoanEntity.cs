@@ -17,8 +17,8 @@ public required decimal InterestRate { get; set; }
 public required CommonStatus Status { get; set; }
 public required DateTime StartDate { get; set; }
 public required DateTime EndDate { get; set; }
-public required DateTime? ApprovedDate { get; set; }
-public long? ApprovedBy { get; set; }
+public required DateTime ApprovedDate { get; set; }
+public required string ApprovedBy { get; set; }
 public required DateTime CreatedDate { get; set; }
 
 }

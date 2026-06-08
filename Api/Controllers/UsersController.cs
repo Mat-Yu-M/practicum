@@ -59,10 +59,51 @@ public class UsersController : ControllerBase
         user.LastName = req.LastName;
         user.Email = req.Email;
         user.Balance = req.Balance;
+        user.Status = req.Status;
 
         await _db.SaveChangesAsync();
 
         return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance });
+    }
+
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> UpdateUserStatus(int id, [FromBody] UpdateUserRequest req)
+    {
+        var user = await _db.Users.FindAsync(id);
+
+        if (user == null)
+            return NotFound(new { message = "User not found." });
+
+        if (req.FirstName != null) user.FirstName = req.FirstName;
+        if (req.MiddleName != null) user.MiddleName = req.MiddleName;
+        if (req.LastName != null) user.LastName = req.LastName;
+        if (req.Email != null) user.Email = req.Email;
+        user.Balance = req.Balance;
+        user.Status = req.Status;
+
+        await _db.SaveChangesAsync();
+
+        return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance, user.Status });
+    }
+
+    [HttpPut("{id}/balance")]
+    public async Task<IActionResult> UpdateUserBalance(int id, [FromBody] UpdateUserRequest req)
+    {
+        var user = await _db.Users.FindAsync(id);
+
+        if (user == null)
+            return NotFound(new { message = "User not found." });
+
+        if (req.FirstName != null) user.FirstName = req.FirstName;
+        if (req.MiddleName != null) user.MiddleName = req.MiddleName;
+        if (req.LastName != null) user.LastName = req.LastName;
+        if (req.Email != null) user.Email = req.Email;
+        user.Balance = req.Balance;
+        user.Status = req.Status;
+
+        await _db.SaveChangesAsync();
+
+        return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance, user.Status });
     }
 
     public record UpdateUserRequest(
