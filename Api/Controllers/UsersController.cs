@@ -47,7 +47,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest req)
+    public async Task<IActionResult> UpdateUser(long id, [FromBody] UpdateUserRequest req)
     {
         var user = await _db.Users.FindAsync(id);
 
@@ -67,44 +67,39 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id}/status")]
-    public async Task<IActionResult> UpdateUserStatus(int id, [FromBody] UpdateUserRequest req)
+    public async Task<IActionResult> UpdateUserStatus(long id, [FromBody] UpdateUserStatusRequest req)
     {
         var user = await _db.Users.FindAsync(id);
 
         if (user == null)
             return NotFound(new { message = "User not found." });
 
-        if (req.FirstName != null) user.FirstName = req.FirstName;
-        if (req.MiddleName != null) user.MiddleName = req.MiddleName;
-        if (req.LastName != null) user.LastName = req.LastName;
-        if (req.Email != null) user.Email = req.Email;
-        user.Balance = req.Balance;
         user.Status = req.Status;
 
         await _db.SaveChangesAsync();
 
-        return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance, user.Status });
+        return Ok(new { user.Id, user.Status });
     }
 
     [HttpPut("{id}/balance")]
-    public async Task<IActionResult> UpdateUserBalance(int id, [FromBody] UpdateUserRequest req)
+    public async Task<IActionResult> UpdateUserBalance(long id, [FromBody] UpdateBalanceRequest req)
     {
         var user = await _db.Users.FindAsync(id);
 
         if (user == null)
             return NotFound(new { message = "User not found." });
 
-        if (req.FirstName != null) user.FirstName = req.FirstName;
-        if (req.MiddleName != null) user.MiddleName = req.MiddleName;
-        if (req.LastName != null) user.LastName = req.LastName;
-        if (req.Email != null) user.Email = req.Email;
         user.Balance = req.Balance;
-        user.Status = req.Status;
+
 
         await _db.SaveChangesAsync();
 
-        return Ok(new { user.Id, user.FirstName, user.LastName, user.Email, user.Balance, user.Status });
+        return Ok(new { user.Id, user.Balance });
     }
+
+    public record UpdateUserStatusRequest(UserStatus UserStatus);
+
+    public record UpdateBalanceRequest(decimal Balance);
 
     public record UpdateUserRequest(
     string FirstName,
