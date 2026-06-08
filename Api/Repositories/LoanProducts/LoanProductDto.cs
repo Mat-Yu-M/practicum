@@ -13,6 +13,7 @@ namespace Api.Repositories.LoanProducts;
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
+    public required bool IsPromotion { get; set; } = false;
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
     }
 
@@ -27,5 +28,6 @@ namespace Api.Repositories.LoanProducts;
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
+    public required bool IsPromotion { get; set; } = false;
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
     }

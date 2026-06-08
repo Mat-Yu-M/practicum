@@ -9,7 +9,7 @@ public sealed class LoanEntity
 public long Id { get; set; }    
 public long UserId { get; set; } = 0;
 public required string Name { get; set; }
-public long LoanId { get; set; }
+public long LoanProductId { get; set; }
 public required string LoanName { get; set; }
 public required string Description { get; set; }
 public required decimal Amount { get; set; }
@@ -18,7 +18,7 @@ public required CommonStatus Status { get; set; }
 public required DateTime StartDate { get; set; }
 public required DateTime EndDate { get; set; }
 public required DateTime ApprovedDate { get; set; }
-public required DateTime ApprovedBy { get; set; }
+public required string ApprovedBy { get; set; }
 public required DateTime CreatedDate { get; set; }
 
 }
@@ -29,5 +29,10 @@ public sealed class LoanEntityConfiguration : IEntityTypeConfiguration<LoanEntit
     {
         builder.ToTable("loans");
         builder.HasKey(l => l.Id);
+
+        builder.HasOne<LoanProductEntity>()
+               .WithMany()
+               .HasForeignKey(l => l.LoanProductId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

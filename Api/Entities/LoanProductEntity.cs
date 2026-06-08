@@ -15,6 +15,7 @@ public sealed class LoanProductEntity
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
+    public bool IsPromotion { get; init; }
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 }
 
