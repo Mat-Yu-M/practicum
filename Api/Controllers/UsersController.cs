@@ -97,7 +97,7 @@ public class UsersController : ControllerBase
         return Ok(new { user.Id, user.Balance });
     }
 
-    public record UpdateUserStatusRequest(UserStatus UserStatus);
+    public record UpdateUserStatusRequest(UserStatus Status);
 
     public record UpdateBalanceRequest(decimal Balance);
 
