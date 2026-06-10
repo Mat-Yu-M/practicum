@@ -1,6 +1,6 @@
 ﻿namespace Api.Repositories.Customers;
 
-public interface IUserRepository
+public interface ICustomerRepository
 {
-    Task<UserDto> AddAsync(RegisterUserDto dto);     
+    Task<CustomerDto> AddAsync(RegisterCustomerDto dto);     
 }
