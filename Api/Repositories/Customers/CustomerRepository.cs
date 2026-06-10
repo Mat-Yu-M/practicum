@@ -1,11 +1,11 @@
 ﻿using Api.Constants;
-using Api.Entities;
+using Api.Entities.Customers;
 
 namespace Api.Repositories.Customers;
 
 public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {
-    public async Task<CustomerDto> AddAsync(RegisterUserDto dto)
+    public async Task<CustomerDto> AddAsync(RegisterCustomerDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
