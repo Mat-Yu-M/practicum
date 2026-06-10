@@ -16,7 +16,7 @@ public sealed class CustomerEntity
     public required string LastName { get; set; }
     public DateOnly DateOfBirth { get; set; }
     public decimal Balance { get; set; } = 0;
-    public UserStatus Status { get; set; }
+    public CustomerStatus Status { get; set; }
     public ICollection<KycEntity> KycDetails { get; set; } = [];
     public ICollection<PhoneDetailEntity> PhoneDetails { get; set; } = [];
     public ICollection<EmailDetailEntity> EmailDetails { get; set; } = [];

@@ -8,7 +8,7 @@ public sealed record CustomerDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public string? Suffix { get; init; } = string.Empty;
-    public required UserStatus Status { get; init; }
+    public required CustomerStatus Status { get; init; }
     public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
 }
@@ -20,7 +20,7 @@ public sealed record AddCustomerDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public string? Suffix { get; init; } = string.Empty;
-    public required UserStatus Status { get; init; }
+    public required CustomerStatus Status { get; init; }
     public required decimal Balance { get; init; } = 0;
     public required DateTime CreatedDateTime { get; init; }
 }
@@ -32,7 +32,7 @@ public sealed record UpdateCustomerDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public string? Suffix { get; init; } = string.Empty;
-    public required UserStatus Status { get; init; }
+    public required CustomerStatus Status { get; init; }
     public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }
@@ -44,7 +44,7 @@ public sealed record RegisterCustomerDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public string? Suffix { get; init; } = string.Empty;
-    public required UserStatus Status { get; init; }
+    public required CustomerStatus Status { get; init; }
     public required decimal Balance { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }

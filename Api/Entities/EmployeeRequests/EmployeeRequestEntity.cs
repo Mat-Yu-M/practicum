@@ -1,6 +1,30 @@
-﻿namespace Api.Entities.EmployeeRequests
+﻿using Api.Constants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Api.Entities.EmployeeRequests
 {
-    public class EmployeeRequests
+    public class EmployeeRequestEntity
     {
+        public long Id { get; init; }
+        public required string EmployeeId { get; init; }
+        public required string FirstName { get; init; }
+        public required string LastName { get; init; }
+        public required string Email { get; init; }        
+        public required string Password { get; init; }
+        public required List<EmployeeRoles> EmployeeRoles { get; init; }
+        public required EmployeeRoleRequestType RequestType { get; init; }
+        public required string CreatedBy { get; init; }
+        public DateTime? CreatedDate { get; init; }
+    }
+
+    public sealed class EmployeeRequestEntityConfiguration : IEntityTypeConfiguration<EmployeeRequestEntity>
+    {
+        public void Configure(EntityTypeBuilder<EmployeeRequestEntity> builder)
+        {
+            builder.ToTable("employees_request");
+            builder.HasKey(e => e.Id);
+        }
     }
 }
+

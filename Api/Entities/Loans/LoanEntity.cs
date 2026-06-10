@@ -8,7 +8,7 @@ namespace Api.Entities.Loans;
 public sealed class LoanEntity
 { 
 public long Id { get; set; }    
-public long CustomerId { get; set; } = 0;
+public long CustomerId { get; set; }
 public required string Name { get; set; }
 public long LoanProductId { get; set; }
 public required string LoanName { get; set; }

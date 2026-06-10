@@ -3,7 +3,7 @@ using k8s.Models;
 
 namespace Api.Entities.Customers;
 
-public record UpdateCustomerStatusRequest(UserStatus Status);
+public record UpdateCustomerStatusRequest(CustomerStatus Status);
 
 public record UpdateBalanceRequest(decimal Balance);
 
@@ -13,8 +13,8 @@ string MiddleName,
 string LastName,
 string Email,
 decimal Balance,
-UserBalanceStatus UserBalanceStatus,
-UserStatus Status
+CustomerBalanceStatus UserBalanceStatus,
+CustomerStatus Status
 );
 
 public record CreateCustomerRequest(

@@ -1,6 +1,6 @@
 ﻿namespace Api.Constants
 {
-    public enum UserStatus
+    public enum CustomerStatus
     {
         // Employee just encoded the customer's basic info
         Encoded,
