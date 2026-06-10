@@ -17,8 +17,8 @@ public sealed class CustomerEntity
     public DateOnly DateOfBirth { get; set; }
     public decimal Balance { get; set; } = 0;
     public UserStatus Status { get; set; }
-    public ICollection<KycEntity> KycRecords { get; set; } = [];
-    public ICollection<PhoneDetailEntity> PhoneDetials { get; set; } = [];
+    public ICollection<KycEntity> KycDetails { get; set; } = [];
+    public ICollection<PhoneDetailEntity> PhoneDetails { get; set; } = [];
     public ICollection<EmailDetailEntity> EmailDetails { get; set; } = [];
     public ICollection<CustomerLoanHistoryEntity> CustomerLoanHistory { get; set; } = [];
     public long CreatedBy { get; init; }
@@ -41,7 +41,7 @@ public sealed class UserEntityConfiguration : IEntityTypeConfiguration<CustomerE
         .HasForeignKey(ed => ed.CustomerId);
 
         builder
-        .HasMany(c => c.PhoneDetials)
+        .HasMany(c => c.PhoneDetails)
         .WithOne(pd => pd.Customer)
         .HasForeignKey(pd => pd.CustomerId);
     }

@@ -30,10 +30,10 @@ public class KycController : ControllerBase
             MaximumMonthlySalary = req.MaximumMonthlySalary,
             FullName = req.FullName,
             DocumentImagePath = req.DocumentImagePath,
-            SubmittedBy = req.SubmittedBy,
+            SubmittedBy = req.SubmittedBy
         };
 
-        _db.Kyc.Add(kyc);
+        _db.Kycs.Add(kyc);
         await _db.SaveChangesAsync();
 
         return Created($"/api/users/{kyc.Id}", new { kyc.Id, kyc.CustomerId });

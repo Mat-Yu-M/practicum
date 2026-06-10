@@ -17,6 +17,9 @@ namespace Api.Entities.EmailDetails
     {
         public void Configure(EntityTypeBuilder<EmailDetailEntity> builder)
         {
+            builder.ToTable("email_details");
+            builder.HasKey(ed => ed.Id);
+
             builder.HasIndex(a => new { a.CustomerId, a.Email }).IsUnique();
         }
     }

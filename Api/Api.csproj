@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -36,7 +37,6 @@
     <Folder Include="Entities\EmployeeRoleRequests\" />
     <Folder Include="Entities\CustomerStatusHistories\" />
     <Folder Include="Entities\AssetFilings\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Repositories\AuditLogs\" />
     <Folder Include="Repositories\Repayment_Schedules\" />
     <Folder Include="Services\" />

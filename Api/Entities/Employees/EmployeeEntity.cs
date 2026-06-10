@@ -7,7 +7,7 @@ namespace Api.Entities.Employees;
 public sealed class EmployeeEntity
 {
     public long Id { get; init; }
-    public long EmployeeId { get; init; } = 0;
+    public long EmployeeId { get; init; }
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
     public required string Email { get; init; }

@@ -20,6 +20,7 @@ public sealed class KycEntity
     public required string DocumentImagePath { get; init; }
     public required string SubmittedBy { get; set; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+    public CustomerEntity? Customer { get; set; }
 }
 public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
 {
@@ -29,8 +30,9 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
 
         builder.HasKey(k => k.Id);
 
-        builder.HasOne<CustomerEntity>()
-               .WithMany(u => u.KycRecords)
-               .HasForeignKey(k => k.CustomerId);
+        builder.HasOne(k => k.Customer)     
+                   .WithMany(c => c.KycDetails)   
+                   .HasForeignKey(k => k.CustomerId)   
+                   .OnDelete(DeleteBehavior.Cascade);
     }
 }

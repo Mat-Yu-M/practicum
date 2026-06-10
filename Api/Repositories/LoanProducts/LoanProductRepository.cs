@@ -20,7 +20,7 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
             CreatedAt = dto.CreatedAt
         };
 
-        context.LoanProduct.Add(entity);
+        context.LoanProducts.Add(entity);
         await context.SaveChangesAsync();
 
         return ToDto(entity);

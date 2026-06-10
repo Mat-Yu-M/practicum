@@ -13,7 +13,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     }
     public virtual DbSet<CustomerEntity> Customers { get; set; } 
     public virtual DbSet<EmployeeEntity> Employees { get; set; } 
-    public virtual DbSet<KycEntity> Kyc { get; set; }
-    public virtual DbSet<LoanEntity> Loan { get; set; } 
-    public virtual DbSet<LoanProductEntity> LoanProduct { get; set; }
+    public virtual DbSet<KycEntity> Kycs { get; set; }
+    public virtual DbSet<LoanEntity> Loans { get; set; } 
+    public virtual DbSet<LoanProductEntity> LoanProducts { get; set; }
 }

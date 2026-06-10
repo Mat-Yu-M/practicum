@@ -7,7 +7,6 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
     {
         var entity = new KycEntity
         {
-        Id = dto.Id,
         CustomerId = dto.CustomerId,
         DocumentType = dto.DocumentType,
         Country = dto.Country,
@@ -20,7 +19,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         SubmittedBy = dto.SubmittedBy
         };
 
-        context.Kyc.Add(entity);
+        context.Kycs.Add(entity);
         await context.SaveChangesAsync();
 
         return ToDto(entity);

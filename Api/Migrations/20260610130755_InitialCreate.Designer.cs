@@ -11,15 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260610090837_RestructuralChange")]
-    partial class RestructuralChange
+    [Migration("20260610130755_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.7")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -434,11 +434,13 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Entities.Kycs.KycEntity", b =>
                 {
-                    b.HasOne("Api.Entities.Customers.CustomerEntity", null)
-                        .WithMany("KycRecords")
+                    b.HasOne("Api.Entities.Customers.CustomerEntity", "Customer")
+                        .WithMany("KycDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Api.Entities.Loans.LoanEntity", b =>
@@ -453,7 +455,7 @@ namespace Api.Migrations
             modelBuilder.Entity("Api.Entities.PhoneDetails.PhoneDetailEntity", b =>
                 {
                     b.HasOne("Api.Entities.Customers.CustomerEntity", "Customer")
-                        .WithMany("PhoneDetials")
+                        .WithMany("PhoneDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -487,9 +489,9 @@ namespace Api.Migrations
 
                     b.Navigation("EmailDetails");
 
-                    b.Navigation("KycRecords");
+                    b.Navigation("KycDetails");
 
-                    b.Navigation("PhoneDetials");
+                    b.Navigation("PhoneDetails");
                 });
 #pragma warning restore 612, 618
         }
