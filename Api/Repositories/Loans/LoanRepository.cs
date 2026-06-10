@@ -1,4 +1,4 @@
-﻿using Api.Entities;
+﻿using Api.Entities.Loans;
 namespace Api.Repositories.Loans;
 
 public sealed class LoanRepository(AppDbContext context) : ILoanRepository
@@ -8,7 +8,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         var entity = new LoanEntity
         {
             Id = dto.Id,
-            UserId = dto.UserId,
+            CustomerId = dto.CustomerId,
             Name = dto.Name, 
             LoanProductId = dto.LoanProductId,
             LoanName = dto.LoanName,
@@ -23,7 +23,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
             CreatedDate=dto.CreatedDate,
         };
 
-        context.Loan.Add(entity);
+        context.Loans.Add(entity);
         await context.SaveChangesAsync();
 
         return ToDto(entity);
@@ -32,7 +32,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
     private static LoanDto ToDto(LoanEntity entity) => new()
     {
         Id = entity.Id,
-        UserId = entity.UserId,
+        CustomerId = entity.CustomerId,
         Name = entity.Name,
         LoanProductId= entity.LoanProductId,
         LoanName = entity.LoanName,

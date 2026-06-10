@@ -1,4 +1,4 @@
-﻿using Api.Entities;
+﻿using Api.Entities.Employees;
 using Api.Repositories.Employees;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository

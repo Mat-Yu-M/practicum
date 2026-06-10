@@ -5,9 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Change "DefaultConnection" to "practicumdb"
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("practicumdb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("practicumdb"))
+    .UseSnakeCaseNamingConvention());
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -24,11 +24,13 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference(options => 
-    {options.WithTitle("Practicum API")
-        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient); }
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("Practicum API")
+        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    }
         );
-    
+
 }
 
 if (!app.Environment.IsDevelopment())
