@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Api.Entities;
-using Api.Constants;
-using Api.Entities.Customers;
 using Api.Entities.Kycs;
 
 [ApiController]
