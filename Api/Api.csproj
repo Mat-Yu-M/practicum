@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\EmployeeRoleRequests\**" />
+    <Compile Remove="Entities\EmployeeRoles\**" />
+    <Content Remove="Entities\EmployeeRoleRequests\**" />
+    <Content Remove="Entities\EmployeeRoles\**" />
+    <EmbeddedResource Remove="Entities\EmployeeRoleRequests\**" />
+    <EmbeddedResource Remove="Entities\EmployeeRoles\**" />
+    <None Remove="Entities\EmployeeRoleRequests\**" />
+    <None Remove="Entities\EmployeeRoles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
@@ -29,14 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\LoanProductRequests\" />
-    <Folder Include="Entities\LoanRequests\" />
-    <Folder Include="Entities\CustomerRequests\" />
-    <Folder Include="Entities\EmployeeRequests\" />
-    <Folder Include="Entities\EmployeeRoles\" />
-    <Folder Include="Entities\EmployeeRoleRequests\" />
-    <Folder Include="Entities\CustomerStatusHistories\" />
-    <Folder Include="Entities\AssetFilings\" />
     <Folder Include="Repositories\AuditLogs\" />
     <Folder Include="Repositories\Repayment_Schedules\" />
     <Folder Include="Services\" />
