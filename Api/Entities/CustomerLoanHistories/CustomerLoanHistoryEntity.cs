@@ -3,7 +3,7 @@ using Api.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public sealed record CustomerHistoryEntity
+public sealed record CustomerLoanHistoryEntity
 {
     public long Id { get; init; }
     public long UserId { get; init; }
@@ -16,9 +16,9 @@ public sealed record CustomerHistoryEntity
     public DateTime ApprovedAt { get; init; } = DateTime.UtcNow;
 }
 
-public sealed class CustomerHistoryEntityConfiguration : IEntityTypeConfiguration<CustomerHistoryEntity>
+public sealed class CustomerHistoryEntityConfiguration : IEntityTypeConfiguration<CustomerLoanHistoryEntity>
 {
-    public void Configure(EntityTypeBuilder<CustomerHistoryEntity> builder)
+    public void Configure(EntityTypeBuilder<CustomerLoanHistoryEntity> builder)
     {
         builder.ToTable("customer_history");
 

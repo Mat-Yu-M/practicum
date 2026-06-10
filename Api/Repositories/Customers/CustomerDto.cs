@@ -1,7 +1,4 @@
 ﻿using Api.Constants;
-using Api.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Repositories.Customers;
 public sealed record UserDto
@@ -10,6 +7,7 @@ public sealed record UserDto
     public required string FirstName { get; init; }
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
+    public string? Suffix { get; init; } = string.Empty;
     public required string Email { get; init; } 
     public required UserStatus Status { get; init; }
     public required decimal Balance { get; init; }
@@ -22,6 +20,7 @@ public sealed record AddUserDto
     public required string FirstName { get; init; }
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
+    public string? Suffix { get; init; } = string.Empty;
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }
@@ -35,6 +34,7 @@ public sealed record UpdateUserDto
     public required string FirstName { get; init; }
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
+    public string? Suffix { get; init; } = string.Empty;
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }
@@ -48,6 +48,8 @@ public sealed record RegisterUserDto
     public required string FirstName { get; init; }
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
+    public string? Suffix { get; init; } = string.Empty;
+
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required UserStatus Status { get; init; }

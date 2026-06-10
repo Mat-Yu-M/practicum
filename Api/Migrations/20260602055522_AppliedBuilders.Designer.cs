@@ -113,7 +113,7 @@ namespace Api.Migrations
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("UserId")
+                    b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ZipCode")
@@ -122,7 +122,7 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("kyc", (string)null);
                 });
@@ -172,7 +172,7 @@ namespace Api.Migrations
                 {
                     b.HasOne("Api.Entities.UserEntity", "User")
                         .WithMany("KycRecords")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

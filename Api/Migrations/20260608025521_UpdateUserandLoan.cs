@@ -38,7 +38,7 @@ namespace Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
                     LoanId = table.Column<long>(type: "bigint", nullable: false),
                     LoanAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
@@ -59,7 +59,7 @@ namespace Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LoanId = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
                     InstallmentNumber = table.Column<int>(type: "integer", nullable: false),
                     PrincipalAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     InterestAmount = table.Column<decimal>(type: "numeric", nullable: false),

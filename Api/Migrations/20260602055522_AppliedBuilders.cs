@@ -11,7 +11,7 @@ namespace Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Kyc_Users_UserId",
+                name: "FK_Kyc_Users_CustomerId",
                 table: "Kyc");
 
             migrationBuilder.DropPrimaryKey(
@@ -39,9 +39,9 @@ namespace Api.Migrations
                 newName: "employees");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Kyc_UserId",
+                name: "IX_Kyc_CustomerId",
                 table: "kyc",
-                newName: "IX_kyc_UserId");
+                newName: "IX_kyc_CustomerId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_users",
@@ -59,9 +59,9 @@ namespace Api.Migrations
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_kyc_users_UserId",
+                name: "FK_kyc_users_CustomerId",
                 table: "kyc",
-                column: "UserId",
+                column: "CustomerId",
                 principalTable: "users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -71,7 +71,7 @@ namespace Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_kyc_users_UserId",
+                name: "FK_kyc_users_CustomerId",
                 table: "kyc");
 
             migrationBuilder.DropPrimaryKey(
@@ -99,9 +99,9 @@ namespace Api.Migrations
                 newName: "Employees");
 
             migrationBuilder.RenameIndex(
-                name: "IX_kyc_UserId",
+                name: "IX_kyc_CustomerId",
                 table: "Kyc",
-                newName: "IX_Kyc_UserId");
+                newName: "IX_Kyc_CustomerId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Users",
@@ -119,9 +119,9 @@ namespace Api.Migrations
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Kyc_Users_UserId",
+                name: "FK_Kyc_Users_CustomerId",
                 table: "Kyc",
-                column: "UserId",
+                column: "CustomerId",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);

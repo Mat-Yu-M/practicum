@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Api.Entities;
 using Api.Constants;
+using Api.Entities.Customers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -14,7 +15,7 @@ public class KycController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
-        var userExists = await _db.Users.AnyAsync(u => u.Id == req.UserId);
+        var userExists = await _db.Customers.AnyAsync(u => u.Id == req.CustomerId);
         if (!userExists)
             return NotFound(new { message = "User not found." });
 
@@ -36,13 +37,13 @@ public class KycController : ControllerBase
         _db.Kyc.Add(kyc);
         await _db.SaveChangesAsync();
 
-        return Created($"/api/users/{kyc.Id}", new { kyc.Id, kyc.UserId });
+        return Created($"/api/users/{kyc.Id}", new { kyc.Id, kyc.CustomerId });
     }
 }
 
 public record CreateKycRequest(
-int UserId,
-UserEntity User,
+int CustomerId,
+CustomerEntity User,
 string? DocumentType,
 string Country,
 string ZipCode,

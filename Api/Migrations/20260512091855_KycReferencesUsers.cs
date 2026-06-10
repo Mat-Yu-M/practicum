@@ -14,7 +14,7 @@ namespace Api.Migrations
             migrationBuilder.RenameColumn(
                 name: "CustomerId",
                 table: "Kyc",
-                newName: "UserId");
+                newName: "CustomerId");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "SubmittedAt",
@@ -24,14 +24,14 @@ namespace Api.Migrations
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.CreateIndex(
-                name: "IX_Kyc_UserId",
+                name: "IX_Kyc_CustomerId",
                 table: "Kyc",
-                column: "UserId");
+                column: "CustomerId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Kyc_Users_UserId",
+                name: "FK_Kyc_Users_CustomerId",
                 table: "Kyc",
-                column: "UserId",
+                column: "CustomerId",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -41,11 +41,11 @@ namespace Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Kyc_Users_UserId",
+                name: "FK_Kyc_Users_CustomerId",
                 table: "Kyc");
 
             migrationBuilder.DropIndex(
-                name: "IX_Kyc_UserId",
+                name: "IX_Kyc_CustomerId",
                 table: "Kyc");
 
             migrationBuilder.DropColumn(
@@ -53,7 +53,7 @@ namespace Api.Migrations
                 table: "Kyc");
 
             migrationBuilder.RenameColumn(
-                name: "UserId",
+                name: "CustomerId",
                 table: "Kyc",
                 newName: "CustomerId");
         }

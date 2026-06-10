@@ -1,5 +1,4 @@
-﻿
-using Api.Entities;
+﻿using Api.Entities.Loans;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,7 +6,7 @@ public sealed record RepaymentScheduleEntity
     {
     public long Id { get; init; }
     public long LoanId { get; init; }
-    public long UserId { get; init; }
+    public long CustomerId { get; init; }
 
     public int InstallmentNumber { get; init; }
 

@@ -1,7 +1,7 @@
 ﻿public sealed record KycDto
 {
     public long Id { get; init; }
-    public long UserId { get; init; }
+    public long CustomerId { get; init; }
     public string? DocumentType { get; init; }
     public required string Country { get; init; }
     public required string ZipCode { get; init; }
@@ -15,7 +15,7 @@
 public sealed record AddKycDto
 {
     public long Id { get; init; }
-    public long UserId { get; init; }
+    public long CustomerId { get; init; }
     public string? DocumentType { get; init; }
     public required string Country { get; init; }
     public required string ZipCode { get; init; }

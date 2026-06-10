@@ -3,13 +3,13 @@ using Api.Entities;
 
 namespace Api.Repositories.Customers;
 
-public sealed class UserRepository(AppDbContext context) : IUserRepository
+public sealed class CustomerRepository(AppDbContext context) : ICustomerRepository
 {
-    public async Task<UserDto> AddAsync(RegisterUserDto dto)
+    public async Task<CustomerDto> AddAsync(RegisterUserDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-        var entity = new UserEntity
+        var entity = new CustomerEntity
         {
             FirstName = dto.FirstName,
             MiddleName = dto.MiddleName,
@@ -21,13 +21,13 @@ public sealed class UserRepository(AppDbContext context) : IUserRepository
             Balance = dto.Balance,
         };
 
-        context.Users.Add(entity);
+        context.Customers.Add(entity);
         await context.SaveChangesAsync();
 
         return ToDto(entity);
     }
 
-    private static UserDto ToDto(UserEntity entity) => new()
+    private static CustomerDto ToDto(CustomerEntity entity) => new()
     {
         Id = entity.Id,
         FirstName = entity.FirstName,

@@ -1,13 +1,14 @@
 ﻿using Api.Constants;
+using Api.Entities.LoanProducts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Api.Entities;
+namespace Api.Entities.Loans;
 
 public sealed class LoanEntity
 { 
 public long Id { get; set; }    
-public long UserId { get; set; } = 0;
+public long CustomerId { get; set; } = 0;
 public required string Name { get; set; }
 public long LoanProductId { get; set; }
 public required string LoanName { get; set; }

@@ -1,23 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Api.Entities.Customers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Api.Entities;
+namespace Api.Entities.Kycs;
 
 public sealed class KycEntity
 {
     public long Id { get; init; }
-    public long UserId { get; set; }
-    public UserEntity User { get; set; } = null!;
+    public long CustomerId { get; set; }
+    public CustomerEntity User { get; set; } = null!;
     public string? DocumentType { get; init; }
     public required string Country { get; init; }
     public required string ZipCode { get; init; }
     public required string AddressLine1 { get; init; }
     public string? AddressLine2 { get; init; }
     public string? AddressLine3 { get; init; }
-    public double MinimumMonthlySalary { get; init; } //allows consideration of products to offer to ensure security
+    public double MinimumMonthlySalary { get; init; }
     public double MaximumMonthlySalary { get; init; }
     public required string FullName { get; init; }
     public required string DocumentImagePath { get; init; }
+    public required string SubmittedBy { get; set; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
 }
 public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
@@ -30,6 +32,6 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
 
         builder.HasOne(k => k.User)
                .WithMany(u => u.KycRecords)
-               .HasForeignKey(k => k.UserId);
+               .HasForeignKey(k => k.CustomerId);
     }
 }
