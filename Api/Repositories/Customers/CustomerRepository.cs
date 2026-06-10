@@ -7,17 +7,13 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
 {
     public async Task<CustomerDto> AddAsync(RegisterCustomerDto dto)
     {
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
         var entity = new CustomerEntity
         {
             FirstName = dto.FirstName,
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
-            Email = dto.Email,
-            Password = hashedPassword,
             CreatedDateTime = DateTime.UtcNow,
-            Status = UserStatus.Unverified,
+            Status = UserStatus.Defaulted,
             Balance = dto.Balance,
         };
 
@@ -33,7 +29,6 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         FirstName = entity.FirstName,
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
-        Email = entity.Email,
         CreatedDateTime = entity.CreatedDateTime,
         Status = entity.Status,
         Balance = entity.Balance,

@@ -9,8 +9,7 @@ namespace Api.Entities.EmailDetails
         public required long Id { get; init; }
         public required long CustomerId { get; init; }
         public required string Email { get; init; }
-
-        public CustomerEntity Customer { get; init; }
+        public required CustomerEntity Customer { get; init; }
 
     }
 
@@ -18,7 +17,7 @@ namespace Api.Entities.EmailDetails
     {
         public void Configure(EntityTypeBuilder<EmailDetailEntity> builder)
         {
-            builder.HasIndex(a => new { a.CustomerId, a.Type }).IsUnique();
+            builder.HasIndex(a => new { a.CustomerId, a.Email }).IsUnique();
         }
     }
 

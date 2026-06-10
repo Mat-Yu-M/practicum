@@ -1,4 +1,6 @@
-﻿public sealed record KycDto
+﻿using Api.Repositories.Customers;
+
+public sealed record KycDto
 {
     public long Id { get; init; }
     public long CustomerId { get; init; }
@@ -10,6 +12,7 @@
     public string? AddressLine3 { get; init; }
     public required string FullName { get; init; }
     public required string DocumentImagePath { get; init; }
+    public required string SubmittedBy { get; set; }
 }
 
 public sealed record AddKycDto
@@ -24,4 +27,6 @@ public sealed record AddKycDto
     public string? AddressLine3 { get; init; }
     public required string FullName { get; init; }
     public required string DocumentImagePath { get; init; }
+    public required string SubmittedBy { get; set; }
+
 }

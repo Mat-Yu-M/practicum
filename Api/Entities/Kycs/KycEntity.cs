@@ -8,7 +8,6 @@ public sealed class KycEntity
 {
     public long Id { get; init; }
     public long CustomerId { get; set; }
-    public CustomerEntity User { get; set; } = null!;
     public string? DocumentType { get; init; }
     public required string Country { get; init; }
     public required string ZipCode { get; init; }
@@ -30,7 +29,7 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
 
         builder.HasKey(k => k.Id);
 
-        builder.HasOne(k => k.User)
+        builder.HasOne<CustomerEntity>()
                .WithMany(u => u.KycRecords)
                .HasForeignKey(k => k.CustomerId);
     }

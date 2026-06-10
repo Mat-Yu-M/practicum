@@ -16,7 +16,7 @@ public sealed class PhoneDetailEntity
     public required DateTime CreatedDateTime { get; set; }
     public required string? ModifiedBy { get; set; }
     public required DateTime? ModifiedDateTime { get; set; }
-    public CustomerEntity Customer { get; init; } = null!;
+    public required CustomerEntity Customer { get; init; } = null!;
 }
 
 public sealed class PhoneDetailTypeConfiguration : IEntityTypeConfiguration<PhoneDetailEntity>

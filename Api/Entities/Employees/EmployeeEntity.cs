@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Api.Entities;
+namespace Api.Entities.Employees;
 
 public sealed class EmployeeEntity
 {

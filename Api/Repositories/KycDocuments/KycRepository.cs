@@ -16,7 +16,8 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         AddressLine2 = dto.AddressLine2,
         AddressLine3 = dto.AddressLine3,
         FullName = dto.FullName,
-        DocumentImagePath = dto.DocumentImagePath
+        DocumentImagePath = dto.DocumentImagePath,
+        SubmittedBy = dto.SubmittedBy
         };
 
         context.Kyc.Add(entity);
@@ -37,6 +38,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         AddressLine3 = entity.AddressLine3,
         FullName = entity.FullName,
         DocumentImagePath = entity.DocumentImagePath,
+        SubmittedBy = entity.SubmittedBy
     };
 
 }

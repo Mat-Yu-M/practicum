@@ -23,6 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\LoanProductRequests\" />
+    <Folder Include="Entities\LoanRequests\" />
+    <Folder Include="Entities\CustomerRequests\" />
+    <Folder Include="Entities\EmployeeRequests\" />
+    <Folder Include="Entities\EmployeeRoles\" />
+    <Folder Include="Entities\EmployeeRoleRequests\" />
+    <Folder Include="Entities\CustomerStatusHistories\" />
+    <Folder Include="Entities\AssetFilings\" />
     <Folder Include="Migrations\" />
     <Folder Include="Repositories\AuditLogs\" />
     <Folder Include="Repositories\Repayment_Schedules\" />

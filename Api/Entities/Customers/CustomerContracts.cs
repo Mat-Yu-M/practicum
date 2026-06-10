@@ -18,7 +18,7 @@ UserStatus Status
 );
 
 public record CreateCustomerRequest(
-    string Id,
+string Id,
 string FirstName,
 string MiddleName,
 string LastName,

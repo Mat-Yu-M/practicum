@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Api.Entities;
+using Api.Entities.Customers;
+using Api.Entities.Kycs;
+using Api.Entities.Loans;
+using Api.Entities.Employees;
+using Api.Entities.LoanProducts;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options){
     protected override void OnModelCreating(ModelBuilder modelBuilder)
