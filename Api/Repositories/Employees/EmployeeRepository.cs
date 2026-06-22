@@ -15,7 +15,6 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
             EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
             Email= dto.Email,
-            Username = dto.Username,
             Password = hashedPassword,
             CreatedBy = dto.CreatedBy,
             CreatedDate = dto.CreatedDateTime
@@ -35,7 +34,6 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         EmployeeId= entity.EmployeeId,
         EmployeeRoles= entity.EmployeeRoles.ToList(),
         Email = entity.Email,
-        Username = entity.Username,
         Password = entity.Password,
         CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDate

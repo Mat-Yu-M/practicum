@@ -21,44 +21,201 @@ namespace Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Api.Entities.AuditLogs.AuditLogEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("action");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("text")
+                        .HasColumnName("details");
+
+                    b.Property<DateTime>("PerformedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("performed_at");
+
+                    b.Property<string>("PerformedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("performed_by");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_audit_logs");
+
+                    b.ToTable("audit_logs", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.CustomerRequests.CustomerRequestEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
+
+                    b.Property<long?>("CustomerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date")
+                        .HasColumnName("date_of_birth");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("first_name");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("last_name");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("text")
+                        .HasColumnName("middle_name");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("text")
+                        .HasColumnName("rejection_reason");
+
+                    b.Property<int>("RequestStatusType")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_status_type");
+
+                    b.Property<int>("RequestType")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_type");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Suffix")
+                        .HasColumnType("text")
+                        .HasColumnName("suffix");
+
+                    b.HasKey("Id")
+                        .HasName("pk_customer_request");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_customer_request_customer_id");
+
+                    b.ToTable("customer_request", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.CustomerStatusHistories.CustomerStatusHistoryEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AfterStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("after_status");
+
+                    b.Property<int>("BeforeStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("before_status");
+
+                    b.Property<string>("ChangedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("changed_by");
+
+                    b.Property<DateTime>("ChangedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("changed_date");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("customer_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_customer_status_histories");
+
+                    b.ToTable("customer_status_histories", (string)null);
+                });
+
             modelBuilder.Entity("Api.Entities.Customers.CustomerEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("balance");
 
                     b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
 
                     b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasColumnName("date_of_birth");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("last_name");
 
                     b.Property<string>("MiddleName")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("middle_name");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
                     b.Property<string>("Suffix")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("suffix");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_customers");
 
                     b.ToTable("customers", (string)null);
                 });
@@ -67,68 +224,148 @@ namespace Api.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("email");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_email_details");
 
                     b.HasIndex("CustomerId", "Email")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_email_details_customer_id_email");
 
-                    b.ToTable("EmailDetailEntity");
+                    b.ToTable("email_details", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.EmployeeRequests.EmployeeRequestEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("employee_id");
+
+                    b.PrimitiveCollection<int[]>("EmployeeRoles")
+                        .IsRequired()
+                        .HasColumnType("integer[]")
+                        .HasColumnName("employee_roles");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("first_name");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("last_name");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password");
+
+                    b.Property<int>("RequestType")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_employees_request");
+
+                    b.ToTable("employees_request", (string)null);
                 });
 
             modelBuilder.Entity("Api.Entities.Employees.EmployeeEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("email");
 
-                    b.Property<long>("EmployeeId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)")
+                        .HasColumnName("employee_id");
 
                     b.PrimitiveCollection<int[]>("EmployeeRoles")
                         .IsRequired()
-                        .HasColumnType("integer[]");
+                        .HasColumnType("integer[]")
+                        .HasColumnName("employee_roles");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("last_name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("password");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey("Id")
+                        .HasName("pk_employees");
 
-                    b.HasKey("Id");
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_employees_email");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_employees_employee_id");
 
                     b.ToTable("employees", (string)null);
                 });
@@ -137,161 +374,341 @@ namespace Api.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AddressLine1")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address_line1");
 
                     b.Property<string>("AddressLine2")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address_line2");
 
                     b.Property<string>("AddressLine3")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address_line3");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("country");
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<string>("DocumentImagePath")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("document_image_path");
 
                     b.Property<string>("DocumentType")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("document_type");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
 
                     b.Property<double>("MaximumMonthlySalary")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("maximum_monthly_salary");
 
                     b.Property<double>("MinimumMonthlySalary")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("minimum_monthly_salary");
 
                     b.Property<DateTime>("SubmittedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("submitted_at");
 
                     b.Property<string>("SubmittedBy")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("submitted_by");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("zip_code");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_kyc");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_kyc_customer_id");
 
                     b.ToTable("kyc", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.LoanProductRequests.LoanProductRequestEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("InterestRate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("interest_rate");
+
+                    b.Property<bool>("IsPromotion")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_promotion");
+
+                    b.Property<int>("LoanCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("loan_category");
+
+                    b.Property<decimal>("MaximumAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("maximum_amount");
+
+                    b.Property<int>("MaximumTermMonths")
+                        .HasColumnType("integer")
+                        .HasColumnName("maximum_term_months");
+
+                    b.Property<decimal>("MinimumAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("minimum_amount");
+
+                    b.Property<int>("MinimumTermMonths")
+                        .HasColumnType("integer")
+                        .HasColumnName("minimum_term_months");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("RequestType")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_loan_product_requests");
+
+                    b.ToTable("loan_product_requests", (string)null);
                 });
 
             modelBuilder.Entity("Api.Entities.LoanProducts.LoanProductEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<decimal>("InterestRate")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("interest_rate");
 
                     b.Property<bool>("IsPromotion")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_promotion");
 
                     b.Property<int>("LoanCategory")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("loan_category");
 
                     b.Property<decimal>("MaximumAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("maximum_amount");
 
                     b.Property<int>("MaximumTermMonths")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("maximum_term_months");
 
                     b.Property<decimal>("MinimumAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("minimum_amount");
 
                     b.Property<int>("MinimumTermMonths")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("minimum_term_months");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_loan_products");
 
                     b.ToTable("loan_products", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.LoanRequests.LoanRequestEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("ApprovedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("approved_by");
+
+                    b.Property<DateTime>("ApprovedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_date");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("end_date");
+
+                    b.Property<decimal>("InterestRate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("interest_rate");
+
+                    b.Property<string>("LoanName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("loan_name");
+
+                    b.Property<long>("LoanProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("loan_product_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("RequestType")
+                        .HasColumnType("integer")
+                        .HasColumnName("request_type");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("start_date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id")
+                        .HasName("pk_loan_requests");
+
+                    b.ToTable("loan_requests", (string)null);
                 });
 
             modelBuilder.Entity("Api.Entities.Loans.LoanEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
 
                     b.Property<string>("ApprovedBy")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("approved_by");
 
                     b.Property<DateTime>("ApprovedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("end_date");
 
                     b.Property<decimal>("InterestRate")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("interest_rate");
 
                     b.Property<string>("LoanName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("loan_name");
 
                     b.Property<long>("LoanProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("loan_product_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("start_date");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_loans");
 
-                    b.HasIndex("LoanProductId");
+                    b.HasIndex("LoanProductId")
+                        .HasDatabaseName("ix_loans_loan_product_id");
 
                     b.ToTable("loans", (string)null);
                 });
@@ -300,81 +717,104 @@ namespace Api.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AreaCode")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("area_code");
 
                     b.Property<string>("CountryCode")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("country_code");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<string>("ExtensionNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("extension_number");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_date_time");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_phone_details");
 
                     b.HasIndex("CustomerId", "PhoneNumber")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_phone_details_customer_id_phone_number");
 
-                    b.ToTable("PhoneDetailEntity");
+                    b.ToTable("phone_details", (string)null);
                 });
 
             modelBuilder.Entity("CustomerLoanHistoryEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Action")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("action");
 
                     b.Property<DateTime>("ApprovedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_at");
 
                     b.Property<string>("ApprovedBy")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("approved_by");
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<decimal>("LoanAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("loan_amount");
 
                     b.Property<long>("LoanId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("loan_id");
 
                     b.Property<long>("RepaymentScheduleId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("repayment_schedule_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_customer_history");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_customer_history_customer_id");
 
                     b.ToTable("customer_history", (string)null);
                 });
@@ -383,39 +823,63 @@ namespace Api.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
 
                     b.Property<DateTime>("DueDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("due_date");
 
                     b.Property<int>("InstallmentNumber")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("installment_number");
 
                     b.Property<decimal>("InterestAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("interest_amount");
 
                     b.Property<bool>("IsPaid")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_paid");
 
                     b.Property<long>("LoanId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("loan_id");
 
                     b.Property<decimal>("PrincipalAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("principal_amount");
 
                     b.Property<decimal>("RemainingBalance")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("remaining_balance");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_repayment_schedules");
 
-                    b.HasIndex("LoanId");
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_repayment_schedules_customer_id");
+
+                    b.HasIndex("LoanId")
+                        .HasDatabaseName("ix_repayment_schedules_loan_id");
 
                     b.ToTable("repayment_schedules", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Entities.CustomerRequests.CustomerRequestEntity", b =>
+                {
+                    b.HasOne("Api.Entities.Customers.CustomerEntity", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .HasConstraintName("fk_customer_request_customers_customer_id");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Api.Entities.EmailDetails.EmailDetailEntity", b =>
@@ -424,7 +888,8 @@ namespace Api.Migrations
                         .WithMany("EmailDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_email_details_customers_customer_id");
 
                     b.Navigation("Customer");
                 });
@@ -435,7 +900,8 @@ namespace Api.Migrations
                         .WithMany("KycDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_kyc_customers_customer_id");
 
                     b.Navigation("Customer");
                 });
@@ -446,7 +912,8 @@ namespace Api.Migrations
                         .WithMany()
                         .HasForeignKey("LoanProductId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_loans_loan_products_loan_product_id");
                 });
 
             modelBuilder.Entity("Api.Entities.PhoneDetails.PhoneDetailEntity", b =>
@@ -455,7 +922,8 @@ namespace Api.Migrations
                         .WithMany("PhoneDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_phone_details_customers_customer_id");
 
                     b.Navigation("Customer");
                 });
@@ -466,18 +934,27 @@ namespace Api.Migrations
                         .WithMany("CustomerLoanHistory")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_customer_history_customers_customer_id");
 
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("RepaymentScheduleEntity", b =>
                 {
+                    b.HasOne("Api.Entities.Customers.CustomerEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_repayment_schedules_customers_customer_id");
+
                     b.HasOne("Api.Entities.Loans.LoanEntity", null)
                         .WithMany()
                         .HasForeignKey("LoanId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_repayment_schedules_loans_loan_id");
                 });
 
             modelBuilder.Entity("Api.Entities.Customers.CustomerEntity", b =>

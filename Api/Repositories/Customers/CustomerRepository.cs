@@ -13,7 +13,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
             CreatedDateTime = DateTime.UtcNow,
-            Status = UserStatus.Defaulted,
+            Status = CustomerStatus.Defaulted,
             Balance = dto.Balance,
         };
 

@@ -7,11 +7,10 @@ namespace Api.Entities.Employees;
 public sealed class EmployeeEntity
 {
     public long Id { get; init; }
-    public long EmployeeId { get; init; }
+    public required string EmployeeId { get; init; }
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
     public required string Email { get; init; }
-    public required string Username { get; init; }
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }
     public required string CreatedBy { get; init; }
@@ -24,5 +23,22 @@ public sealed class EmployeeEntityConfiguration : IEntityTypeConfiguration<Emplo
     {
         builder.ToTable("employees");   
         builder.HasKey(e => e.Id);
+
+        builder.Property(e => e.Id)
+        .UseIdentityAlwaysColumn();
+
+        builder.HasIndex(e => e.EmployeeId)
+        .IsUnique();
+
+        builder.HasIndex(e => e.Email)
+        .IsUnique();
+
+        builder.Property(e => e.EmployeeId)
+        .IsRequired()
+        .HasMaxLength(5);
+
+        builder.Property(e => e.Password)
+        .IsRequired()
+        .HasMaxLength(255);
     }
 }

@@ -1,5 +1,5 @@
 ﻿namespace Api.Constants;
-    public enum UserBalanceStatus
+    public enum CustomerBalanceStatus
     {
     // Has an active/ongoing loan
     Active,           // or: HasActiveLoan, Borrowing

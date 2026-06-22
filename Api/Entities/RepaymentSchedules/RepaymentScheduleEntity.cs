@@ -1,4 +1,5 @@
-﻿using Api.Entities.Loans;
+﻿using Api.Entities.Customers;
+using Api.Entities.Loans;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,9 +26,14 @@ public sealed class RepaymentScheduleEntityConfiguration : IEntityTypeConfigurat
         builder.HasKey(rs => rs.Id);
 
         builder.HasOne<LoanEntity>()
-               .WithMany()
-               .HasForeignKey(rs => rs.LoanId)
-               .OnDelete(DeleteBehavior.Cascade);
+            .WithMany()
+            .HasForeignKey(rs => rs.LoanId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne<CustomerEntity>()
+            .WithMany()
+            .HasForeignKey(rs => rs.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 }

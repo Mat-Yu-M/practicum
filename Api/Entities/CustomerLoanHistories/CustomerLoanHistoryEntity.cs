@@ -22,7 +22,7 @@ public sealed class CustomerHistoryEntityConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<CustomerLoanHistoryEntity> builder)
     {
-        builder.ToTable("customer_history");
+        builder.ToTable("customer_loan_history");
 
         builder.HasKey(ch => ch.Id);
     }
