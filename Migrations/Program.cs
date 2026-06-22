@@ -10,8 +10,10 @@ builder.Services.AddWindowsService(o =>
     o.ServiceName = "Migrations";
 });
 
-builder.AddNpgsqlDbContext<AppDbContext>("practicumdb");
-
+builder.AddNpgsqlDbContext<AppDbContext>("practicumdb", configureDbContextOptions: options =>
+{
+    options.UseSnakeCaseNamingConvention();
+});
 
 builder.Services.AddHostedService<MigrationRunner>();
 
