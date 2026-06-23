@@ -45,7 +45,7 @@ public class CustomerController : ControllerBase
         return Ok(customers.Select(c => new { c.Id, c.FirstName, c.LastName, }));
     }
 
-    [HttpGet]
+    [HttpGet("pending-requirements")]
     public async Task<IActionResult> GetPendingRequirementsCustomers()
     {
         var customers = await _db.Customers.Where(c => c.Status == CustomerStatus.PendingRequirements).Select(c => new CustomerListItemDto
