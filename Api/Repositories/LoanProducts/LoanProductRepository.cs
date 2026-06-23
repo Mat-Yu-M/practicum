@@ -47,4 +47,9 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         var entities = await context.LoanProducts.ToListAsync();
         return entities.Select(ToDto);
     }
+
+    public async Task<bool> ExistsByIdAsync(long id)
+    {
+       return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
+    }
 }

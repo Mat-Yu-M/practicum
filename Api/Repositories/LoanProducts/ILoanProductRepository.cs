@@ -4,5 +4,6 @@
     {
         Task<LoanProductDto> AddAsync(AddLoanProductDto dto);
         Task<IEnumerable<LoanProductDto>> GetAllAsync();
+        Task<bool> ExistsByIdAsync(long id);
     }
 }

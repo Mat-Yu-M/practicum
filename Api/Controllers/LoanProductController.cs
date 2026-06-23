@@ -23,6 +23,10 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateLoanProduct([FromBody] CreateLoanProductRequest req)
         {
+            if (await _repository.ExistsByIdAsync(req.Id))
+            {
+                return Conflict(new { message = "Loan Product ID already in use." });
+            }
 
             var loanProduct = new AddLoanProductDto
             {
