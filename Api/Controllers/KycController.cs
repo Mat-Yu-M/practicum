@@ -26,8 +26,6 @@ public class KycController : ControllerBase
             AddressLine1 = req.AddressLine1,
             AddressLine2 = req.AddressLine2,
             AddressLine3 = req.AddressLine3,
-            MinimumMonthlySalary = req.MinimumMonthlySalary,
-            MaximumMonthlySalary = req.MaximumMonthlySalary,
             FullName = req.FullName,
             DocumentImagePath = req.DocumentImagePath,
             SubmittedBy = req.SubmittedBy

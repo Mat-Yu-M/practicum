@@ -8,7 +8,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         var entity = new KycEntity
         {
         CustomerId = dto.CustomerId,
-        FullName = dto.FullName
+        FullName = dto.FullName,
         DocumentType = dto.DocumentType,
         Country = dto.Country,
         ZipCode = dto.ZipCode,

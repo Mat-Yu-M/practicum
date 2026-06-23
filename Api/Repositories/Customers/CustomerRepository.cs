@@ -12,9 +12,10 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             FirstName = dto.FirstName,
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
+            Suffix = dto.Suffix,
+            DateOfBirth = dto.DateOfBirth,
             CreatedDateTime = DateTime.UtcNow,
             Status = CustomerStatus.Defaulted,
-            Balance = dto.Balance,
         };
 
         context.Customers.Add(entity);
