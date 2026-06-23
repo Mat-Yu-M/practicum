@@ -7,14 +7,11 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
     {
         var entity = new KycEntity
         {
-        CustomerId = dto.CustomerId,
         FullName = dto.FullName,
         DocumentType = dto.DocumentType,
         Country = dto.Country,
         ZipCode = dto.ZipCode,
-        AddressLine1 = dto.AddressLine1,
-        AddressLine2 = dto.AddressLine2,
-        AddressLine3 = dto.AddressLine3,
+        AddressLine = dto.AddressLine,
         DocumentImagePath = dto.DocumentImagePath,
         SubmittedBy = dto.SubmittedBy
         };
@@ -33,9 +30,7 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         DocumentType = entity.DocumentType,
         Country = entity.Country,
         ZipCode = entity.ZipCode,
-        AddressLine1 = entity.AddressLine1,
-        AddressLine2 = entity.AddressLine2,
-        AddressLine3 = entity.AddressLine3,
+        AddressLine = entity.AddressLine,
         DocumentImagePath = entity.DocumentImagePath,
         SubmittedBy = entity.SubmittedBy
     };

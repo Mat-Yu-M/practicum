@@ -16,9 +16,7 @@ public sealed class KycEntity
     public required string DocumentImagePath { get; init; }
     public required string Country { get; init; }
     public required string ZipCode { get; init; }
-    public required string AddressLine1 { get; init; }
-    public string? AddressLine2 { get; init; }
-    public string? AddressLine3 { get; init; }
+    public required string AddressLine { get; init; }
     public CommonStatus Status { get; set; } = CommonStatus.Pending;
     public required string SubmittedBy { get; set; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
