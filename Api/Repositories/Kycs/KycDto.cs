@@ -11,6 +11,7 @@ public sealed record KycDto
     public string? AddressLine2 { get; init; }
     public string? AddressLine3 { get; init; }
     public required string FullName { get; init; }
+    public DateOnly DateOfBirth { get; init; }
     public required string DocumentImagePath { get; init; }
     public required string SubmittedBy { get; set; }
 }
@@ -26,7 +27,7 @@ public sealed record AddKycDto
     public string? AddressLine2 { get; init; }
     public string? AddressLine3 { get; init; }
     public required string FullName { get; init; }
+    public DateOnly DateOfBirth { get; init; }
     public required string DocumentImagePath { get; init; }
     public required string SubmittedBy { get; set; }
-
 }

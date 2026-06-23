@@ -17,14 +17,12 @@ public sealed class CustomerEntity
     public DateOnly DateOfBirth { get; set; }
     public decimal Balance { get; set; } = 0;
     public CustomerStatus Status { get; set; }
+    public long CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
     public ICollection<KycEntity> KycDetails { get; set; } = [];
     public ICollection<PhoneDetailEntity> PhoneDetails { get; set; } = [];
     public ICollection<EmailDetailEntity> EmailDetails { get; set; } = [];
     public ICollection<CustomerLoanHistoryEntity> CustomerLoanHistory { get; set; } = [];
-    public long CreatedBy { get; init; }
-    public DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
-
-
 }
 
 public sealed class UserEntityConfiguration : IEntityTypeConfiguration<CustomerEntity>
