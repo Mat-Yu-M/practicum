@@ -39,7 +39,7 @@ public class CustomerController : ControllerBase
         if (customers == null)
             return NotFound(new { message = "No customers found." });
 
-        return Ok(customers.Select(c => new { c.Id, c.FirstName, c.LastName, c.Status, c.Balance }));
+        return Ok(customers.Select(c => new { c.Id, c.FirstName, c.LastName, }));
     }
 
     [HttpPut("{id}")]
