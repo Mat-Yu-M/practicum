@@ -2,11 +2,11 @@
 {
     public enum CustomerStatus
     {
-        // Employee just encoded the customer's basic info
-        Encoded,
-
         // Waiting for customer to submit requirements
         PendingRequirements,
+
+        // Employee just encoded the customer's basic info
+        Encoded,
 
         // Requirements submitted, under review by staff
         UnderReview,
