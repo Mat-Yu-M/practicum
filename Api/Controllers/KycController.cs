@@ -20,52 +20,21 @@ public class KycController : ControllerBase
 
     [HttpPost("documents")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> CreateKyc([FromForm] CreateKycRequest req)
+    public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
-        var customerExists = await _db.Customers.AnyAsync(c => c.Id == req.CustomerId);
-        if (!customerExists)
-            return NotFound(new { message = "User not found." });
-
-        if (req.DocumentFile == null || req.DocumentFile.Length == 0)
-            return BadRequest(new { message = "A valid document file upload is required." });
-
-        string savedRelativePath;
-        try
-        {
-            string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(req.DocumentFile.FileName)}";
-            string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-            if (!Directory.Exists(uploadFolder))
-                Directory.CreateDirectory(uploadFolder);
-
-            string absoluteFilePath = Path.Combine(uploadFolder, uniqueFileName);
-
-            using (var stream = new FileStream(absoluteFilePath, FileMode.Create))
-            {
-                await req.DocumentFile.CopyToAsync(stream);
-            }
-
-            savedRelativePath = $"/uploads/{uniqueFileName}";
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = "Failed to save file system asset.", detail = ex.Message });
-        }
-
         var addKycDto = new AddKycDto
         {
-            CustomerId = req.CustomerId, 
+            CustomerId = req.CustomerId,
+            FullName = req.FullName,
             DocumentType = req.DocumentType,
             Country = req.Country,
             ZipCode = req.ZipCode,
             AddressLine = req.AddressLine,
-            FullName = req.FullName,
-            DocumentImagePath = savedRelativePath,
+            DocumentImagePath = req.DocumentImagePath, 
             SubmittedBy = req.SubmittedBy
         };
 
         var resultDto = await _repository.AddAsync(addKycDto);
-
         return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
     }
 }

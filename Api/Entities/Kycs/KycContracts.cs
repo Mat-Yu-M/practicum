@@ -7,7 +7,7 @@ public record CreateKycRequest(
     string ZipCode,
     string AddressLine,
     string DocumentType,
-    string SubmittedBy,
-    IFormFile DocumentFile
+    string DocumentImagePath,
+    string SubmittedBy
 );
 
