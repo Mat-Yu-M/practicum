@@ -1,4 +1,5 @@
 ﻿using Api.Entities.LoanProducts;
+using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.LoanProducts;
 
 public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRepository
@@ -40,4 +41,10 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         IsPromotion = entity.IsPromotion,
         CreatedAt = entity.CreatedAt
     };
+
+    public async Task<IEnumerable<LoanProductDto>> GetAllAsync()
+    {
+        var entities = await context.LoanProducts.ToListAsync();
+        return entities.Select(ToDto);
+    }
 }
