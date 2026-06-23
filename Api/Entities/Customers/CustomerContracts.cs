@@ -11,7 +11,6 @@ public record UpdateCustomerRequest(
 string FirstName,
 string MiddleName,
 string LastName,
-string Email,
 decimal Balance,
 CustomerBalanceStatus UserBalanceStatus,
 CustomerStatus Status
@@ -22,5 +21,6 @@ string Id,
 string FirstName,
 string MiddleName,
 string LastName,
-decimal Balance
+string Suffix,
+DateOnly DateOfBirth
 );

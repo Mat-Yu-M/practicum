@@ -21,7 +21,8 @@ public class CustomerController : ControllerBase
             FirstName = req.FirstName,
             MiddleName = req.MiddleName,
             LastName = req.LastName,
-            Balance = req.Balance
+            Suffix = req.Suffix,
+            DateOfBirth = req.DateOfBirth
         };
 
         _db.Customers.Add(customer);
