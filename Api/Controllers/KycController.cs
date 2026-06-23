@@ -1,20 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Entities.Kycs;
+using Api.Repositories.KycDocuments;
+
+namespace Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-
 public class KycController : ControllerBase
 {
     private readonly AppDbContext _db;
-    public KycController(AppDbContext db) => _db = db;
+    private readonly IKycRepository _repository;
+
+    public KycController(AppDbContext db, IKycRepository repository)
+    {
+        _db = db;
+        _repository = repository;
+    }
 
     [HttpPost("documents")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> CreateKyc([FromForm] CreateKycRequest req)
     {
-        var customerExists = await _db.Customers.AnyAsync(u => u.Id == req.CustomerId);
+        var customerExists = await _db.Customers.AnyAsync(c => c.Id == req.CustomerId);
         if (!customerExists)
             return NotFound(new { message = "User not found." });
 
@@ -25,8 +33,8 @@ public class KycController : ControllerBase
         try
         {
             string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(req.DocumentFile.FileName)}";
-
             string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
             if (!Directory.Exists(uploadFolder))
                 Directory.CreateDirectory(uploadFolder);
 
@@ -44,9 +52,9 @@ public class KycController : ControllerBase
             return StatusCode(500, new { message = "Failed to save file system asset.", detail = ex.Message });
         }
 
-        var kyc = new KycEntity
+        var addKycDto = new AddKycDto
         {
-            CustomerId = req.CustomerId,
+            CustomerId = req.CustomerId, 
             DocumentType = req.DocumentType,
             Country = req.Country,
             ZipCode = req.ZipCode,
@@ -56,10 +64,8 @@ public class KycController : ControllerBase
             SubmittedBy = req.SubmittedBy
         };
 
-        _db.Kycs.Add(kyc);
-        await _db.SaveChangesAsync();
+        var resultDto = await _repository.AddAsync(addKycDto);
 
-        return Created($"/api/users/{kyc.Id}", new { kyc.Id, kyc.CustomerId });
+        return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
     }
 }
-

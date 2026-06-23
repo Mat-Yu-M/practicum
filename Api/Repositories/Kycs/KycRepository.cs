@@ -1,5 +1,6 @@
 ﻿using Api.Entities.Kycs;
-namespace Api.Repositories.KycDocuments;
+using Api.Repositories.KycDocuments;
+namespace Api.Repositories.Kycs;
 
 public sealed class KycRepository(AppDbContext context) : IKycRepository
 {
@@ -7,16 +8,18 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
     {
         var entity = new KycEntity
         {
-        FullName = dto.FullName,
-        DocumentType = dto.DocumentType,
-        Country = dto.Country,
-        ZipCode = dto.ZipCode,
-        AddressLine = dto.AddressLine,
-        DocumentImagePath = dto.DocumentImagePath,
-        SubmittedBy = dto.SubmittedBy
+            CustomerId = dto.CustomerId,
+            FullName = dto.FullName,
+            DocumentType = dto.DocumentType,
+            Country = dto.Country,
+            ZipCode = dto.ZipCode,
+            AddressLine = dto.AddressLine,
+            DocumentImagePath = dto.DocumentImagePath,
+            SubmittedBy = dto.SubmittedBy
         };
 
         context.Kycs.Add(entity);
+
         await context.SaveChangesAsync();
 
         return ToDto(entity);
@@ -26,13 +29,12 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
     {
         Id = entity.Id,
         CustomerId = entity.CustomerId,
-        FullName = entity.FullName,
+        FullName = entity.FullName ?? string.Empty,
         DocumentType = entity.DocumentType,
-        Country = entity.Country,
-        ZipCode = entity.ZipCode,
-        AddressLine = entity.AddressLine,
-        DocumentImagePath = entity.DocumentImagePath,
-        SubmittedBy = entity.SubmittedBy
+        Country = entity.Country ?? string.Empty,
+        ZipCode = entity.ZipCode ?? string.Empty,
+        AddressLine = entity.AddressLine ?? string.Empty,
+        DocumentImagePath = entity.DocumentImagePath ?? string.Empty,
+        SubmittedBy = entity.SubmittedBy ?? string.Empty
     };
-
 }
