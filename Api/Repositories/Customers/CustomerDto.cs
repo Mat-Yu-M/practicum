@@ -46,3 +46,10 @@ public sealed record RegisterCustomerDto
     public required DateOnly DateOfBirth { get; init; }
     public CustomerStatus Status { get; init; } = CustomerStatus.PendingRequirements;
 }
+
+public sealed record CustomerListItemDto
+{
+    public required long Id { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+}

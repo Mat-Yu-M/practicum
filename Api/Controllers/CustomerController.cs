@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Entities.Customers;
+using Api.Constants;
+using Api.Repositories.Customers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -41,6 +43,22 @@ public class CustomerController : ControllerBase
             return NotFound(new { message = "No customers found." });
 
         return Ok(customers.Select(c => new { c.Id, c.FirstName, c.LastName, }));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetPendingRequirementsCustomers()
+    {
+        var customers = await _db.Customers.Where(c => c.Status == CustomerStatus.PendingRequirements).Select(c => new CustomerListItemDto
+        {
+            Id = c.Id,
+            FirstName = c.FirstName,
+            LastName = c.LastName
+        }).ToListAsync();
+
+        if (!customers.Any())
+            return NotFound(new { message = "No customers found with pending requirements." });
+
+        return Ok(customers);
     }
 
     [HttpPut("{id}")]
