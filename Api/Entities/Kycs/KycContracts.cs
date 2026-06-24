@@ -6,7 +6,7 @@ public record CreateKycRequest(
     string Country,
     string ZipCode,
     string AddressLine,
-    string DocumentType,
+    string? DocumentType,
     string DocumentImagePath,
     string SubmittedBy
 );

@@ -19,7 +19,6 @@ public class KycController : ControllerBase
     }
 
     [HttpPost("documents")]
-    [Consumes("multipart/form-data")]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
         var addKycDto = new AddKycDto
