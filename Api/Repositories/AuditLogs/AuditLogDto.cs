@@ -6,7 +6,9 @@ namespace Api.Repositories.AuditLogs;
     {
         public long Id { get; init; }
         public AuditLogType Type { get; init; }
-        public string Action { get; init; } = null!;
+        public string Action { get; init; } = null!; 
+        public string OldValue { get; init }
+        public string NewValue { get; init; }
         public string PerformedBy { get; init; } = null!;
         public DateTime PerformedAt { get; init; } = DateTime.UtcNow;
         public string? Details { get; init; }
@@ -17,6 +19,8 @@ namespace Api.Repositories.AuditLogs;
     public long Id { get; init; }
     public AuditLogType Type { get; init; }
     public string Action { get; init; } = null!;
+    public string OldValue { get; init }
+    public string NewValue { get; init; }
     public string PerformedBy { get; init; } = null!;
     public DateTime PerformedAt { get; init; } = DateTime.UtcNow;
     public string? Details { get; init; }
