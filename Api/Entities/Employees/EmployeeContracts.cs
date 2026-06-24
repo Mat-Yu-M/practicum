@@ -11,10 +11,11 @@ namespace Api.Entities.Employees
     string? Suffix,
     string Email,
     string Password,
+    string EmployeeId,
     List<EmployeeRoles> EmployeeRoles,
     string CreatedBy,
-    DateTime CreatedDate,
+    DateTime CreatedDateTime,
     string ApprovedBy,
-    DateTime ApprovedDate
+    DateTime ApprovedDateTime
     );
 }

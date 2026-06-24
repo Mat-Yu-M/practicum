@@ -19,9 +19,9 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
             Email= dto.Email,
             Password = hashedPassword,
             ApprovedBy = dto.ApprovedBy,
-            ApprovedDate = dto.ApprovedDate,
+            ApprovedDateTime = dto.ApprovedDateTime,
             CreatedBy = dto.CreatedBy,
-            CreatedDate = dto.CreatedDateTime
+            CreatedDateTime = dto.CreatedDateTime
         };
 
         context.Employees.Add(entity);
@@ -42,9 +42,9 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         Email = entity.Email,
         Password = entity.Password,
         ApprovedBy= entity.ApprovedBy,
-        ApprovedDate = entity.ApprovedDate,
+        ApprovedDateTime = entity.ApprovedDateTime,
         CreatedBy = entity.CreatedBy,
-        CreatedDateTime = entity.CreatedDate
+        CreatedDateTime = entity.CreatedDateTime
     };
 
 }

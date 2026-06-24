@@ -14,7 +14,7 @@ public sealed record EmployeeDto
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }
     public required string ApprovedBy { get; init; }
-    public required DateTime ApprovedDate { get; init; }
+    public required DateTime ApprovedDateTime { get; init; }
     public required string CreatedBy { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }
@@ -29,7 +29,7 @@ public sealed record RegisterEmployeeDto
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }
     public required string ApprovedBy { get; init; }
-    public required DateTime ApprovedDate { get; init; }
+    public required DateTime ApprovedDateTime { get; init; }
     public required string CreatedBy { get; init; }
     public required DateTime CreatedDateTime { get; init; }
 }
