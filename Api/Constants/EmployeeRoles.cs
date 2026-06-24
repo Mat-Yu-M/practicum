@@ -10,7 +10,7 @@
         EmployeeApprover, //approves or rejects the employees and their details
         EmployeeRoleApprover, //approves or rejects the employee roles and their details
         EmployeeRoleMaker, //creates the employee roles and their details
-        UserMaker, //creates the users and their details
-        UserApprover, //approves or rejects the users and their details
+        CustomerMaker, //creates the users and their details
+        CustomerApprover, //approves or rejects the users and their details
     }
 }
