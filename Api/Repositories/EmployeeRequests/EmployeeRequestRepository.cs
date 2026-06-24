@@ -30,10 +30,11 @@ namespace Api.Repositories.EmployeeRequests;
         return ToDto(entity);
     }
 
-    public async Task<List<EmployeeRequestEntity>> GetAllAsync(GetEmployeeRequestRequest req)
+    public async Task<List<EmployeeRequestEntity>> GetAllAsync()
     {
         return await context.EmployeeRequests.AsNoTracking().ToListAsync();
-        }
+    }
+
     private static EmployeeRequestDto ToDto(EmployeeRequestEntity entity) => new()
     {
         Id = entity.Id,

@@ -15,9 +15,9 @@ namespace Api.Controllers
         public EmployeeRequestController(IEmployeeRequestRepository repository) => _repository = repository;
 
         [HttpGet("get-employee-requests")]
-        public async Task<IActionResult> GetEmployeeRequests([FromQuery] GetEmployeeRequestRequest request)
-        {
-            var employeeRequests = await _repository.GetAllAsync(request);
+        public async Task<IActionResult> GetEmployeeRequests()
+        { 
+            var employeeRequests = await _repository.GetAllAsync();
             return Ok(employeeRequests);
         }
         
