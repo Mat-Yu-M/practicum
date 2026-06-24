@@ -17,7 +17,5 @@ namespace Api.Entities.Employees
     EmployeeRequestType RequestType,
     string CreatedBy,
     DateTime CreatedDateTime,
-    string ApprovedBy,
-    DateTime ApprovedDateTime
     );
 }
