@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Entities.Employees
 {
-    public record CreateEmployeeRequest
+    public record CreateEmployeeResponse
     (
     string FirstName,
     string MiddleName,

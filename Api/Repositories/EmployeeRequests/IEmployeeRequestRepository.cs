@@ -2,5 +2,6 @@
 {
     public interface IEmployeeRequestRepository
     {
+        Task<EmployeeRequestDto> AddAsync(RegisterEmployeeRequestDto dto);
     }
 }

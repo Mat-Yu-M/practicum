@@ -1,4 +1,5 @@
 ﻿using Api.Entities.Employees;
+using Api.Repositories.Employees;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -11,11 +12,15 @@ namespace Api.Controllers;
 public class EmployeeController : ControllerBase
 {
     private readonly AppDbContext _db;
-
-    public EmployeeController(AppDbContext db) => _db = db;
+    private IEmployeeRepository _repository;
+    public EmployeeController(AppDbContext db, IEmployeeRepository repository)
+    {       
+        _db = db;
+        _repository = repository;
+    }
 
     [HttpPost("register-employee")]
-    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest req)
+    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeResponse req)
     {
         var employee = new EmployeeEntity { 
             

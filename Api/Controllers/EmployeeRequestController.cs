@@ -1,5 +1,7 @@
 ﻿using Api.Entities.EmployeeRequests;
 using Api.Entities.Employees;
+using Api.Repositories.EmployeeRequests;
+using Api.Repositories.KycDocuments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,13 +11,18 @@ namespace Api.Controllers
     public class EmployeeRequestController : ControllerBase
     {
         private readonly AppDbContext _db;
+        private readonly IEmployeeRequestRepository _repository;
 
-        public EmployeeRequestController(AppDbContext db) => _db = db;
+        public EmployeeRequestController(AppDbContext db, IEmployeeRequestRepository repository)
+        {
+            _db = db;
+            _repository = repository;
+        }
 
         [HttpPost("add-employee-request")]
-        public async Task<IActionResult> CreateEmployeeRequest([FromBody] CreateEmployeeRequest req)
+        public async Task<IActionResult> CreateEmployeeRequest([FromBody] CreateEmployeeRequestRequest req)
         {
-            var employeeRequest = new EmployeeRequestEntity
+            var addEmployeeRequest = new RegisterEmployeeRequestDto
             {
                 FirstName = req.FirstName,
                 MiddleName = req.MiddleName,
@@ -29,9 +36,9 @@ namespace Api.Controllers
                 CreatedBy = req.CreatedBy,
                 CreatedDateTime = req.CreatedDateTime
             };
-            _db.EmployeeRequests.Add(employeeRequest);
-            await _db.SaveChangesAsync();
-            return Created($"/api/employee-requests/{employeeRequest.Id}", new { employeeRequest.Id });
+
+            var resultDto = await _repository.AddAsync(addEmployeeRequest);
+            return Created($"/api/customers/{resultDto.Id}", new { resultDto.Id });
         }
     }
 }
