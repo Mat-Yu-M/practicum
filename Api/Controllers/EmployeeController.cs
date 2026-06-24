@@ -1,12 +1,15 @@
 ﻿using Api.Entities.Employees;
+using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("api/[Controller]")]
-    public class EmployeeController : ControllerBase
-    {
+public class EmployeeController : ControllerBase
+{
     private readonly AppDbContext _db;
 
     public EmployeeController(AppDbContext db) => _db = db;
@@ -36,6 +39,33 @@ namespace Api.Controllers;
 
         return Created($"/api/employees/{employee.Id}", new { employee.Id });
 
+    }
+
+    [HttpPost("login-employee")]
+    [EnableRateLimiting("RegistrationPolicy")]
+    public async Task<IActionResult> GetExistingEmployee([FromBody] GetExistingEmployeeRequest req)
+    {
+        var employee = await _db.Employees.FirstOrDefaultAsync(e => e.Email.ToLower() == req.Email.ToLower());
+
+        if (employee == null)
+        {
+        return NotFound(new { message = "Account does not exist." });
+        }
+
+        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(req.Password, employee.Password);
+
+        if (!isPasswordValid)
+        {
+        return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
+        }
+
+        return Ok(new
+        {
+            exists = true,
+            message = "Authentication Successful",
+            employeeId = employee.Id
+        });
+        
     }
 }
 

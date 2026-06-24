@@ -7,14 +7,15 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
     public async Task<EmployeeDto> AddAsync(RegisterEmployeeDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
+        string generatedId = $"{dto.FirstName.Substring(0, 1).ToUpper()}{dto.LastName.Substring(0, 1).ToUpper()}";
+        
         var entity = new EmployeeEntity
         {
             FirstName = dto.FirstName,
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
             Suffix = dto.Suffix,
-            EmployeeId = dto.EmployeeId,
+            EmployeeId = generatedId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
             Email= dto.Email,
             Password = hashedPassword,

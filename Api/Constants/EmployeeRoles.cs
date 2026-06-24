@@ -12,5 +12,6 @@
         EmployeeRoleMaker, //creates the employee roles and their details
         CustomerMaker, //creates the users and their details
         CustomerApprover, //approves or rejects the users and their details
+        Admin // all
     }
 }
