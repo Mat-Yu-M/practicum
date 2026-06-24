@@ -9,10 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+//Connect to the DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("practicumdb"))
     .UseSnakeCaseNamingConvention());
 builder.Services.AddRepositories();
+
+//Turns Enums into Strings when API calls
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
