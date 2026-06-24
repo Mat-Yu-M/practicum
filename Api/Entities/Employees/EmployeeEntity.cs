@@ -1,4 +1,5 @@
 ﻿using Api.Constants;
+using Microsoft;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,12 +10,17 @@ public sealed class EmployeeEntity
     public long Id { get; init; }
     public required string EmployeeId { get; init; }
     public required string FirstName { get; init; }
+    public required string MiddleName { get; init; }
     public required string LastName { get; init; }
+    public required string? Suffix { get; init; }
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApprovedDate { get; init; }
     public required string CreatedBy { get; init; }
-    public DateTime? CreatedDate { get; init; }
+    public DateTime CreatedDate { get; init; }
+
 }
 
 public sealed class EmployeeEntityConfiguration : IEntityTypeConfiguration<EmployeeEntity>

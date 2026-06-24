@@ -1,5 +1,6 @@
 ﻿using Api.Entities.Employees;
 using Api.Repositories.Employees;
+using System.Net.NetworkInformation;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository
 {
@@ -9,13 +10,16 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
 
         var entity = new EmployeeEntity
         {
-            Id = dto.Id,
             FirstName = dto.FirstName,
+            MiddleName = dto.MiddleName,
             LastName = dto.LastName,
+            Suffix = dto.Suffix,
             EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
             Email= dto.Email,
             Password = hashedPassword,
+            ApprovedBy = dto.ApprovedBy,
+            ApprovedDate = dto.ApprovedDate,
             CreatedBy = dto.CreatedBy,
             CreatedDate = dto.CreatedDateTime
         };
@@ -30,11 +34,15 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
     {
         Id = entity.Id,
         FirstName = entity.FirstName,
+        MiddleName = entity.MiddleName,
         LastName = entity.LastName,
+        Suffix = entity.Suffix,
         EmployeeId= entity.EmployeeId,
         EmployeeRoles= entity.EmployeeRoles.ToList(),
         Email = entity.Email,
         Password = entity.Password,
+        ApprovedBy= entity.ApprovedBy,
+        ApprovedDate = entity.ApprovedDate,
         CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDate
     };
