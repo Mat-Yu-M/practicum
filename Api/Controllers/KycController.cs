@@ -18,7 +18,7 @@ public class KycController : ControllerBase
         _repository = repository;
     }
 
-    [HttpPost("documents")]
+    [HttpPost("register-customer-documents")]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
         var addKycDto = new AddKycDto

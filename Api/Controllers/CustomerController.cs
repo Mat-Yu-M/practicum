@@ -12,7 +12,7 @@ public class CustomerController : ControllerBase
     private readonly AppDbContext _db;
     public CustomerController(AppDbContext db) => _db = db;
 
-    [HttpPost("register")]
+    [HttpPost("register-customer")]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest req)
     {
 
