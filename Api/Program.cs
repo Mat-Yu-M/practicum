@@ -1,3 +1,4 @@
+using Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -8,6 +9,7 @@ builder.AddServiceDefaults();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("practicumdb"))
     .UseSnakeCaseNamingConvention());
+builder.Services.AddRepositories();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -37,7 +39,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();

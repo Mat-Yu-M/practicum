@@ -11,16 +11,15 @@ public record UpdateCustomerRequest(
 string FirstName,
 string MiddleName,
 string LastName,
-string Email,
 decimal Balance,
 CustomerBalanceStatus UserBalanceStatus,
 CustomerStatus Status
 );
 
 public record CreateCustomerRequest(
-string Id,
 string FirstName,
 string MiddleName,
 string LastName,
-decimal Balance
+string Suffix,
+DateOnly DateOfBirth
 );
