@@ -1,4 +1,5 @@
 ﻿using Api.Constants;
+using Api.Entities.EmployeeRequests;
 
 namespace Api.Entities.Employees
 {
@@ -13,6 +14,7 @@ namespace Api.Entities.Employees
     string Password,
     string EmployeeId,
     List<EmployeeRoles> EmployeeRoles,
+    EmployeeRequestType RequestType,
     string CreatedBy,
     DateTime CreatedDateTime,
     string ApprovedBy,

@@ -25,9 +25,9 @@ namespace Api.Controllers
                 Password = req.Password,
                 EmployeeId = req.EmployeeId,
                 EmployeeRoles = req.EmployeeRoles,
+                RequestType = req.RequestType,
                 CreatedBy = req.CreatedBy,
-                CreatedDateTime = req.CreatedDateTime,
-                RequestType = req.RequestType
+                CreatedDateTime = req.CreatedDateTime
             };
             _db.EmployeeRequests.Add(employeeRequest);
             await _db.SaveChangesAsync();
