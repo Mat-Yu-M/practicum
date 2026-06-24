@@ -10,15 +10,17 @@ namespace Api.Controllers
     [Route("api/[Controller]")]
     public class EmployeeRequestController : ControllerBase
     {
-        private readonly AppDbContext _db;
         private readonly IEmployeeRequestRepository _repository;
 
-        public EmployeeRequestController(AppDbContext db, IEmployeeRequestRepository repository)
-        {
-            _db = db;
-            _repository = repository;
-        }
+        public EmployeeRequestController(IEmployeeRequestRepository repository) => _repository = repository;
 
+        [HttpGet("get-employee-requests")]
+        public async Task<IActionResult> GetEmployeeRequests([FromQuery] GetEmployeeRequestRequest request)
+        {
+            var employeeRequests = await _repository.GetAllAsync(request);
+            return Ok(employeeRequests);
+        }
+        
         [HttpPost("add-employee-request")]
         public async Task<IActionResult> CreateEmployeeRequest([FromBody] CreateEmployeeRequestRequest req)
         {
@@ -38,7 +40,7 @@ namespace Api.Controllers
             };
 
             var resultDto = await _repository.AddAsync(addEmployeeRequest);
-            return Created($"/api/customers/{resultDto.Id}", new { resultDto.Id });
+            return Created($"api/EmployeeRequest/{resultDto.Id}", new { resultDto.Id });
         }
     }
 }

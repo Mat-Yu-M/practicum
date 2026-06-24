@@ -1,4 +1,6 @@
 ﻿using Api.Entities.EmployeeRequests;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Repositories.EmployeeRequests;
     public sealed class EmployeeRequestRepository(AppDbContext context) : IEmployeeRequestRepository
@@ -28,6 +30,10 @@ namespace Api.Repositories.EmployeeRequests;
         return ToDto(entity);
     }
 
+    public async Task<List<EmployeeRequestEntity>> GetAllAsync(GetEmployeeRequestRequest req)
+    {
+        return await context.EmployeeRequests.AsNoTracking().ToListAsync();
+        }
     private static EmployeeRequestDto ToDto(EmployeeRequestEntity entity) => new()
     {
         Id = entity.Id,

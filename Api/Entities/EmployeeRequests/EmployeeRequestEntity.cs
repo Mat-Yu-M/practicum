@@ -11,7 +11,7 @@ namespace Api.Entities.EmployeeRequests
         public required string FirstName { get; init; }
         public required string MiddleName { get; init; }
         public required string LastName { get; init; }
-        public required string? Suffix { get; init; }
+        public string? Suffix { get; init; }
         public required string Email { get; init; }        
         public required string Password { get; init; }
         public required List<EmployeeRoles> EmployeeRoles { get; init; }

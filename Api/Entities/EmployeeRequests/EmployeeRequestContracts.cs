@@ -15,3 +15,17 @@ EmployeeRequestType RequestType,
 string CreatedBy,
 DateTime CreatedDateTime
 );
+
+public record GetEmployeeRequestRequest
+(
+string EmployeeId,
+string FirstName,
+string MiddleName,
+string LastName,
+string? Suffix,
+string Email,
+List<EmployeeRoles> EmployeeRoles,
+EmployeeRequestType RequestType,
+string CreatedBy,
+DateTime CreatedDateTime
+);
