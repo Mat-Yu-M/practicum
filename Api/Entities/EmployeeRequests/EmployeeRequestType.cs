@@ -1,6 +1,6 @@
 ﻿namespace Api.Entities.EmployeeRequests
 {
-    public enum EmployeeRoleRequestType
+    public enum EmployeeRequestType
     {
         Approve,
         Decline

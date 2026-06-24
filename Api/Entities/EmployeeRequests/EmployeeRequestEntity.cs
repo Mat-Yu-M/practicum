@@ -15,7 +15,7 @@ namespace Api.Entities.EmployeeRequests
         public required string Email { get; init; }        
         public required string Password { get; init; }
         public required List<EmployeeRoles> EmployeeRoles { get; init; }
-        public required EmployeeRoleRequestType RequestType { get; init; }
+        public required EmployeeRequestType RequestType { get; init; }
         public required string CreatedBy { get; init; }
         public required DateTime CreatedDateTime { get; init; } 
     }

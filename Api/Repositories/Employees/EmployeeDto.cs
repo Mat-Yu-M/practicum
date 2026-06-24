@@ -9,7 +9,7 @@ public sealed record EmployeeDto
     public required string FirstName { get; init; }
     public required string MiddleName { get; init; }
     public required string LastName { get; init; }
-    public required string Suffix { get; init; }
+    public required string? Suffix { get; init; }
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }
@@ -24,7 +24,7 @@ public sealed record RegisterEmployeeDto
     public required string FirstName { get; init; }
     public required string MiddleName { get; init; }
     public required string LastName { get; init; }
-    public required string Suffix { get; init; }
+    public required string? Suffix { get; init; }
     public required string Email { get; init; }
     public required string Password { get; init; }
     public required List<EmployeeRoles> EmployeeRoles { get; init; }

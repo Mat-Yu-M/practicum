@@ -11,7 +11,7 @@ namespace Api.Controllers
         private readonly ILoanProductRepository _repository;
         public LoanProductController(ILoanProductRepository repository) => _repository = repository;
 
-        [HttpGet]
+        [HttpGet("get-loan-products")]
         public async Task<IActionResult> GetLoanProducts()
         {
             var loanProducts = await _repository.GetAllAsync();
@@ -20,7 +20,7 @@ namespace Api.Controllers
             return Ok(loanProducts.Select(lp => new { lp.Id, lp.Name }));
         }
 
-        [HttpPost]
+        [HttpPost("add-loan-product")]
         public async Task<IActionResult> CreateLoanProduct([FromBody] CreateLoanProductRequest req)
         {
             if (await _repository.ExistsByIdAsync(req.Id))

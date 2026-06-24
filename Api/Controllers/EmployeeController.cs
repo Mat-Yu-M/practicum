@@ -11,7 +11,7 @@ namespace Api.Controllers;
 
     public EmployeeController(AppDbContext db) => _db = db;
 
-    [HttpPost("RegisterEmployee")]
+    [HttpPost("register-employee")]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest req)
     {
         var employee = new EmployeeEntity { 
