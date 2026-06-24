@@ -11,3 +11,15 @@ public record CreateKycRequest(
     string SubmittedBy
 );
 
+public record KycResponse(
+    long CustomerId,
+    string FullName,
+    string Country,
+    string ZipCode,
+    string AddressLine,
+    string? DocumentType,
+    string DocumentImagePath,
+    string SubmittedBy,
+    string SubmittedDateTime
+    );
+

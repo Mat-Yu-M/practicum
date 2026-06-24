@@ -21,9 +21,9 @@ namespace Api.Entities.Employees
     DateTime ApprovedDateTime
     );
 
-    public record GetExistingEmployeeRequest(
+    public record GetExistingEmployeeRequest
+    (
     string Email,
-    string Password,
-    List<EmployeeRoles> EmployeeRoles
-        );
+    string Password
+    );
 }

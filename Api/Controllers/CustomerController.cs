@@ -13,6 +13,7 @@ public class CustomerController : ControllerBase
 {
     private readonly ICustomerRepository _repository;
 
+    public CustomerController(ICustomerRepository repository) => _repository = repository;
 
     [HttpPost("register-customer")]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest req)
@@ -23,7 +24,7 @@ public class CustomerController : ControllerBase
             MiddleName = req.MiddleName,
             LastName = req.LastName,
             Suffix = req.Suffix,
-            DateOfBirth =req.DateOfBirth
+            DateOfBirth = req.DateOfBirth
             
 
         };

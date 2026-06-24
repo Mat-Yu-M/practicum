@@ -9,18 +9,21 @@ namespace Api.Controllers;
 [Route("api/[controller]")]
 public class KycController : ControllerBase
 {
-    private readonly AppDbContext _db;
     private readonly IKycRepository _repository;
 
-    public KycController(AppDbContext db, IKycRepository repository)
-    {
-        _db = db;
-        _repository = repository;
-    }
+    public KycController(IKycRepository repository) => _repository = repository;
+
 
     [HttpPost("register-customer-documents")]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
+        var customerExists = await _repository.ExistsAsync(req.CustomerId); 
+
+        if (!customerExists)
+        {
+            return NotFound($"Customer with ID {req.CustomerId} does not exist.");
+        }
+
         var addKycDto = new AddKycDto
         {
             CustomerId = req.CustomerId,
@@ -35,5 +38,13 @@ public class KycController : ControllerBase
 
         var resultDto = await _repository.AddAsync(addKycDto);
         return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
+    }
+
+    [HttpGet("get-customer-documents")]
+    public async Task<IActionResult> GetKycs()
+    {
+        var kycs = await _repository.GetAsync();
+        return Ok(kycs);
+
     }
 }
