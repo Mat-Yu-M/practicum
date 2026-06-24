@@ -2,7 +2,7 @@
 {
     public enum EmployeeRequestType
     {
-        Approve,
-        Decline
+        Add,
+        Remove
     }
 }

@@ -1,6 +1,8 @@
 using Api.Repositories;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddRepositories();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-
+builder.Services.Configure<JsonOptions>(options => options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
