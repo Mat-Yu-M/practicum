@@ -5,7 +5,6 @@ namespace Api.Entities.Employees
 {
     public record CreateEmployeeRequest
     (
-    long Id,
     string FirstName,
     string MiddleName,
     string LastName,
@@ -17,5 +16,7 @@ namespace Api.Entities.Employees
     EmployeeRequestType RequestType,
     string CreatedBy,
     DateTime CreatedDateTime,
+    string ApprovedBy,
+    DateTime ApprovedDateTime
     );
 }
