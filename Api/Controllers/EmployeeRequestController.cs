@@ -78,5 +78,20 @@ namespace Api.Controllers
 
             return Ok(employeeRequest);
         }
+
+        [HttpDelete("delete-employee-request")]
+        public async Task<IActionResult> DeleteEmployeeRequest(long id)
+        {
+            var employeeRequest = await _repository.DeleteAsync(id);
+
+            if (employeeRequest == null)
+            {
+                return NotFound("This request has already been processed or does not exist.");
+            }
+
+            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Deleted due to Successful Registration", $"Successfully deleted Employee Request");
+
+            return Ok(employeeRequest);
+        }
     }
 }

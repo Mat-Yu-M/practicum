@@ -1,4 +1,5 @@
-﻿using Api.Repositories.AuditLogs;
+﻿using Api.Entities.AuditLogs;
+using Api.Repositories.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -18,5 +19,13 @@ public class AuditLogController : ControllerBase
         var resultDto = await _repository.AddAsync(dto);
         return Created($"api/auditlog/{resultDto.Id}", new { resultDto.Id });
     }
+
+    [HttpGet("get-audit-logs")]
+    public async Task<List<AuditLogEntity>> GetAuditLogs()
+    {
+        return await _repository.GetAllAsync();
+    }
 }
+
+
 
