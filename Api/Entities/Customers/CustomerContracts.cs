@@ -21,5 +21,8 @@ string FirstName,
 string MiddleName,
 string LastName,
 string Suffix,
-DateOnly DateOfBirth
+CustomerStatus Status,
+decimal Balance,
+DateOnly DateOfBirth,
+DateTime CreatedDateTime 
 );

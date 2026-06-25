@@ -1,0 +1,93 @@
+﻿using Api.Entities.AuditLogs;
+using Api.Entities.Employees;
+using Api.Repositories.Employees;
+using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+
+namespace Api.Controllers;
+
+[ApiController]
+[Route("api/[Controller]")]
+public class EmployeeController : ControllerBase
+{
+    private readonly ILogger<EmployeeController> _logger;
+    private readonly IEmployeeRepository _repository;
+    private readonly IAuditLogService _auditLogService;
+    public EmployeeController(IEmployeeRepository repository, IAuditLogService auditLogService, ILogger<EmployeeController> logger)
+    {
+        _repository = repository;
+        _auditLogService = auditLogService;
+        _logger = logger;
+    }
+
+    [HttpPost("register-employee")]
+    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeResponse req)
+    {
+        var employee = new RegisterEmployeeDto
+        {
+
+            FirstName = req.FirstName,
+            MiddleName = req.MiddleName,
+            LastName = req.LastName,
+            Suffix = req.Suffix,
+            Email = req.Email,
+            Password = req.Password,
+            EmployeeId = $"{req.FirstName.Substring(0, 1)}{req.LastName.Substring(0, 1)}",
+            EmployeeRoles = req.EmployeeRoles,
+            CreatedBy = req.CreatedBy,
+            CreatedDateTime = req.CreatedDateTime,
+            ApprovedBy = req.ApprovedBy,
+            ApprovedDateTime = req.ApprovedDateTime,
+
+        };
+
+        await _repository.AddAsync(employee);
+
+        await _auditLogService.LogAsync(
+        AuditLogType.Add,
+        "Employee Registration",
+        $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully."
+        );
+
+        return Created($"/api/employees/{employee.Email}", new { employee.EmployeeId });
+
+    }
+
+    [HttpPost("login-employee")]
+    [EnableRateLimiting("RegistrationPolicy")]
+    public async Task<IActionResult> LoginEmployee([FromBody] GetExistingEmployeeRequest req)
+    {
+        var employee = await _repository.GetByEmailAsync(req.Email);
+
+        if (employee == null)
+        {
+            _logger.LogWarning("Failed Login Attempt: Employee {Email} does not Exist.", req.Email);
+            return NotFound(new { message = "Account does not exist." });
+        }
+
+        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(req.Password, employee.Password);
+
+        if (!isPasswordValid)
+        {
+            _logger.LogWarning("Failed Login Attempt: Employee with email {Email} provided incorrect credentials.", req.Email);
+            return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
+        }
+
+        await _auditLogService.LogAsync(
+            AuditLogType.Log,
+            "Employee Login",
+            $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} logged in successfully."
+        );
+
+        return Ok(new
+        {
+            exists = true,
+            message = "Authentication Successful",
+            employeeId = employee.EmployeeId
+        });
+
+
+    }
+}
+

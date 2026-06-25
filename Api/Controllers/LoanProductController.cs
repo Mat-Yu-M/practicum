@@ -1,5 +1,7 @@
-﻿using Api.Entities.LoanProducts;
+﻿using Api.Entities.AuditLogs;
+using Api.Entities.LoanProducts;
 using Api.Repositories.LoanProducts;
+using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,18 +11,30 @@ namespace Api.Controllers
     public class LoanProductController : ControllerBase
     {
         private readonly ILoanProductRepository _repository;
-        public LoanProductController(ILoanProductRepository repository) => _repository = repository;
+        private readonly IAuditLogService _auditLogService;
+        public LoanProductController(ILoanProductRepository repository, IAuditLogService auditLogService)
+        {
+            _repository = repository;
+            _auditLogService = auditLogService;
+        }
 
-        [HttpGet]
+        [HttpGet("get-loan-products")]
         public async Task<IActionResult> GetLoanProducts()
         {
             var loanProducts = await _repository.GetAllAsync();
             if (!loanProducts.Any())
                 return NotFound(new { message = "No Loan Products Found." });
+
+            await _auditLogService.LogAsync(
+                AuditLogType.Fetch,
+                "Get Loan Products",
+                $"Successfully fetched loan products."
+            );
+
             return Ok(loanProducts.Select(lp => new { lp.Id, lp.Name }));
         }
 
-        [HttpPost]
+        [HttpPost("add-loan-product")]
         public async Task<IActionResult> CreateLoanProduct([FromBody] CreateLoanProductRequest req)
         {
             if (await _repository.ExistsByIdAsync(req.Id))
@@ -41,6 +55,12 @@ namespace Api.Controllers
             };
 
             await _repository.AddAsync(loanProduct);
+
+            await _auditLogService.LogAsync(
+                AuditLogType.Add,
+                "Create Loan Product",
+                $"Successfully created loan product with ID: {loanProduct.Id}."
+            );
 
             return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Id }, new { loanProduct.Id });
         }

@@ -2,7 +2,11 @@
 {
     public enum AuditLogType
     {
-        U, //User
-        R, //Role
+        Add,
+        Log,
+        Update,
+        Delete,
+        Approve,
+        Fetch,
     }
 }

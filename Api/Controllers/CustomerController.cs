@@ -1,27 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.Customers;
-using Api.Constants;
+using Api.Repositories.AuditLogs;
 using Api.Repositories.Customers;
+using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
 
 public class CustomerController : ControllerBase
 {
-    private readonly AppDbContext _db;
-    public CustomerController(AppDbContext db) => _db = db;
+    private readonly ICustomerRepository _repository;
+    private readonly IAuditLogService _auditLog;
+    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog)
+    {
+        _repository = repository;
+        _auditLog = auditLog;
+    }
 
-    [HttpPost("register")]
+    [HttpPost("register-customer")]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest req)
     {
-
-        bool alreadyExists = await _db.Customers.AnyAsync(c => c.FirstName.ToLower() == req.FirstName.ToLower() && c.LastName.ToLower() == req.LastName.ToLower());
-
-        if (alreadyExists)
-            return Conflict(new { message = "A customer with the same name already exists." });
-
-        var customer = new CustomerEntity
+        var customer = new RegisterCustomerDto
         {
             FirstName = req.FirstName,
             MiddleName = req.MiddleName,
@@ -30,91 +30,38 @@ public class CustomerController : ControllerBase
             DateOfBirth = req.DateOfBirth
         };
 
-        _db.Customers.Add(customer);
-        await _db.SaveChangesAsync();
+        var resultDto = await _repository.AddAsync(customer);
 
-        return Created($"/api/customers/{customer.Id}", new { customer.Id });
+
+        var auditLogDto = new AddAuditLogDto
+        {
+            Type = AuditLogType.Add,
+            Action = "Register Customer",
+            Details = $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}.",
+            PerformedAt = DateTime.UtcNow
+        };
+
+
+        await _auditLog.LogAsync(
+            AuditLogType.Add,
+            "Register Customer",
+            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}."
+        );
+
+        return Created($"api/cus/{resultDto.Id}", new { resultDto.Id });
     }
 
-
-    [HttpGet]
+    [HttpGet("get-customers")]
     public async Task<IActionResult> GetCustomers()
     {
-        var customers = await _db.Customers.ToListAsync();
+        var customers = await _repository.GetAllAsync();
 
-        if (customers == null)
-            return NotFound(new { message = "No customers found." });
+        await _auditLog.LogAsync(
+            AuditLogType.Fetch,
+            "Fetch Customers",
+            "Successfully fetched list of customers."
+        );
 
-        return Ok(customers.Select(c => new { c.Id, c.FirstName, c.LastName, }));
-    }
-
-    [HttpGet("customers-with-pending-requirements")]
-    public async Task<IActionResult> GetCustomersWithPendingRequirements()
-    {
-        var customers = await _db.Customers
-        .Where(c => c.Status == CustomerStatus.PendingRequirements) 
-        .OrderBy(c => c.FirstName)
-        .Select(c => new CustomerListItemDto
-        {
-            Id = c.Id,
-            FirstName = c.FirstName,
-            LastName = c.LastName
-        })
-        .ToListAsync();
-
-        if (!customers.Any())
-            return NotFound(new { message = "No customers found with pending requirements." });
-
-        return Ok(customers);   
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCustomer(long id, [FromBody] UpdateCustomerRequest req)
-    {
-        var customer = await _db.Customers.FindAsync(id);
-
-        if (customer == null)
-            return NotFound(new { message = "Customer not found." });
-
-        customer.FirstName = req.FirstName;
-        customer.MiddleName = req.MiddleName;
-        customer.LastName = req.LastName;
-        customer.Balance = req.Balance;
-        customer.Status = req.Status;
-
-        await _db.SaveChangesAsync();
-
-        return Ok(new { customer.Id, customer.FirstName, customer.LastName, customer.Balance });
-    }
-
-    [HttpPut("{id}/status")]
-    public async Task<IActionResult> UpdateCustomerStatus(long id, [FromBody] UpdateCustomerStatusRequest req)
-    {
-        var customer = await _db.Customers.FindAsync(id);
-
-        if (customer == null)
-            return NotFound(new { message = "Customer not found." });
-
-        customer.Status = req.Status;
-
-        await _db.SaveChangesAsync();
-
-        return Ok(new { customer.Id, customer.Status });
-    }
-
-    [HttpPut("{id}/balance")]
-    public async Task<IActionResult> UpdateCustomerBalance(long id, [FromBody] UpdateBalanceRequest req)
-    {
-        var user = await _db.Customers.FindAsync(id);
-
-        if (user == null)
-            return NotFound(new { message = "User not found." });
-
-        user.Balance = req.Balance;
-
-
-        await _db.SaveChangesAsync();
-
-        return Ok(new { user.Id, user.Balance });
+        return Ok(customers);
     }
 }

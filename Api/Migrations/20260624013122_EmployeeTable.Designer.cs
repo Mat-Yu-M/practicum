@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260624013122_EmployeeTable")]
+    partial class EmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,14 +41,6 @@ namespace Api.Migrations
                     b.Property<string>("Details")
                         .HasColumnType("text")
                         .HasColumnName("details");
-
-                    b.Property<string>("NewValue")
-                        .HasColumnType("text")
-                        .HasColumnName("new_value");
-
-                    b.Property<string>("OldValue")
-                        .HasColumnType("text")
-                        .HasColumnName("old_value");
 
                     b.Property<DateTime>("PerformedAt")
                         .HasColumnType("timestamp with time zone")
@@ -270,9 +265,9 @@ namespace Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
-                    b.Property<DateTime>("CreatedDateTime")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date_time");
+                        .HasColumnName("created_date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -299,11 +294,6 @@ namespace Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("middle_name");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text")
@@ -312,10 +302,6 @@ namespace Api.Migrations
                     b.Property<int>("RequestType")
                         .HasColumnType("integer")
                         .HasColumnName("request_type");
-
-                    b.Property<string>("Suffix")
-                        .HasColumnType("text")
-                        .HasColumnName("suffix");
 
                     b.HasKey("Id")
                         .HasName("pk_employees_request");
@@ -337,18 +323,18 @@ namespace Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("approved_by");
 
-                    b.Property<DateTime>("ApprovedDateTime")
+                    b.Property<DateTime>("ApprovedDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("approved_date_time");
+                        .HasColumnName("approved_date");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
-                    b.Property<DateTime>("CreatedDateTime")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date_time");
+                        .HasColumnName("created_date");
 
                     b.Property<string>("Email")
                         .IsRequired()

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.Kycs;
 using Api.Repositories.KycDocuments;
+using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
@@ -9,18 +10,24 @@ namespace Api.Controllers;
 [Route("api/[controller]")]
 public class KycController : ControllerBase
 {
-    private readonly AppDbContext _db;
     private readonly IKycRepository _repository;
-
-    public KycController(AppDbContext db, IKycRepository repository)
+    private readonly IAuditLogService _auditLog;
+    public KycController(IKycRepository repository, IAuditLogService auditLog)
     {
-        _db = db;
         _repository = repository;
+        _auditLog = auditLog;
     }
 
-    [HttpPost("documents")]
+    [HttpPost("register-customer-documents")]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
+        var customerExists = await _repository.ExistsAsync(req.CustomerId);
+
+        if (!customerExists)
+        {
+            return NotFound($"Customer with ID {req.CustomerId} does not exist.");
+        }
+
         var addKycDto = new AddKycDto
         {
             CustomerId = req.CustomerId,
@@ -29,11 +36,22 @@ public class KycController : ControllerBase
             Country = req.Country,
             ZipCode = req.ZipCode,
             AddressLine = req.AddressLine,
-            DocumentImagePath = req.DocumentImagePath, 
+            DocumentImagePath = req.DocumentImagePath,
             SubmittedBy = req.SubmittedBy
         };
 
         var resultDto = await _repository.AddAsync(addKycDto);
+
+        await _auditLog.LogAsync(AuditLogType.Add, "Add KYC Document", $"Successfully added KYC document for customer {resultDto.CustomerId}.");
+
         return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
+    }
+
+    [HttpGet("get-customer-documents")]
+    public async Task<IActionResult> GetKycs()
+    {
+        var kycs = await _repository.GetAsync();
+        return Ok(kycs);
+
     }
 }

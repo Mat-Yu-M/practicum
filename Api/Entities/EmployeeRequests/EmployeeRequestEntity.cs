@@ -9,13 +9,15 @@ namespace Api.Entities.EmployeeRequests
         public long Id { get; init; }
         public required string EmployeeId { get; init; }
         public required string FirstName { get; init; }
+        public required string MiddleName { get; init; }
         public required string LastName { get; init; }
+        public string? Suffix { get; init; }
         public required string Email { get; init; }        
         public required string Password { get; init; }
         public required List<EmployeeRoles> EmployeeRoles { get; init; }
-        public required EmployeeRoleRequestType RequestType { get; init; }
+        public required EmployeeRequestType RequestType { get; init; }
         public required string CreatedBy { get; init; }
-        public DateTime? CreatedDate { get; init; }
+        public required DateTime CreatedDateTime { get; init; } 
     }
 
     public sealed class EmployeeRequestEntityConfiguration : IEntityTypeConfiguration<EmployeeRequestEntity>

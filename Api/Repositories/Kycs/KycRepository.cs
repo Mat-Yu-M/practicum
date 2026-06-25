@@ -1,5 +1,6 @@
 ﻿using Api.Entities.Kycs;
 using Api.Repositories.KycDocuments;
+using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.Kycs;
 
 public sealed class KycRepository(AppDbContext context) : IKycRepository
@@ -24,7 +25,15 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
 
         return ToDto(entity);
     }
+    public async Task<bool> ExistsAsync(long customerId)
+    {
+        return await context.Customers.AnyAsync(c => c.Id == customerId);
+    }
 
+    public async Task<List<KycEntity>> GetAsync()
+    {
+        return await context.Kycs.AsNoTracking().ToListAsync();
+    }
     private static KycDto ToDto(KycEntity entity) => new()
     {
         Id = entity.Id,

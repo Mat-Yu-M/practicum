@@ -19,10 +19,7 @@ public sealed record AddCustomerDto
     public string? MiddleName { get; init; }
     public required string LastName { get; init; }
     public string? Suffix { get; init; } = string.Empty;
-    public required CustomerStatus Status { get; init; }
-    public required decimal Balance { get; init; } = 0;
     public required DateOnly DateOfBirth { get; init; }
-    public required DateTime CreatedDateTime { get; init; }
 }
 
 public sealed record UpdateCustomerDto

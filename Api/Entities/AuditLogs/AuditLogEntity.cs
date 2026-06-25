@@ -1,5 +1,4 @@
-﻿using Api.Entities.CustomerRequests;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Entities.AuditLogs;
@@ -9,6 +8,8 @@ public sealed class AuditLogEntity
     public long Id { get; init; }
     public AuditLogType Type { get; init; }
     public string Action { get; init; } = null!;
+    public string? OldValue { get; init; }
+    public string? NewValue { get; init; }
     public string PerformedBy { get; init; } = null!;
     public DateTime PerformedAt { get; init; } = DateTime.UtcNow;
     public string? Details { get; init; }
