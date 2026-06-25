@@ -1,13 +1,9 @@
-﻿using Api.Constants;
-using Api.Entities.AuditLogs;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.Customers;
-using Api.Entities.EmployeeRequests;
 using Api.Repositories.AuditLogs;
 using Api.Repositories.Customers;
-using Api.Repositories.EmployeeRequests;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -16,7 +12,8 @@ public class CustomerController : ControllerBase
 {
     private readonly ICustomerRepository _repository;
     private readonly IAuditLogService _auditLog;
-    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog) {
+    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog)
+    {
         _repository = repository;
         _auditLog = auditLog;
     }
@@ -31,8 +28,6 @@ public class CustomerController : ControllerBase
             LastName = req.LastName,
             Suffix = req.Suffix,
             DateOfBirth = req.DateOfBirth
-            
-
         };
 
         var resultDto = await _repository.AddAsync(customer);

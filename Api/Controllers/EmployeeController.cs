@@ -2,10 +2,8 @@
 using Api.Entities.Employees;
 using Api.Repositories.Employees;
 using Api.Services.AuditLogs;
-using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
@@ -17,7 +15,7 @@ public class EmployeeController : ControllerBase
     private readonly IEmployeeRepository _repository;
     private readonly IAuditLogService _auditLogService;
     public EmployeeController(IEmployeeRepository repository, IAuditLogService auditLogService, ILogger<EmployeeController> logger)
-    {       
+    {
         _repository = repository;
         _auditLogService = auditLogService;
         _logger = logger;
@@ -26,11 +24,12 @@ public class EmployeeController : ControllerBase
     [HttpPost("register-employee")]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeResponse req)
     {
-        var employee = new RegisterEmployeeDto { 
-            
+        var employee = new RegisterEmployeeDto
+        {
+
             FirstName = req.FirstName,
             MiddleName = req.MiddleName,
-            LastName= req.LastName,
+            LastName = req.LastName,
             Suffix = req.Suffix,
             Email = req.Email,
             Password = req.Password,
@@ -71,8 +70,8 @@ public class EmployeeController : ControllerBase
 
         if (!isPasswordValid)
         {
-        _logger.LogWarning("Failed Login Attempt: Employee with email {Email} provided incorrect credentials.", req.Email);
-        return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
+            _logger.LogWarning("Failed Login Attempt: Employee with email {Email} provided incorrect credentials.", req.Email);
+            return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
         }
 
         await _auditLogService.LogAsync(
@@ -87,7 +86,7 @@ public class EmployeeController : ControllerBase
             message = "Authentication Successful",
             employeeId = employee.EmployeeId
         });
-        
+
 
     }
 }

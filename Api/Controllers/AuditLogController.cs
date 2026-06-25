@@ -7,9 +7,9 @@ namespace Api.Controllers;
 [Route("api/[controller]")]
 public class AuditLogController : ControllerBase
 {
-private readonly IAuditLogRepository _repository;
+    private readonly IAuditLogRepository _repository;
 
-public AuditLogController(IAuditLogRepository repository) => _repository = repository;
+    public AuditLogController(IAuditLogRepository repository) => _repository = repository;
 
     [HttpPost("add-audit-log")]
     [ValidateAntiForgeryToken]

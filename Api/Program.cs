@@ -1,5 +1,4 @@
 using Api.Repositories;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
@@ -23,6 +22,8 @@ builder.Services.AddControllers()
     });
 builder.Services.AddOpenApi();
 
+//Allow for Session Tracking
+builder.Services.AddHttpContextAccessor();
 
 //Rate Limiting
 builder.Services.AddRateLimiter(options =>

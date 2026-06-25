@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.Kycs;
 using Api.Repositories.KycDocuments;
+using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
@@ -10,14 +11,17 @@ namespace Api.Controllers;
 public class KycController : ControllerBase
 {
     private readonly IKycRepository _repository;
-
-    public KycController(IKycRepository repository) => _repository = repository;
-
+    private readonly IAuditLogService _auditLog;
+    public KycController(IKycRepository repository, IAuditLogService auditLog)
+    {
+        _repository = repository;
+        _auditLog = auditLog;
+    }
 
     [HttpPost("register-customer-documents")]
     public async Task<IActionResult> CreateKyc([FromBody] CreateKycRequest req)
     {
-        var customerExists = await _repository.ExistsAsync(req.CustomerId); 
+        var customerExists = await _repository.ExistsAsync(req.CustomerId);
 
         if (!customerExists)
         {
@@ -32,11 +36,14 @@ public class KycController : ControllerBase
             Country = req.Country,
             ZipCode = req.ZipCode,
             AddressLine = req.AddressLine,
-            DocumentImagePath = req.DocumentImagePath, 
+            DocumentImagePath = req.DocumentImagePath,
             SubmittedBy = req.SubmittedBy
         };
 
         var resultDto = await _repository.AddAsync(addKycDto);
+
+        await _auditLog.LogAsync(AuditLogType.Add, "Add KYC Document", $"Successfully added KYC document for customer {resultDto.CustomerId}.");
+
         return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
     }
 

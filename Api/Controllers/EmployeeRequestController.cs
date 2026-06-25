@@ -1,7 +1,7 @@
-﻿using Api.Entities.EmployeeRequests;
-using Api.Entities.Employees;
+﻿using Api.Entities.AuditLogs;
+using Api.Entities.EmployeeRequests;
 using Api.Repositories.EmployeeRequests;
-using Api.Repositories.KycDocuments;
+using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -11,16 +11,28 @@ namespace Api.Controllers
     public class EmployeeRequestController : ControllerBase
     {
         private readonly IEmployeeRequestRepository _repository;
+        private readonly IAuditLogService _auditLog;
 
-        public EmployeeRequestController(IEmployeeRequestRepository repository) => _repository = repository;
+        public EmployeeRequestController(IEmployeeRequestRepository repository, IAuditLogService auditLog)
+        {
+            _repository = repository;
+            _auditLog = auditLog;
+        }
 
         [HttpGet("get-employee-requests")]
         public async Task<IActionResult> GetEmployeeRequests()
-        { 
+        {
             var employeeRequests = await _repository.GetAllAsync();
+
+            await _auditLog.LogAsync(
+                AuditLogType.Fetch,
+                "Get Employee Requests",
+                $"Successfully fetched {employeeRequests.Count} employee requests."
+            );
+
             return Ok(employeeRequests);
         }
-        
+
         [HttpPost("add-employee-request")]
         public async Task<IActionResult> CreateEmployeeRequest([FromBody] CreateEmployeeRequestRequest req)
         {
@@ -40,6 +52,14 @@ namespace Api.Controllers
             };
 
             var resultDto = await _repository.AddAsync(addEmployeeRequest);
+
+
+            await _auditLog.LogAsync(
+                AuditLogType.Add,
+                "Add Employee Request",
+                $"Successfully added employee request for {addEmployeeRequest.FirstName} {addEmployeeRequest.LastName}."
+            );
+
             return Created($"api/EmployeeRequest/{resultDto.Id}", new { resultDto.Id });
         }
     }
