@@ -1,5 +1,6 @@
 ﻿using Api.Entities.Employees;
 using Api.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository
@@ -7,7 +8,6 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
     public async Task<EmployeeDto> AddAsync(RegisterEmployeeDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-        string generatedId = $"{dto.FirstName.Substring(0, 1).ToUpper()}{dto.LastName.Substring(0, 1).ToUpper()}";
         
         var entity = new EmployeeEntity
         {
@@ -15,7 +15,7 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
             MiddleName = dto.MiddleName,
             LastName = dto.LastName,
             Suffix = dto.Suffix,
-            EmployeeId = generatedId,
+            EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
             Email= dto.Email,
             Password = hashedPassword,
@@ -29,6 +29,12 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         await context.SaveChangesAsync();
 
         return ToDto(entity);
+    }
+
+    public async Task<EmployeeDto?> GetByEmailAsync(string email)
+    {
+        var entity = await context.Employees.FirstOrDefaultAsync(e => e.Email == email);
+        return entity is null ? null : ToDto(entity);
     }
 
     private static EmployeeDto ToDto(EmployeeEntity entity) => new()
