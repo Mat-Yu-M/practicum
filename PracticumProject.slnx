@@ -3,4 +3,5 @@
   <Project Path="Migrations/Migrations.csproj" />
   <Project Path="PracticumProject.AppHost/PracticumProject.AppHost.csproj" Id="7fdd30a3-a29a-4326-9f1e-8147caa1e7cd" />
   <Project Path="PracticumProject.ServiceDefaults/PracticumProject.ServiceDefaults.csproj" />
+  <Project Path="Workers/Workers.csproj" />
 </Solution>
