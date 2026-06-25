@@ -1,4 +1,5 @@
 using Api.Repositories;
+using Api.Services.AuditLogs;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
@@ -7,6 +8,10 @@ using System.Threading.RateLimiting;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+//Service for Audit Logs
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+
 
 //Connect to the DB
 builder.Services.AddDbContext<AppDbContext>(options =>
