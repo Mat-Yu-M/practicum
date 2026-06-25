@@ -64,7 +64,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpDelete("/reject-employee-request")]
+        [HttpDelete("reject-employee-request")]
         public async Task<IActionResult> RejectEmployeeRequest(long id)
         {
             var employeeRequest = await _repository.DeleteAsync(id);
