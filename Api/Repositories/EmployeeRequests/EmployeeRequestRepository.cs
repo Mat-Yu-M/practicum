@@ -1,11 +1,11 @@
 ﻿using Api.Entities.EmployeeRequests;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Repositories.EmployeeRequests;
-    public sealed class EmployeeRequestRepository(AppDbContext context) : IEmployeeRequestRepository
-    {
-        public async Task<EmployeeRequestDto> AddAsync(RegisterEmployeeRequestDto dto)
+
+public sealed class EmployeeRequestRepository(AppDbContext context) : IEmployeeRequestRepository
+{
+    public async Task<EmployeeRequestDto> AddAsync(RegisterEmployeeRequestDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
@@ -17,7 +17,7 @@ namespace Api.Repositories.EmployeeRequests;
             Suffix = dto.Suffix,
             EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
-            Email= dto.Email,
+            Email = dto.Email,
             Password = hashedPassword,
             CreatedBy = dto.CreatedBy,
             CreatedDateTime = dto.CreatedDateTime,
@@ -35,6 +35,21 @@ namespace Api.Repositories.EmployeeRequests;
         return await context.EmployeeRequests.AsNoTracking().ToListAsync();
     }
 
+    public async Task<EmployeeRequestEntity?> DeleteAsync(long Id)
+    {
+        var employeeRequest = await context.EmployeeRequests.FirstOrDefaultAsync(er => er.Id == Id);
+
+        if (employeeRequest == null)
+        {
+            return null;
+        }
+
+        context.EmployeeRequests.Remove(employeeRequest);
+
+        await context.SaveChangesAsync();
+        return employeeRequest;
+    }
+
     private static EmployeeRequestDto ToDto(EmployeeRequestEntity entity) => new()
     {
         Id = entity.Id,
@@ -42,13 +57,13 @@ namespace Api.Repositories.EmployeeRequests;
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
         Suffix = entity.Suffix,
-        EmployeeId= entity.EmployeeId,
-        EmployeeRoles= entity.EmployeeRoles.ToList(),
+        EmployeeId = entity.EmployeeId,
+        EmployeeRoles = entity.EmployeeRoles.ToList(),
         Email = entity.Email,
         Password = entity.Password,
         CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDateTime,
         RequestType = entity.RequestType
     };
-    }
+}
 

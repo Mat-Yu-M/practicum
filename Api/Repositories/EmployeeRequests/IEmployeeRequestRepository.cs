@@ -6,5 +6,6 @@ namespace Api.Repositories.EmployeeRequests
     {
         Task<EmployeeRequestDto> AddAsync(RegisterEmployeeRequestDto dto);
         Task<List<EmployeeRequestEntity>> GetAllAsync();
+        Task<EmployeeRequestEntity?> DeleteAsync(long Id);
     }
 }

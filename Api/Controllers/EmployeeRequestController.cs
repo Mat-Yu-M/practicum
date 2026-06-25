@@ -62,5 +62,21 @@ namespace Api.Controllers
 
             return Created($"api/EmployeeRequest/{resultDto.Id}", new { resultDto.Id });
         }
+
+
+        [HttpDelete("/reject-employee-request")]
+        public async Task<IActionResult> RejectEmployeeRequest(long id)
+        {
+            var employeeRequest = await _repository.DeleteAsync(id);
+
+            if (employeeRequest == null)
+            {
+                return NotFound("This request has already been processed or does not exist.");
+            }
+
+            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Rejected", $"Successfully deleted Employee Request");
+
+            return Ok(employeeRequest);
+        }
     }
 }
