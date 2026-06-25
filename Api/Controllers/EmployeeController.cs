@@ -89,5 +89,15 @@ public class EmployeeController : ControllerBase
 
 
     }
+
+    [HttpGet("get-employees")]
+    public async Task<IActionResult> GetEmployees()
+    {
+        var employees = await _repository.GetAllAsync();
+
+        await _auditLogService.LogAsync(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
+
+        return Ok(employees);
+    }
 }
 

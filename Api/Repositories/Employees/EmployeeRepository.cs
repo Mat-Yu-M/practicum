@@ -1,14 +1,13 @@
 ﻿using Api.Entities.Employees;
 using Api.Repositories.Employees;
 using Microsoft.EntityFrameworkCore;
-using System.Net.NetworkInformation;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository
 {
     public async Task<EmployeeDto> AddAsync(RegisterEmployeeDto dto)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-        
+
         var entity = new EmployeeEntity
         {
             FirstName = dto.FirstName,
@@ -17,7 +16,7 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
             Suffix = dto.Suffix,
             EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
-            Email= dto.Email,
+            Email = dto.Email,
             Password = hashedPassword,
             ApprovedBy = dto.ApprovedBy,
             ApprovedDateTime = dto.ApprovedDateTime,
@@ -37,6 +36,13 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         return entity is null ? null : ToDto(entity);
     }
 
+    public async Task<List<EmployeeEntity>> GetAllAsync()
+    {
+        var employees = await context.Employees.AsNoTracking().ToListAsync();
+
+        return employees;
+    }
+
     private static EmployeeDto ToDto(EmployeeEntity entity) => new()
     {
         Id = entity.Id,
@@ -44,11 +50,11 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
         Suffix = entity.Suffix,
-        EmployeeId= entity.EmployeeId,
-        EmployeeRoles= entity.EmployeeRoles.ToList(),
+        EmployeeId = entity.EmployeeId,
+        EmployeeRoles = entity.EmployeeRoles.ToList(),
         Email = entity.Email,
         Password = entity.Password,
-        ApprovedBy= entity.ApprovedBy,
+        ApprovedBy = entity.ApprovedBy,
         ApprovedDateTime = entity.ApprovedDateTime,
         CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDateTime

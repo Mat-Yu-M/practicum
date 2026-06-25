@@ -1,6 +1,5 @@
 ﻿using Api.Constants;
 using Api.Entities.EmployeeRequests;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Entities.Employees
 {
@@ -25,5 +24,21 @@ namespace Api.Entities.Employees
     (
     string Email,
     string Password
+    );
+
+    public record EmployeeResponse(
+    string FirstName,
+    string MiddleName,
+    string LastName,
+    string? Suffix,
+    string Email,
+    string Password,
+    string EmployeeId,
+    List<EmployeeRoles> EmployeeRoles,
+    EmployeeRequestType RequestType,
+    string CreatedBy,
+    DateTime CreatedDateTime,
+    string ApprovedBy,
+    DateTime ApprovedDateTime
     );
 }

@@ -25,7 +25,7 @@ public sealed class CustomerEntity
     public ICollection<CustomerLoanHistoryEntity> CustomerLoanHistory { get; set; } = [];
 }
 
-public sealed class UserEntityConfiguration : IEntityTypeConfiguration<CustomerEntity>
+public sealed class CustomerEntityConfiguration : IEntityTypeConfiguration<CustomerEntity>
 {
     public void Configure(EntityTypeBuilder<CustomerEntity> builder)
     {
