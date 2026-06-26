@@ -86,7 +86,6 @@ public class EmployeeController : ControllerBase
             claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
         }
 
-        string token = GenerateJwtToken(claims);
 
         var response = new AuditLogResponse(
             AuditLogType.Log,
@@ -98,7 +97,6 @@ public class EmployeeController : ControllerBase
 
         return Ok(new
         {
-            token = token
             exists = true,
             message = "Authentication Successful",
             id = employee.Id,

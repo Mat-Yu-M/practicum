@@ -19,9 +19,10 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
             Status = dto.Status,
             StartDate = dto.StartDate,
             EndDate = dto.EndDate,
-            ApprovedDate = dto.ApprovedDate,
+            ApprovedDateTime = dto.ApprovedDateTime,
             ApprovedBy = dto.ApprovedBy,
-            CreatedDate = dto.CreatedDate,
+            CreatedBy = dto.CreatedBy,
+            CreatedDateTime = dto.CreatedDateTime,
         };
 
         context.Loans.Add(entity);
@@ -43,9 +44,10 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         Status = entity.Status,
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
-        ApprovedDate = entity.ApprovedDate,
+        ApprovedDateTime = entity.ApprovedDateTime,
         ApprovedBy = entity.ApprovedBy,
-        CreatedDate = entity.CreatedDate,
+        CreatedBy = entity.CreatedBy,
+        CreatedDateTime = entity.CreatedDateTime,
     };
 
     public async Task<List<LoanEntity>> GetAllAsync()
