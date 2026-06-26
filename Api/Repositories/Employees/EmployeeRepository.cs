@@ -1,6 +1,9 @@
-﻿using Api.Entities.Employees;
+﻿using Api.Constants;
+using Api.Entities.Employees;
 using Api.Repositories.Employees;
+using Api.Services.Results;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 public sealed class EmployeeRepository(AppDbContext context) : IEmployeeRepository
 {
@@ -42,6 +45,10 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
 
         return employees;
     }
+    public async Task<EmployeeEntity?> GetAsync(long id)
+    {
+        return await context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+    }
 
     private static EmployeeDto ToDto(EmployeeEntity entity) => new()
     {
@@ -60,4 +67,65 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         CreatedDateTime = entity.CreatedDateTime
     };
 
+
+    public async Task<PagedResult<EmployeeDto>> QueryAsync(
+    string? searchTerm,
+    EmployeeRoles[] employeeRoles,
+    string? sortBy,
+    bool isAscending,
+    int page,
+    int pageSize
+)
+    {
+        IQueryable<EmployeeEntity> query = context.Employees;
+
+        Expression<Func<EmployeeEntity, object>> keySelector = sortBy?.ToLower() switch
+        {
+            "employeeId" => e => e.EmployeeId,
+            "roles" => e => e.EmployeeRoles,
+            _ => e => e.Id,
+        };
+
+        query = isAscending ? query.OrderBy(keySelector) : query.OrderByDescending(keySelector);
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim().ToLower();
+            query = query.Where(e =>
+                e.FirstName.ToLower().Contains(searchTerm) ||
+                e.LastName.ToLower().Contains(searchTerm) ||
+                e.EmployeeId.ToLower().Contains(searchTerm)
+            );
+        }
+
+        if (employeeRoles != null && employeeRoles.Length > 0)
+        {
+            query = query.Where(e => e.EmployeeRoles.Any(r => employeeRoles.Contains(r)));
+        }
+
+        query = sortBy?.ToLower() switch
+        {
+            "employeeid" => isAscending ? query.OrderBy(e => e.EmployeeId) : query.OrderByDescending(e => e.EmployeeId),
+            _ => isAscending ? query.OrderBy(e => e.Id) : query.OrderByDescending(e => e.Id)
+        };
+
+        int totalCount = await query.CountAsync();
+
+        var items = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
+
+        var dtoItems = items.Select(e => ToDto(e)).ToList();
+
+        return new PagedResult<EmployeeDto>
+        {
+            Items = dtoItems,
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize
+        };
+
+    }
 }
+

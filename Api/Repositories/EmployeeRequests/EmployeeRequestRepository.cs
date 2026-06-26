@@ -7,7 +7,6 @@ public sealed class EmployeeRequestRepository(AppDbContext context) : IEmployeeR
 {
     public async Task<EmployeeRequestDto> AddAsync(RegisterEmployeeRequestDto dto)
     {
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
         var entity = new EmployeeRequestEntity
         {
@@ -18,7 +17,7 @@ public sealed class EmployeeRequestRepository(AppDbContext context) : IEmployeeR
             EmployeeId = dto.EmployeeId,
             EmployeeRoles = dto.EmployeeRoles.ToList(),
             Email = dto.Email,
-            Password = hashedPassword,
+            Password = dto.Password,
             CreatedBy = dto.CreatedBy,
             CreatedDateTime = dto.CreatedDateTime,
             RequestType = dto.RequestType

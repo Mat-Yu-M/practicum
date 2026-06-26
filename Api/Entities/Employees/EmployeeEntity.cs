@@ -1,5 +1,4 @@
 ﻿using Api.Constants;
-using Microsoft;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -27,7 +26,7 @@ public sealed class EmployeeEntityConfiguration : IEntityTypeConfiguration<Emplo
 {
     public void Configure(EntityTypeBuilder<EmployeeEntity> builder)
     {
-        builder.ToTable("employees");   
+        builder.ToTable("employees");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
@@ -41,7 +40,7 @@ public sealed class EmployeeEntityConfiguration : IEntityTypeConfiguration<Emplo
 
         builder.Property(e => e.EmployeeId)
         .IsRequired()
-        .HasMaxLength(5);
+        .HasMaxLength(20);
 
         builder.Property(e => e.Password)
         .IsRequired()

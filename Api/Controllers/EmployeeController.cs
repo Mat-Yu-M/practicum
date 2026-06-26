@@ -33,7 +33,7 @@ public class EmployeeController : ControllerBase
             Suffix = req.Suffix,
             Email = req.Email,
             Password = req.Password,
-            EmployeeId = $"{req.FirstName.Substring(0, 1)}{req.LastName.Substring(0, 1)}",
+            EmployeeId = req.EmployeeId,
             EmployeeRoles = req.EmployeeRoles,
             CreatedBy = req.CreatedBy,
             CreatedDateTime = req.CreatedDateTime,
@@ -62,7 +62,6 @@ public class EmployeeController : ControllerBase
 
         if (employee == null)
         {
-            _logger.LogWarning("Failed Login Attempt: Employee {Email} does not Exist.", req.Email);
             return NotFound(new { message = "Account does not exist." });
         }
 
@@ -70,7 +69,6 @@ public class EmployeeController : ControllerBase
 
         if (!isPasswordValid)
         {
-            _logger.LogWarning("Failed Login Attempt: Employee with email {Email} provided incorrect credentials.", req.Email);
             return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
         }
 
@@ -84,7 +82,12 @@ public class EmployeeController : ControllerBase
         {
             exists = true,
             message = "Authentication Successful",
-            employeeId = employee.EmployeeId
+            id = employee.Id,
+            employeeId = employee.EmployeeId,
+            email = employee.Email,
+            firstName = employee.FirstName,
+            lastName = employee.LastName,
+            employeeRoles = employee.EmployeeRoles
         });
 
 
@@ -98,6 +101,26 @@ public class EmployeeController : ControllerBase
         await _auditLogService.LogAsync(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
 
         return Ok(employees);
+    }
+
+    [HttpGet("get-employee")]
+    public async Task<IActionResult> GetEmployee(long id)
+    {
+        var employee = await _repository.GetAsync(id);
+
+        if (employee == null)
+        {
+            return NotFound(new { message = "Account does not exist." });
+
+        }
+
+        await _auditLogService.LogAsync(
+                AuditLogType.Fetch,
+                "Employee Fetched",
+                $"Employee {employee.EmployeeId} fetched successfully."
+            );
+
+        return Ok(employee);
     }
 }
 
