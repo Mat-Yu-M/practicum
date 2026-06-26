@@ -31,17 +31,12 @@ namespace Api.Controllers
                 $"Successfully fetched loan products."
             );
 
-            return Ok(loanProducts.Select(lp => new { lp.Id, lp.Name }));
+            return Ok(loanProducts);
         }
 
         [HttpPost("add-loan-product")]
         public async Task<IActionResult> CreateLoanProduct([FromBody] CreateLoanProductRequest req)
         {
-            if (await _repository.ExistsByIdAsync(req.Id))
-            {
-                return Conflict(new { message = "Loan Product ID already in use." });
-            }
-
             var loanProduct = new AddLoanProductDto
             {
                 Name = req.Name,

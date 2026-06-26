@@ -3,7 +3,6 @@
 namespace Api.Entities.LoanProducts;
 
 public record CreateLoanProductRequest(
-long Id,
 string Name,
 string Description,
 LoanCategory LoanCategory,
