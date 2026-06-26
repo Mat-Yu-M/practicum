@@ -21,7 +21,6 @@ namespace Api.Repositories.LoanProductRequests
                 RequestType = dto.RequestType,
                 CreatedBy = dto.CreatedBy,
                 CreatedDateTime = dto.CreatedDateTime
-
             };
 
             context.LoanProductRequests.Add(entity);
