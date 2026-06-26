@@ -25,11 +25,9 @@ namespace Api.Controllers
             if (!loanProducts.Any())
                 return NotFound(new { message = "No Loan Products Found." });
 
-            await _auditLogService.LogAsync(
-                AuditLogType.Fetch,
-                "Get Loan Products",
-                $"Successfully fetched loan products."
-            );
+            var response = new AuditLogResponse(AuditLogType.Fetch, "Loan Products Fetched", $"Loan Products Fetched");
+
+            await _auditLogService.LogAsync(response);
 
             return Ok(loanProducts);
         }
@@ -59,8 +57,8 @@ namespace Api.Controllers
             var response = new AuditLogResponse(AuditLogType.Add,
                 "Create Loan Product",
                 $"Successfully created loan product with ID: {loanProduct.Name}.");
-            await _auditLogService.LogAsync(response
-            );
+
+            await _auditLogService.LogAsync(response);
 
             return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Name }, new { loanProduct.Name });
         }

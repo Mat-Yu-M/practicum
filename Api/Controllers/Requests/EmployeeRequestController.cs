@@ -77,7 +77,9 @@ namespace Api.Controllers.Requests
                 return NotFound("This request has already been processed or does not exist.");
             }
 
-            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Rejected", $"Successfully deleted Employee Request");
+            var response = new AuditLogResponse(AuditLogType.Delete, "Employee Request Rejected", $"Successfully deleted Employee Request");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequest);
         }
@@ -92,7 +94,9 @@ namespace Api.Controllers.Requests
                 return NotFound("This request has already been processed or does not exist.");
             }
 
-            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Deleted due to Successful Registration", $"Successfully deleted Employee Request");
+            var response = new AuditLogResponse(AuditLogType.Delete, "Employee Request Deleted due to Successful Registration", $"Successfully deleted Employee Request");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequest);
         }

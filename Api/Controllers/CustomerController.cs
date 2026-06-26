@@ -57,11 +57,12 @@ public class CustomerController : ControllerBase
     {
         var customers = await _repository.GetAllAsync();
 
-        await _auditLog.LogAsync(
+        var response = new AuditLogResponse(
             AuditLogType.Fetch,
             "Fetch Customers",
-            "Successfully fetched list of customers."
-        );
+            "Successfully fetched list of customers.");
+
+        await _auditLog.LogAsync(response);
 
         return Ok(customers);
     }

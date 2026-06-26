@@ -44,10 +44,12 @@ public class EmployeeController : ControllerBase
 
         await _repository.AddAsync(employee);
 
-        await _auditLogService.LogAsync(
+        var response = new AuditLogResponse(
         AuditLogType.Add,
         "Employee Registration",
-        $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully."
+        $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully.");
+
+        await _auditLogService.LogAsync(response
         );
 
         return Created($"/api/employees/{employee.Email}", new { employee.EmployeeId });
@@ -72,10 +74,12 @@ public class EmployeeController : ControllerBase
             return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
         }
 
-        await _auditLogService.LogAsync(
+        var response = new AuditLogResponse(
             AuditLogType.Log,
             "Employee Login",
-            $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} logged in successfully."
+            $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} logged in successfully.");
+
+        await _auditLogService.LogAsync(response
         );
 
         return Ok(new
@@ -98,7 +102,8 @@ public class EmployeeController : ControllerBase
     {
         var employees = await _repository.GetAllAsync();
 
-        await _auditLogService.LogAsync(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
+        await _auditLogService.LogAsync(response);
 
         return Ok(employees);
     }
