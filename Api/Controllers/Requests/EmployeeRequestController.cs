@@ -4,7 +4,7 @@ using Api.Repositories.EmployeeRequests;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers.Requests
 {
     [ApiController]
     [Route("api/[Controller]")]

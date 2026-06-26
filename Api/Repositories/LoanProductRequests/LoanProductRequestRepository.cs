@@ -1,7 +1,4 @@
-﻿using Api.Constants;
-using Api.Entities.LoanProductRequests;
-using Api.Entities.LoanProducts;
-using Api.Repositories.LoanProducts;
+﻿using Api.Entities.LoanProductRequests;
 
 namespace Api.Repositories.LoanProductRequests
 {
@@ -11,7 +8,6 @@ namespace Api.Repositories.LoanProductRequests
         {
             var entity = new LoanProductRequestEntity
             {
-                Id = dto.Id,
                 Name = dto.Name,
                 Description = dto.Description,
                 LoanCategory = dto.LoanCategory,
@@ -22,7 +18,9 @@ namespace Api.Repositories.LoanProductRequests
                 MaximumTermMonths = dto.MaximumTermMonths,
                 IsPromotion = dto.IsPromotion,
                 RequestType = dto.RequestType,
-                CreatedAt = dto.CreatedAt
+                CreatedBy = dto.CreatedBy,
+                CreatedDateTime = dto.CreatedDateTime
+
             };
 
             context.LoanProductRequests.Add(entity);
@@ -44,7 +42,8 @@ namespace Api.Repositories.LoanProductRequests
             MaximumTermMonths = entity.MaximumTermMonths,
             IsPromotion = entity.IsPromotion,
             RequestType = entity.RequestType,
-            CreatedAt = entity.CreatedAt
+            CreatedBy = entity.CreatedBy,
+            CreatedDateTime = entity.CreatedDateTime
         };
     }
 }

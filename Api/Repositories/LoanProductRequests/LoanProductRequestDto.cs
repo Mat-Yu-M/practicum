@@ -16,12 +16,12 @@ namespace Api.Repositories.LoanProductRequests
         public int MaximumTermMonths { get; init; }
         public bool IsPromotion { get; init; }
         public required LoanProductRequestType RequestType { get; init; }
-        public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+        public required string CreatedBy { get; init; }
+        public DateTime CreatedDateTime { get; init; }
     }
 
     public sealed record AddLoanProductRequestDto
     {
-        public long Id { get; init; }
         public required string Name { get; init; }
         public required string Description { get; init; }
         public required LoanCategory LoanCategory { get; init; }
@@ -32,6 +32,7 @@ namespace Api.Repositories.LoanProductRequests
         public int MaximumTermMonths { get; init; }
         public bool IsPromotion { get; init; }
         public required LoanProductRequestType RequestType { get; init; }
-        public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+        public required string CreatedBy { get; init; }
+        public DateTime CreatedDateTime { get; init; }
     }
 }
