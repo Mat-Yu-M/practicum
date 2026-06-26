@@ -1,4 +1,5 @@
 ﻿using Api.Entities.LoanProductRequests;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories.LoanProductRequests
 {
@@ -27,6 +28,11 @@ namespace Api.Repositories.LoanProductRequests
             await context.SaveChangesAsync();
 
             return ToDto(entity);
+        }
+
+        public async Task<List<LoanProductRequestEntity>> GetAllAsync()
+        {
+            return await context.LoanProductRequests.AsNoTracking().ToListAsync();
         }
 
         private static LoanProductRequestDto ToDto(LoanProductRequestEntity entity) => new()

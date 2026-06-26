@@ -16,7 +16,11 @@ public sealed class LoanProductEntity
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
     public bool IsPromotion { get; init; }
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public required string CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApproveDateTime { get; init; }
+
 }
 
 public sealed class LoanProductEntityConfiguration : IEntityTypeConfiguration<LoanProductEntity>
