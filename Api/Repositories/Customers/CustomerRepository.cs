@@ -1,8 +1,5 @@
 ﻿using Api.Constants;
 using Api.Entities.Customers;
-using Api.Entities.Kycs;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories.Customers;
