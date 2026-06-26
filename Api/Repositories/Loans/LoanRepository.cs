@@ -1,5 +1,4 @@
 ﻿using Api.Entities.Loans;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.Loans;
 
@@ -49,7 +48,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         CreatedDate = entity.CreatedDate,
     };
 
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<List<LoanEntity>> GetAllAsync()
     {
         return await context.Loans.AsNoTracking().ToListAsync();
     }

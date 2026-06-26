@@ -10,6 +10,7 @@ public interface IEmployeeRepository
     Task<EmployeeDto?> GetByEmailAsync(string email);
     Task<List<EmployeeEntity>> GetAllAsync();
     Task<EmployeeEntity?> GetAsync(long id);
+    Task<EmployeeEntity?> DeleteAsync(long id);
     Task<PagedResult<EmployeeDto>> QueryAsync(
     string? searchTerm,
     EmployeeRoles[] employeeRoles,
