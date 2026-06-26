@@ -17,7 +17,10 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
             MinimumTermMonths = dto.MinimumTermMonths,
             MaximumTermMonths = dto.MaximumTermMonths,
             IsPromotion = dto.IsPromotion,
-            CreatedAt = dto.CreatedAt
+            CreatedBy = dto.CreatedBy,
+            CreatedDateTime = dto.CreatedDateTime,
+            ApprovedBy = dto.ApprovedBy,
+            ApprovedDateTime = dto.ApprovedDateTime
         };
 
         context.LoanProducts.Add(entity);
@@ -38,7 +41,10 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         MinimumTermMonths = entity.MinimumTermMonths,
         MaximumTermMonths = entity.MaximumTermMonths,
         IsPromotion = entity.IsPromotion,
-        CreatedAt = entity.CreatedAt
+        CreatedBy = entity.CreatedBy,
+        CreatedDateTime = entity.CreatedDateTime,
+        ApprovedBy = entity.ApprovedBy,
+        ApprovedDateTime = entity.ApprovedDateTime
     };
 
     public async Task<IEnumerable<LoanProductDto>> GetAllAsync()

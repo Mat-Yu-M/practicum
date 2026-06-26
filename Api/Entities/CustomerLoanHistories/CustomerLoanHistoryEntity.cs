@@ -1,5 +1,4 @@
 ﻿using Api.Constants;
-using Api.Entities;
 using Api.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

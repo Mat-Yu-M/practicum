@@ -11,7 +11,11 @@ decimal MinimumAmount,
 decimal MaximumAmount,
 int MinimumTermMonths,
 int MaximumTermMonths,
-bool IsPromotion
+bool IsPromotion,
+string CreatedBy,
+DateTime CreatedDateTime,
+string ApprovedBy,
+DateTime ApprovedDateTime
 );
 
 public record LoanProductResponse

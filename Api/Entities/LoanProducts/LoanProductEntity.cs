@@ -19,7 +19,7 @@ public sealed class LoanProductEntity
     public required string CreatedBy { get; init; }
     public DateTime CreatedDateTime { get; init; }
     public required string ApprovedBy { get; init; }
-    public DateTime ApproveDateTime { get; init; }
+    public DateTime ApprovedDateTime { get; init; }
 
 }
 

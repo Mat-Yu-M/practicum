@@ -4,7 +4,10 @@ using Api.Repositories.EmployeeRequests;
 using Api.Repositories.Employees;
 using Api.Repositories.KycDocuments;
 using Api.Repositories.Kycs;
+using Api.Repositories.LoanProductRequests;
 using Api.Repositories.LoanProducts;
+using Api.Repositories.LoanRequests;
+using Api.Repositories.Loans;
 
 namespace Api.Repositories
 {
@@ -16,6 +19,10 @@ namespace Api.Repositories
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddScoped<ILoanProductRepository, LoanProductRepository>();
+            services.AddScoped<ILoanProductRequestRepository, LoanProductRequestRepository>();
+
+            services.AddScoped<ILoanRepository, LoanRepository>();
+            services.AddScoped<ILoanRequestRepository, LoanRequestRepository>();
 
             services.AddScoped<IKycRepository, KycRepository>();
 

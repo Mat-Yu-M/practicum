@@ -13,8 +13,11 @@ public sealed record LoanProductDto
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
-    public required bool IsPromotion { get; set; } = false;
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public required bool IsPromotion { get; init; } = false;
+    public required string CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApprovedDateTime { get; init; }
 }
 
 public sealed record AddLoanProductDto
@@ -27,6 +30,10 @@ public sealed record AddLoanProductDto
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
-    public required bool IsPromotion { get; set; } = false;
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public required bool IsPromotion { get; init; } = false;
+    public required string CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApprovedDateTime { get; init; }
+
 }
