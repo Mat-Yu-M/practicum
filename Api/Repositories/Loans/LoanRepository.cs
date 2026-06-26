@@ -1,4 +1,6 @@
 ﻿using Api.Entities.Loans;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.Loans;
 
 public sealed class LoanRepository(AppDbContext context) : ILoanRepository
@@ -9,18 +11,18 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         {
             Id = dto.Id,
             CustomerId = dto.CustomerId,
-            Name = dto.Name, 
+            Name = dto.Name,
             LoanProductId = dto.LoanProductId,
             LoanName = dto.LoanName,
-            Description= dto.Description,
+            Description = dto.Description,
             Amount = dto.Amount,
-            InterestRate= dto.InterestRate,
+            InterestRate = dto.InterestRate,
             Status = dto.Status,
-            StartDate=dto.StartDate,
+            StartDate = dto.StartDate,
             EndDate = dto.EndDate,
-            ApprovedDate=dto.ApprovedDate,
-            ApprovedBy=dto.ApprovedBy,
-            CreatedDate=dto.CreatedDate,
+            ApprovedDate = dto.ApprovedDate,
+            ApprovedBy = dto.ApprovedBy,
+            CreatedDate = dto.CreatedDate,
         };
 
         context.Loans.Add(entity);
@@ -34,17 +36,21 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         Id = entity.Id,
         CustomerId = entity.CustomerId,
         Name = entity.Name,
-        LoanProductId= entity.LoanProductId,
+        LoanProductId = entity.LoanProductId,
         LoanName = entity.LoanName,
         Description = entity.Description,
-        Amount= entity.Amount,
+        Amount = entity.Amount,
         InterestRate = entity.InterestRate,
         Status = entity.Status,
-        StartDate=entity.StartDate,
-        EndDate= entity.EndDate,
-        ApprovedDate=entity.ApprovedDate,
+        StartDate = entity.StartDate,
+        EndDate = entity.EndDate,
+        ApprovedDate = entity.ApprovedDate,
         ApprovedBy = entity.ApprovedBy,
         CreatedDate = entity.CreatedDate,
     };
 
+    public async Task<IActionResult> GetAllAsync()
+    {
+        return await context.Loans.AsNoTracking().ToListAsync();
+    }
 }
