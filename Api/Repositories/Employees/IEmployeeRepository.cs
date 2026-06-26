@@ -17,5 +17,5 @@ public interface IEmployeeRepository
     bool isAscending,
     int page,
     int pageSize
-    )
+    );
 }
