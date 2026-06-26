@@ -20,7 +20,7 @@ public class LoanProductRequestController : ControllerBase
     }
 
     [HttpPost("add-loan-product-request")]
-    public async Task<IActionResult> AddLoanProductRequest(AddLoanProductRequestRequest request)
+    public async Task<IActionResult> AddLoanProductRequest([FromBody] AddLoanProductRequestRequest request)
     {
         var loanProductRequests = new AddLoanProductRequestDto
         {

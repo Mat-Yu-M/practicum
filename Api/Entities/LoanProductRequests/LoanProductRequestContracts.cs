@@ -4,7 +4,6 @@ namespace Api.Entities.LoanProductRequests;
 
 public record AddLoanProductRequestRequest
 (
-long Id,
 string Name,
 string Description,
 LoanCategory LoanCategory,
