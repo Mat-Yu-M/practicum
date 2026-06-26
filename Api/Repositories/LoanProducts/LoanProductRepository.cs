@@ -8,7 +8,6 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
     {
         var entity = new LoanProductEntity
         {
-            Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
             LoanCategory = dto.LoanCategory,
@@ -50,6 +49,6 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
     public async Task<bool> ExistsByIdAsync(long id)
     {
-       return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
+        return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
     }
 }

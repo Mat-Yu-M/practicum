@@ -59,10 +59,10 @@ namespace Api.Controllers
             await _auditLogService.LogAsync(
                 AuditLogType.Add,
                 "Create Loan Product",
-                $"Successfully created loan product with ID: {loanProduct.Id}."
+                $"Successfully created loan product with ID: {loanProduct.Name}."
             );
 
-            return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Id }, new { loanProduct.Id });
+            return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Name }, new { loanProduct.Name });
         }
     }
 
