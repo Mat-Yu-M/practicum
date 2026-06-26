@@ -50,9 +50,9 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         return await context.Employees.FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<EmployeeEntity?> DeleteAsync(long id)
+    public async Task<EmployeeEntity?> DeleteAsync(DeleteEmployeeRequest request)
     {
-        var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+        var employee = await context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == request.EmployeeId && e.Email == request.Email);
 
         if (employee == null)
         {

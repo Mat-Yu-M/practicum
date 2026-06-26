@@ -125,13 +125,20 @@ public class EmployeeController : ControllerBase
 
     [HttpDelete("delete-employee")]
 
-    public async Task<IActionResult> DeleteEmployee(long id)
+    public async Task<IActionResult> DeleteEmployee(DeleteEmployeeRequest req)
     {
-        var employee = await _repository.DeleteAsync(id);
+        var employee = await _repository.DeleteAsync(req);
+
+
+        if (employee == null)
+        {
+            return NotFound(employee);
+        }
 
         await _auditLogService.LogAsync(AuditLogType.Delete, "Deleted Employee", $"Deleted Employee {employee.EmployeeId} Successfully");
 
         return Ok(employee);
     }
 }
+
 
