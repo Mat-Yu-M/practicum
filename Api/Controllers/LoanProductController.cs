@@ -42,19 +42,31 @@ namespace Api.Controllers
                 Name = req.Name,
                 Description = req.Description,
                 LoanCategory = req.LoanCategory,
+                InterestRate = req.InterestRate,
                 MinimumAmount = req.MinimumAmount,
                 MaximumAmount = req.MaximumAmount,
                 MinimumTermMonths = req.MinimumTermMonths,
                 MaximumTermMonths = req.MaximumTermMonths,
-                IsPromotion = req.IsPromotion
+                IsPromotion = req.IsPromotion,
+                CreatedBy = req.CreatedBy,
+                CreatedDateTime = req.CreatedDateTime,
+                ApprovedBy = req.ApprovedBy,
+                ApprovedDateTime = req.ApprovedDateTime
             };
 
             await _repository.AddAsync(loanProduct);
 
-            await _auditLogService.LogAsync(
-                AuditLogType.Add,
+            var auditLogs = new AuditLogResponse
+            (
+                                AuditLogType.Add,
                 "Create Loan Product",
-                $"Successfully created loan product with ID: {loanProduct.Name}."
+                $"Successfully created loan product with ID: {loanProduct.Name}.",
+                req.ApprovedBy,
+                req.ApprovedDateTime
+            );
+
+            await _auditLogService.LogAsync(
+                auditLogs
             );
 
             return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Name }, new { loanProduct.Name });
