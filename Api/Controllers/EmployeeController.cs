@@ -4,6 +4,7 @@ using Api.Repositories.Employees;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -74,6 +75,19 @@ public class EmployeeController : ControllerBase
             return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
         }
 
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Email, employee.Email),
+            new Claim("employee_id", employee.EmployeeId)
+        };
+
+        foreach (var role in employee.EmployeeRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+        }
+
+        string token = GenerateJwtToken(claims);
+
         var response = new AuditLogResponse(
             AuditLogType.Log,
             "Employee Login",
@@ -84,6 +98,7 @@ public class EmployeeController : ControllerBase
 
         return Ok(new
         {
+            token = token
             exists = true,
             message = "Authentication Successful",
             id = employee.Id,
