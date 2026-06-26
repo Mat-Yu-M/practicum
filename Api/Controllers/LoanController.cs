@@ -27,8 +27,12 @@ public class LoanController : ControllerBase
         {
             return NotFound(new { message = "No Loans Found." });
         }
-        await _auditLog.LogAsync(AuditLogType.Fetch, "Fetched Loans", $"Fetched Loans Successfully");
 
+        var response = new AuditLogResponse(
+        AuditLogType.Fetch, "Fetched Loans", $"Fetched Loans Successfully");
+
+
+        await _auditLog.LogAsync(response);
         return Ok(loans);
     }
 

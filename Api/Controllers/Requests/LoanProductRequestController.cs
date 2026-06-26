@@ -40,7 +40,8 @@ public class LoanProductRequestController : ControllerBase
 
         var resultDto = await _repository.AddAsync(loanProductRequests);
 
-        await _auditLogService.LogAsync(AuditLogType.Add, "Added Loan Product Request", $"Successfully added Loan Product Request {resultDto.Id}");
+        var response = new AuditLogResponse(AuditLogType.Add, "Added Loan Product Request", $"Successfully added Loan Product Request {resultDto.Id}");
+        await _auditLogService.LogAsync(response);
 
         return Created($"api/LoanProductRequest/{resultDto.Id}", new
         {

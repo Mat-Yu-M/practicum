@@ -15,13 +15,13 @@ public class AuditLogService : IAuditLogService
         _auditLogRepository = auditLogRepository;
     }
 
-    public async Task LogAsync(AuditLogType type, string action, string details)
+    public async Task LogAsync(AuditLogResponse response)
     {
         var auditLogDto = new AddAuditLogDto
         {
-            Type = type,
-            Action = action,
-            Details = details,
+            Type = response.AuditLogType,
+            Action = response.Action,
+            Details = response.Details,
             PerformedBy = GetCurrentUser(),
             PerformedAt = DateTime.UtcNow
         };

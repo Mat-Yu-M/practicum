@@ -24,11 +24,11 @@ namespace Api.Controllers.Requests
         {
             var employeeRequests = await _repository.GetAllAsync();
 
-            await _auditLog.LogAsync(
-                AuditLogType.Fetch,
+            var response = new AuditLogResponse(AuditLogType.Fetch,
                 "Get Employee Requests",
-                $"Successfully fetched {employeeRequests.Count} employee requests."
-            );
+                $"Successfully fetched {employeeRequests.Count} employee requests.");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequests);
         }
@@ -54,11 +54,14 @@ namespace Api.Controllers.Requests
             var resultDto = await _repository.AddAsync(addEmployeeRequest);
 
 
-            await _auditLog.LogAsync(
+            var response = new AuditLogResponse(
                 AuditLogType.Add,
                 "Add Employee Request",
                 $"Successfully added employee request for {addEmployeeRequest.FirstName} {addEmployeeRequest.LastName}."
             );
+
+            await _auditLog.LogAsync(response);
+
 
             return Created($"api/EmployeeRequest/{resultDto.Id}", new { resultDto.Id });
         }

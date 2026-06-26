@@ -4,9 +4,7 @@ public record AuditLogResponse
 (
     AuditLogType AuditLogType,
     string Action,
-    string Details,
-    string PerformedBy,
-    DateTime PerformedAt
+    string Details
 );
 
 
@@ -16,8 +14,6 @@ public record AuditLogValueResponse
     string? OldValue,
     string? NewValue,
     string Action,
-    string Details,
-    string PerformedBy,
-    DateTime PerformedAt
+    string Details
 );
 

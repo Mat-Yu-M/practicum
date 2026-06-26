@@ -42,11 +42,12 @@ public class CustomerController : ControllerBase
         };
 
 
-        await _auditLog.LogAsync(
+        var response = new AuditLogResponse(
             AuditLogType.Add,
             "Register Customer",
-            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}."
-        );
+            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}.");
+
+        await _auditLog.LogAsync(response);
 
         return Created($"api/cus/{resultDto.Id}", new { resultDto.Id });
     }

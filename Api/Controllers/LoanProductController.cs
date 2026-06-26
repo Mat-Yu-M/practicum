@@ -56,17 +56,10 @@ namespace Api.Controllers
 
             await _repository.AddAsync(loanProduct);
 
-            var auditLogs = new AuditLogResponse
-            (
-                                AuditLogType.Add,
+            var response = new AuditLogResponse(AuditLogType.Add,
                 "Create Loan Product",
-                $"Successfully created loan product with ID: {loanProduct.Name}.",
-                req.ApprovedBy,
-                req.ApprovedDateTime
-            );
-
-            await _auditLogService.LogAsync(
-                auditLogs
+                $"Successfully created loan product with ID: {loanProduct.Name}.");
+            await _auditLogService.LogAsync(response
             );
 
             return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Name }, new { loanProduct.Name });

@@ -114,11 +114,12 @@ public class EmployeeController : ControllerBase
 
         }
 
-        await _auditLogService.LogAsync(
+        var response = new AuditLogResponse(
                 AuditLogType.Fetch,
                 "Employee Fetched",
-                $"Employee {employee.EmployeeId} fetched successfully."
-            );
+                $"Employee {employee.EmployeeId} fetched successfully.");
+
+        await _auditLogService.LogAsync(response);
 
         return Ok(employee);
     }
@@ -135,7 +136,9 @@ public class EmployeeController : ControllerBase
             return NotFound(employee);
         }
 
-        await _auditLogService.LogAsync(AuditLogType.Delete, "Deleted Employee", $"Deleted Employee {employee.EmployeeId} Successfully");
+        var response = new AuditLogResponse(AuditLogType.Delete, "Deleted Employee", $"Deleted Employee {employee.EmployeeId} Successfully");
+
+        await _auditLogService.LogAsync(response);
 
         return Ok(employee);
     }
