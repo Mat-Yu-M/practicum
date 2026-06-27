@@ -48,5 +48,14 @@ public class LoanProductRequestController : ControllerBase
             resultDto.Id
         });
     }
+
+    [HttpGet("get-loan-product-requests")]
+    public async Task<List<LoanProductRequestEntity>> GetAllAsync()
+    {
+        var response = new AuditLogResponse(AuditLogType.Add, "Added Loan Product Request", $"Successfully added Loan Product Request {resultDto.Id}");
+        await _auditLogService.LogAsync(response);
+
+        return await _repository.GetAllAsync();
+    }
 }
 
