@@ -52,7 +52,7 @@ public class LoanProductRequestController : ControllerBase
     [HttpGet("get-loan-product-requests")]
     public async Task<List<LoanProductRequestEntity>> GetAllAsync()
     {
-        var response = new AuditLogResponse(AuditLogType.Add, "Added Loan Product Request", $"Successfully added Loan Product Request {resultDto.Id}");
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Fetched Loan Product Requests", $"Successfully Fetched Loan Product Requests");
         await _auditLogService.LogAsync(response);
 
         return await _repository.GetAllAsync();
