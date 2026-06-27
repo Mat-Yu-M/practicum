@@ -57,4 +57,20 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
     {
         return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
     }
+
+    public async Task<LoanProductEntity?> DeleteAsync(LoanProductDeleteRequest request)
+    {
+        var loanProduct = await context.LoanProducts.FirstOrDefaultAsync(lp => lp.Name == request.Name && lp.Description == request.Description && lp.LoanCategory == request.LoanCategory);
+
+        if (loanProduct == null)
+        {
+            return null;
+        }
+
+        context.LoanProducts.Remove(loanProduct);
+
+        await context.SaveChangesAsync();
+
+        return loanProduct;
+    }
 }

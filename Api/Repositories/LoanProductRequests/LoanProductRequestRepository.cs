@@ -1,4 +1,5 @@
 ﻿using Api.Entities.LoanProductRequests;
+using Api.Entities.LoanProducts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories.LoanProductRequests
@@ -29,11 +30,6 @@ namespace Api.Repositories.LoanProductRequests
             return ToDto(entity);
         }
 
-        public async Task<List<LoanProductRequestEntity>> GetAllAsync()
-        {
-            return await context.LoanProductRequests.AsNoTracking().ToListAsync();
-        }
-
         private static LoanProductRequestDto ToDto(LoanProductRequestEntity entity) => new()
         {
             Id = entity.Id,
@@ -50,5 +46,24 @@ namespace Api.Repositories.LoanProductRequests
             CreatedBy = entity.CreatedBy,
             CreatedDateTime = entity.CreatedDateTime
         };
+
+        public async Task<List<LoanProductRequestEntity>> GetAllAsync()
+        {
+            return await context.LoanProductRequests.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<LoanProductRequestEntity?> DeleteAsync(long id)
+        {
+            var loanProductRequest = await context.LoanProductRequests.FirstOrDefaultAsync(lpr => lpr.Id == id)
+
+            if (loanProductRequest is null)
+                return null;
+
+            context.LoanProductRequests.Remove(loanProductRequest);
+
+            await context.SaveChangesAsync();
+
+            return loanProductRequest;
+        }
     }
 }

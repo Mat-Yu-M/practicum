@@ -57,5 +57,16 @@ public class LoanProductRequestController : ControllerBase
 
         return await _repository.GetAllAsync();
     }
+
+    [HttpDelete("delete-loan-product-request")]
+    public async Task<IActionResult> DeleteAsync(long id)
+    {
+        var loanProductRequest = await _repository.DeleteAsync(id);
+
+        var response = new AuditLogResponse(AuditLogType.Delete, "Deleted Loan Product Requests", $"Successfully Delete Loan Product Request {id}");
+        await _auditLogService.LogAsync(response);
+
+        return Ok(loanProductRequest);
+    }
 }
 

@@ -32,3 +32,8 @@ int MaximumTermMonths,
 bool IsPromotion
 );
 
+public record LoanProductDeleteRequest(
+string Name,
+string Description,
+LoanCategory LoanCategory
+);

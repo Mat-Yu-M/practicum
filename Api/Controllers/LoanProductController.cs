@@ -62,6 +62,23 @@ namespace Api.Controllers
 
             return CreatedAtAction(nameof(GetLoanProducts), new { id = loanProduct.Name }, new { loanProduct.Name });
         }
+
+        [HttpDelete("delete-loan-product")]
+        public async Task<IActionResult> RemoveLoanProduct(LoanProductDeleteRequest request)
+        {
+            var loanProduct = _repository.DeleteAsync(request);
+
+            if (loanProduct == null)
+            {
+                return NotFound(new { message = "Loan Product not Found" });
+            }
+            ;
+
+            var response = new AuditLogResponse(AuditLogType.Delete, "Delete Loan Product", $"Deleted {request.Name}");
+
+            await _auditLogService.LogAsync(response);
+            return Ok(loanProduct);
+        }
     }
 
 }
