@@ -1,5 +1,4 @@
 ﻿using Api.Entities.LoanProductRequests;
-using Api.Entities.LoanProducts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories.LoanProductRequests
@@ -54,7 +53,7 @@ namespace Api.Repositories.LoanProductRequests
 
         public async Task<LoanProductRequestEntity?> DeleteAsync(long id)
         {
-            var loanProductRequest = await context.LoanProductRequests.FirstOrDefaultAsync(lpr => lpr.Id == id)
+            var loanProductRequest = await context.LoanProductRequests.FirstOrDefaultAsync(lpr => lpr.Id == id);
 
             if (loanProductRequest is null)
                 return null;
