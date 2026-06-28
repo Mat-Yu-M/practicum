@@ -35,3 +35,23 @@ bool IsPromotion
 public record LoanProductDeleteRequest(
 string Name,
 string Description);
+
+public record UpdateLoanProductRequest(
+    long id,
+    decimal InterestRate,
+    decimal MinimumAmount,
+    decimal MaximumAmount,
+    int MinimumTermMonths,
+    int MaximumTermMonths,
+    bool IsPromotion
+    );
+
+public record UpdateLoanProductResponse
+(
+    decimal InterestRate,
+    decimal MinimumAmount,
+    decimal MaximumAmount,
+    int MinimumTermMonths,
+    int MaximumTermMonths,
+    bool IsPromotion
+);

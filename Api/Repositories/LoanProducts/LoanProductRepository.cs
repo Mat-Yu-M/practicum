@@ -73,4 +73,35 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
         return loanProduct;
     }
+
+    public async Task<UpdateLoanProductResponse> UpdateAsync(UpdateLoanProductRequest request)
+    {
+        var loanProduct = await context.LoanProducts.FindAsync(request.id);
+
+        if (loanProduct is null)
+        {
+            return null;
+        }
+
+        context.Entry(loanProduct).Property(lpr => lpr.InterestRate).CurrentValue = request.InterestRate;
+        context.Entry(loanProduct).Property(lpr => lpr.MinimumAmount).CurrentValue = request.MinimumAmount;
+        context.Entry(loanProduct).Property(lpr => lpr.MaximumAmount).CurrentValue = request.MaximumAmount;
+        context.Entry(loanProduct).Property(lpr => lpr.MinimumTermMonths).CurrentValue = request.MinimumTermMonths;
+        context.Entry(loanProduct).Property(lpr => lpr.MaximumTermMonths).CurrentValue = request.MaximumTermMonths;
+        context.Entry(loanProduct).Property(lpr => lpr.IsPromotion).CurrentValue = request.IsPromotion;
+
+        var response = new UpdateLoanProductResponse
+        (
+        request.InterestRate,
+        request.MinimumAmount,
+        request.MaximumAmount,
+        request.MinimumTermMonths,
+        request.MaximumTermMonths,
+        request.IsPromotion
+        );
+
+        await context.SaveChangesAsync();
+
+        return response;
+    }
 }

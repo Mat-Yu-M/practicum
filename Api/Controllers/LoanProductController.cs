@@ -79,7 +79,24 @@ namespace Api.Controllers
             await _auditLogService.LogAsync(response);
             return Ok(loanProduct);
         }
+
+
+        [HttpPatch("update-loan-product")]
+        public async Task<IActionResult> UpdateLoanProduct([FromBody] UpdateLoanProductRequest request)
+        {
+            var oldValue = $"{request.InterestRate} + {request.MinimumAmount} + {request.MaximumAmount} + {request.MinimumTermMonths} + {request.MaximumTermMonths} + {request.IsPromotion}";
+
+            var updatedLoanProduct = await _repository.UpdateAsync(request);
+
+            var newValue = $"{updatedLoanProduct.InterestRate} + {updatedLoanProduct.MinimumAmount} + {updatedLoanProduct.MaximumAmount} + {updatedLoanProduct.MinimumTermMonths} + {updatedLoanProduct.MaximumTermMonths} + {updatedLoanProduct.IsPromotion}";
+
+            if (updatedLoanProduct == null)
+                return NotFound();
+
+            var response = new AuditLogValueResponse(AuditLogType.Update, oldValue, newValue, "Updated Loan Product", $"Updated {request.id}");
+
+            return Ok(updatedLoanProduct);
+        }
+
     }
-
 }
-
