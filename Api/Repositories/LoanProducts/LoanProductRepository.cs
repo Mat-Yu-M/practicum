@@ -60,7 +60,7 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
     public async Task<LoanProductEntity?> DeleteAsync(LoanProductDeleteRequest request)
     {
-        var loanProduct = await context.LoanProducts.FirstOrDefaultAsync(lp => lp.Name == request.Name && lp.Description == request.Description && lp.LoanCategory == request.LoanCategory);
+        var loanProduct = await context.LoanProducts.FirstOrDefaultAsync(lp => lp.Name == request.Name && lp.Description == request.Description);
 
         if (loanProduct == null)
         {

@@ -144,7 +144,7 @@ public class EmployeeController : ControllerBase
 
     [HttpDelete("delete-employee")]
 
-    public async Task<IActionResult> DeleteEmployee(DeleteEmployeeRequest req)
+    public async Task<IActionResult> DeleteEmployee([FromQuery] DeleteEmployeeRequest req)
     {
         var employee = await _repository.DeleteAsync(req);
 

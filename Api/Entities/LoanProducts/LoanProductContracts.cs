@@ -34,6 +34,4 @@ bool IsPromotion
 
 public record LoanProductDeleteRequest(
 string Name,
-string Description,
-LoanCategory LoanCategory
-);
+string Description);

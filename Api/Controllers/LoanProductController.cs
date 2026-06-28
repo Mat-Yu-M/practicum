@@ -64,9 +64,9 @@ namespace Api.Controllers
         }
 
         [HttpDelete("delete-loan-product")]
-        public async Task<IActionResult> RemoveLoanProduct(LoanProductDeleteRequest request)
+        public async Task<IActionResult> RemoveLoanProduct([FromQuery] LoanProductDeleteRequest request)
         {
-            var loanProduct = _repository.DeleteAsync(request);
+            var loanProduct = await _repository.DeleteAsync(request);
 
             if (loanProduct == null)
             {
