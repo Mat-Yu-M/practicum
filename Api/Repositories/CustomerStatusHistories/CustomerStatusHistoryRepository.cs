@@ -9,10 +9,8 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
 
         var entity = new CustomerStatusHistoryEntity
         {
-            Id = dto.Id,
             CustomerId = dto.CustomerId,
             CustomerName = dto.CustomerName,
-            Customer = dto.Customer,
             BeforeStatus = dto.BeforeStatus,
             AfterStatus = dto.AfterStatus,
             CreatedBy = dto.CreatedBy,
@@ -30,7 +28,6 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
         Id = entity.Id,
         CustomerId = entity.CustomerId,
         CustomerName = entity.CustomerName,
-        Customer = entity.Customer,
         BeforeStatus = entity.BeforeStatus,
         AfterStatus = entity.AfterStatus,
         CreatedBy = entity.CreatedBy,

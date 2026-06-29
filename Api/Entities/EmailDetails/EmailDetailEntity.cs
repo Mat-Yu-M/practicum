@@ -6,10 +6,12 @@ namespace Api.Entities.EmailDetails
 {
     public sealed class EmailDetailEntity
     {
-        public required long Id { get; init; }
-        public required long CustomerId { get; init; }
+        public long Id { get; init; }
+        public long CustomerId { get; init; }
         public required string Email { get; init; }
         public required CustomerEntity Customer { get; init; }
+        public required string CreatedBy { get; init; }
+        public required DateTime CreatedDateTime { get; init; }
 
     }
 

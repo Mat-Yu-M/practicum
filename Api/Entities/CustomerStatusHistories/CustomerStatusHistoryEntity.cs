@@ -6,14 +6,14 @@ namespace Api.Entities.CustomerStatusHistories
 {
     public sealed class CustomerStatusHistoryEntity
     {
-        public required long Id { get; init; }
+        public long Id { get; init; }
         public required long CustomerId { get; init; }
         public required string CustomerName { get; init; }
         public required CustomerStatus BeforeStatus { get; init; }
         public required CustomerStatus AfterStatus { get; init; }
         public required string CreatedBy { get; init; }
         public required DateTime CreatedDateTime { get; init; }
-        public required CustomerEntity Customer { get; init; } = null!;
+        public CustomerEntity Customer { get; init; } = null!;
 
     }
 

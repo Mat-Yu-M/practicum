@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public sealed record RepaymentScheduleEntity
-    {
+{
     public long Id { get; init; }
     public long LoanId { get; init; }
     public long CustomerId { get; init; }
     public int InstallmentNumber { get; init; }
-    public decimal TotalAmountDue => PrincipalAmount + InterestAmount;
+    public decimal TotalAmountDue { get; init; }
     public decimal PrincipalAmount { get; init; }
     public decimal InterestAmount { get; init; }
     public decimal RemainingBalance { get; init; }
@@ -25,6 +25,10 @@ public sealed class RepaymentScheduleEntityConfiguration : IEntityTypeConfigurat
 
         builder.HasKey(rs => rs.Id);
 
+        builder.Property(r => r.PrincipalAmount).HasPrecision(18, 2);
+        builder.Property(r => r.InterestAmount).HasPrecision(18, 2);
+        builder.Property(r => r.RemainingBalance).HasPrecision(18, 2);
+
         builder.HasOne<LoanEntity>()
             .WithMany()
             .HasForeignKey(rs => rs.LoanId)
@@ -33,7 +37,11 @@ public sealed class RepaymentScheduleEntityConfiguration : IEntityTypeConfigurat
         builder.HasOne<CustomerEntity>()
             .WithMany()
             .HasForeignKey(rs => rs.CustomerId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(r => r.TotalAmountDue)
+               .HasComputedColumnSql("[PrincipalAmount] + [InterestAmount]", stored: true)
+               .HasPrecision(18, 2);
     }
 
 }

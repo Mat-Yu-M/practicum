@@ -2,5 +2,6 @@
 {
     public interface ICustomerStatusHistoryRepository
     {
+        Task<CustomerStatusHistoryDto> AddAsync(AddCustomerStatusHistoryDto dto);
     }
 }
