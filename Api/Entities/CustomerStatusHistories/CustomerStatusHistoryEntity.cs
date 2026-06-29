@@ -1,4 +1,5 @@
 ﻿using Api.Constants;
+using Api.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Entities.CustomerStatusHistories
@@ -10,8 +11,10 @@ namespace Api.Entities.CustomerStatusHistories
         public required string CustomerName { get; init; }
         public required CustomerStatus BeforeStatus { get; init; }
         public required CustomerStatus AfterStatus { get; init; }
-        public required string ChangedBy { get; init; }
-        public required DateTime ChangedDate { get; init; }
+        public required string CreatedBy { get; init; }
+        public required DateTime CreatedDateTime { get; init; }
+        public required CustomerEntity Customer { get; init; } = null!;
+
 
     }
 

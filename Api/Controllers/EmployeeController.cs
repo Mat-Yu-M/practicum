@@ -104,7 +104,11 @@ public class EmployeeController : ControllerBase
             email = employee.Email,
             firstName = employee.FirstName,
             lastName = employee.LastName,
-            employeeRoles = employee.EmployeeRoles
+            employeeRoles = employee.EmployeeRoles,
+            createdBy = employee.CreatedBy,
+            createdDateTime = employee.CreatedDateTime,
+            approvedBy = employee.ApprovedBy,
+            approvedDateTime = employee.ApprovedDateTime
         });
 
 

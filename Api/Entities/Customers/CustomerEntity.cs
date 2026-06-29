@@ -1,4 +1,5 @@
 ﻿using Api.Constants;
+using Api.Entities.CustomerStatusHistories;
 using Api.Entities.EmailDetails;
 using Api.Entities.Kycs;
 using Api.Entities.PhoneDetails;
@@ -23,6 +24,7 @@ public sealed class CustomerEntity
     public ICollection<PhoneDetailEntity> PhoneDetails { get; set; } = [];
     public ICollection<EmailDetailEntity> EmailDetails { get; set; } = [];
     public ICollection<CustomerLoanHistoryEntity> CustomerLoanHistory { get; set; } = [];
+    public ICollection<CustomerStatusHistoryEntity> CustomerStatusHistory { get; set; } = [];
 }
 
 public sealed class CustomerEntityConfiguration : IEntityTypeConfiguration<CustomerEntity>
@@ -42,5 +44,10 @@ public sealed class CustomerEntityConfiguration : IEntityTypeConfiguration<Custo
         .HasMany(c => c.PhoneDetails)
         .WithOne(pd => pd.Customer)
         .HasForeignKey(pd => pd.CustomerId);
+
+        builder
+        .HasMany(c => c.CustomerStatusHistory)
+        .WithOne(csh => csh.Customer)
+        .HasForeignKey(csh => csh.CustomerId);
     }
 }
