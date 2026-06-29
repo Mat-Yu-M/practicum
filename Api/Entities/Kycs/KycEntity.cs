@@ -1,6 +1,5 @@
 ﻿using Api.Constants;
 using Api.Entities.Customers;
-using Microsoft;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,10 +30,5 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
         builder.ToTable("kyc");
 
         builder.HasKey(k => k.Id);
-
-        builder.HasOne(k => k.Customer)     
-                   .WithMany(c => c.KycDetails)   
-                   .HasForeignKey(k => k.CustomerId)   
-                   .OnDelete(DeleteBehavior.Cascade);
     }
 }
