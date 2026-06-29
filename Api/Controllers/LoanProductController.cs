@@ -84,11 +84,13 @@ namespace Api.Controllers
         [HttpPatch("update-loan-product")]
         public async Task<IActionResult> UpdateLoanProduct([FromBody] UpdateLoanProductRequest request)
         {
-            var oldValue = $"{request.InterestRate} + {request.MinimumAmount} + {request.MaximumAmount} + {request.MinimumTermMonths} + {request.MaximumTermMonths} + {request.IsPromotion}";
+            var loanProduct = await _repository.GetAsync(request.id);
+
+            var oldValue = $"{loanProduct.InterestRate} + {loanProduct.MinimumAmount} + {loanProduct.MaximumAmount} + {loanProduct.MinimumTermMonths} + {loanProduct.MaximumTermMonths} + {loanProduct.IsPromotion}";
+            var newValue = $"{request.InterestRate} + {request.MinimumAmount} + {request.MaximumAmount} + {request.MinimumTermMonths} + {request.MaximumTermMonths} + {request.IsPromotion}";
 
             var updatedLoanProduct = await _repository.UpdateAsync(request);
 
-            var newValue = $"{updatedLoanProduct.InterestRate} + {updatedLoanProduct.MinimumAmount} + {updatedLoanProduct.MaximumAmount} + {updatedLoanProduct.MinimumTermMonths} + {updatedLoanProduct.MaximumTermMonths} + {updatedLoanProduct.IsPromotion}";
 
             if (updatedLoanProduct == null)
                 return NotFound();

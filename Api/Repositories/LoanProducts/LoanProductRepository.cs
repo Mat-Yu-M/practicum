@@ -104,4 +104,15 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
         return response;
     }
+
+    public async Task<LoanProductEntity?> GetAsync(long id)
+    {
+        var loanProduct = await context.LoanProducts.FindAsync(id);
+
+        if (loanProduct == null)
+            return null;
+
+
+        return loanProduct;
+    }
 }
