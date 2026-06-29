@@ -6,7 +6,7 @@ namespace Api.Repositories.LoanRequests;
 public sealed record LoanRequestDto
 {
     public long Id { get; set; }
-    public long CustomerId { get; set; } = 0;
+    public long CustomerId { get; set; }
     public required string Name { get; set; }
     public long LoanProductId { get; set; }
     public required string LoanName { get; set; }
@@ -24,8 +24,7 @@ public sealed record LoanRequestDto
 
 public sealed record AddLoanRequestDto
 {
-    public long Id { get; set; }
-    public long CustomerId { get; set; } = 0;
+    public long CustomerId { get; set; }
     public required string Name { get; set; }
     public long LoanProductId { get; set; }
     public required string LoanName { get; set; }

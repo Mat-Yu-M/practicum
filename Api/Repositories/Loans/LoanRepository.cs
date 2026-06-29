@@ -55,7 +55,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         return await context.Loans.AsNoTracking().ToListAsync();
     }
 
-    public async Task<LoanEntity> GetAsync(long id)
+    public async Task<LoanEntity?> GetAsync(long id)
     {
         return await context.Loans.FindAsync(id);
     }
