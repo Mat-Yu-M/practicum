@@ -11,6 +11,7 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
 
         var entity = new CustomerStatusHistoryEntity
         {
+            Id = 0,
             CustomerId = dto.CustomerId,
             CustomerName = dto.CustomerName,
             BeforeStatus = dto.BeforeStatus,
@@ -26,7 +27,6 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
 
         return ToDto(entity);
     }
-
     private static CustomerStatusHistoryDto ToDto(CustomerStatusHistoryEntity entity) => new()
     {
         Id = entity.Id,

@@ -1,7 +1,4 @@
-﻿using Api.Constants;
-using Api.Entities.AuditLogs;
-using Api.Entities.Customers;
-using Api.Repositories.Customers;
+﻿using Api.Entities.AuditLogs;
 
 namespace Api.Repositories.AuditLogs;
 
@@ -29,7 +26,7 @@ public sealed class AuditLogRepository(AppDbContext context) : IAuditLogReposito
 
     public async Task<List<AuditLogEntity>> GetAllAsync()
     {
-        var auditLogs = context.AuditLogs.ToList();
+        var auditLogs = context.AuditLogs.OrderByDescending(a => a.PerformedAt).ToList();
 
         return auditLogs;
     }

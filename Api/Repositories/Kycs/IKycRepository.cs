@@ -7,5 +7,8 @@ namespace Api.Repositories.KycDocuments
         Task<KycDto> AddAsync(AddKycDto dto);
         Task<bool> ExistsAsync(long customerId);
         Task<List<KycEntity>> GetAsync();
+        Task<ApproveKycResponse> ApproveAsync(ApproveKycRequest request);
+
+        Task<ApproveKycResponse> RejectAsync(ApproveKycRequest request)
     }
 }

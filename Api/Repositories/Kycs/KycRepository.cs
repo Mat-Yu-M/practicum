@@ -1,9 +1,11 @@
-﻿using Api.Entities.Kycs;
+﻿using Api.Constants;
+using Api.Entities.Kycs;
+using Api.Repositories.CustomerStatusHistories;
 using Api.Repositories.KycDocuments;
 using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.Kycs;
 
-public sealed class KycRepository(AppDbContext context) : IKycRepository
+public sealed class KycRepository(AppDbContext context, ICustomerStatusHistoryRepository repository) : IKycRepository
 {
     public async Task<KycDto> AddAsync(AddKycDto dto)
     {
@@ -46,4 +48,85 @@ public sealed class KycRepository(AppDbContext context) : IKycRepository
         DocumentImagePath = entity.DocumentImagePath ?? string.Empty,
         SubmittedBy = entity.SubmittedBy ?? string.Empty
     };
+
+    public async Task<ApproveKycResponse> ApproveAsync(ApproveKycRequest request)
+    {
+        var document = await context.Kycs.FindAsync(request.Id);
+
+        if (document is null)
+        {
+            return null;
+        }
+
+        context.Entry(document).Property(d => d.ReviewedBy).CurrentValue = request.ReviewedBy;
+        context.Entry(document).Property(d => d.ReviewedAt).CurrentValue = request.ReviewedAt;
+        context.Entry(document).Property(d => d.Status).CurrentValue = CommonStatus.Approved;
+
+
+        var response = new ApproveKycResponse
+        (
+        request.FullName,
+        CommonStatus.Approved,
+        request.SubmittedBy,
+        request.SubmittedAt,
+        request.ReviewedBy,
+        request.ReviewedAt
+        );
+
+        var status = new AddCustomerStatusHistoryDto
+        {
+            CustomerId = request.CustomerId,
+            CustomerName = request.FullName,
+            BeforeStatus = CustomerStatus.PendingRequirements,
+            AfterStatus = CustomerStatus.Verified,
+            CreatedBy = request.ReviewedBy,
+            CreatedDateTime = request.ReviewedAt
+        };
+
+        await repository.AddAsync(status);
+
+        await context.SaveChangesAsync();
+
+        return response;
+    }
+    public async Task<ApproveKycResponse> RejectAsync(ApproveKycRequest request)
+    {
+        var document = await context.Kycs.FindAsync(request.Id);
+
+        if (document is null)
+        {
+            return null;
+        }
+
+        context.Entry(document).Property(d => d.ReviewedBy).CurrentValue = request.ReviewedBy;
+        context.Entry(document).Property(d => d.ReviewedAt).CurrentValue = request.ReviewedAt;
+        context.Entry(document).Property(d => d.Status).CurrentValue = CommonStatus.Approved;
+
+
+        var response = new ApproveKycResponse
+        (
+        request.FullName,
+        CommonStatus.Approved,
+        request.SubmittedBy,
+        request.SubmittedAt,
+        request.ReviewedBy,
+        request.ReviewedAt
+        );
+
+        var status = new AddCustomerStatusHistoryDto
+        {
+            CustomerId = request.CustomerId,
+            CustomerName = request.FullName,
+            BeforeStatus = CustomerStatus.PendingRequirements,
+            AfterStatus = CustomerStatus.Verified,
+            CreatedBy = request.ReviewedBy,
+            CreatedDateTime = request.ReviewedAt
+        };
+
+        await repository.AddAsync(status);
+
+        await context.SaveChangesAsync();
+
+        return response;
+    }
 }

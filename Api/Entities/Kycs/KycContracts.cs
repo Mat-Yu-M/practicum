@@ -49,6 +49,6 @@ string AddressLine,
 CommonStatus Status,
 string SubmittedBy,
 DateTime SubmittedAt,
-string? ReviewedBy,
-DateTime? ReviewedAt
+string ReviewedBy,
+DateTime ReviewedAt
 );
