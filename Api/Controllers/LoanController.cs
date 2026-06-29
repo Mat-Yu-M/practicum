@@ -36,6 +36,21 @@ public class LoanController : ControllerBase
         return Ok(loans);
     }
 
+    public async Task<IActionResult> GetLoan(long id)
+    {
+        var loan = await _repository.GetAsync(id);
 
+        if (loan is null)
+        {
+            return NotFound(new
+            { message = "No Loan Exists." });
+        }
+
+        var response = new AuditLogResponse(
+        AuditLogType.Fetch, "Fetched Loan", $"Fetched Loan {id} Successfully");
+
+        return Ok(loan);
+
+    }
 }
 

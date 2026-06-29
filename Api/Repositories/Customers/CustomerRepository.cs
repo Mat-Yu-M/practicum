@@ -31,6 +31,11 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
 
     }
 
+    public async Task<CustomerEntity?> GetAsync(long id)
+    {
+        return await context.Customers.FindAsync(id);
+    }
+
     private static CustomerDto ToDto(CustomerEntity entity) => new()
     {
         Id = entity.Id,

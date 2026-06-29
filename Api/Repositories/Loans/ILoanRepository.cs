@@ -6,5 +6,6 @@ namespace Api.Repositories.Loans
     {
         Task<LoanDto> AddAsync(AddLoanDto dto);
         Task<List<LoanEntity>> GetAllAsync();
+        Task<LoanEntity> GetAsync(long id);
     }
 }

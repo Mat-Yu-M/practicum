@@ -3,6 +3,7 @@ using Api.Entities.Customers;
 using Api.Repositories.AuditLogs;
 using Api.Repositories.Customers;
 using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,10 +13,13 @@ public class CustomerController : ControllerBase
 {
     private readonly ICustomerRepository _repository;
     private readonly IAuditLogService _auditLog;
-    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog)
+    private readonly IDataProtector _protector;
+
+    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog, IDataProtectionProvider provider)
     {
         _repository = repository;
         _auditLog = auditLog;
+        _protector = provider.CreateProtector("CustomerIdProtector");
     }
 
     [HttpPost("register-customer")]
@@ -65,5 +69,44 @@ public class CustomerController : ControllerBase
         await _auditLog.LogAsync(response);
 
         return Ok(customers);
+    }
+
+    [HttpGet("get-customer")]
+    public async Task<IActionResult> GetCustomer(string id)
+    {
+        long customerId;
+
+        try
+        {
+            customerId = long.Parse(_protector.Unprotect(id));
+        }
+        catch
+        {
+            return BadRequest(new { message = "Invalid customer id." });
+        }
+
+        var customer = await _repository.GetAsync(customerId);
+
+        if (customer == null)
+            return NotFound(new { message = "Customer Does not Exist" });
+
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Fetched Customer Profile", $"Successfully fetched Customer {customerId}");
+
+        await _auditLog.LogAsync(response);
+
+        var customerResponse = new CustomerResponse(
+        _protector.Protect(customer.Id.ToString()),
+        customer.FirstName,
+        customer.MiddleName,
+        customer.Suffix,
+        customer.LastName,
+        customer.DateOfBirth,
+        customer.Balance,
+        customer.Status,
+        customer.CreatedBy,
+        customer.CreatedDateTime
+        );
+
+        return Ok(customerResponse);
     }
 }

@@ -6,4 +6,6 @@ public interface ICustomerRepository
 {
     Task<CustomerDto> AddAsync(RegisterCustomerDto dto);
     Task<List<CustomerEntity>> GetAllAsync();
+    Task<CustomerEntity?> GetAsync(long id);
+
 }
