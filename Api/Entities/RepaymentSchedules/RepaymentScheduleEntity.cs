@@ -38,9 +38,8 @@ public sealed class RepaymentScheduleEntityConfiguration : IEntityTypeConfigurat
             .WithMany()
             .HasForeignKey(rs => rs.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
-
         builder.Property(r => r.TotalAmountDue)
-               .HasComputedColumnSql("[PrincipalAmount] + [InterestAmount]", stored: true)
+               .HasComputedColumnSql("principal_amount + interest_amount", stored: true)
                .HasPrecision(18, 2);
     }
 

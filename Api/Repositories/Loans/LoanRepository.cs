@@ -8,7 +8,6 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
     {
         var entity = new LoanEntity
         {
-            Id = dto.Id,
             CustomerId = dto.CustomerId,
             Name = dto.Name,
             LoanProductId = dto.LoanProductId,

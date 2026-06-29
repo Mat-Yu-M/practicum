@@ -53,6 +53,12 @@ public class KycController : ControllerBase
     {
         var kycs = await _repository.GetAsync();
         return Ok(kycs);
+    }
 
+    [HttpPatch("approve-customer-documents")]
+    public async Task<IActionResult> ApproveAsync(ApproveKycRequest)
+    {
+
+        return Ok();
     }
 }

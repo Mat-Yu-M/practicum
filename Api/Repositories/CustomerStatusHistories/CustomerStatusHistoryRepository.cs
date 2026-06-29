@@ -6,6 +6,8 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
 {
     public async Task<CustomerStatusHistoryDto> AddAsync(AddCustomerStatusHistoryDto dto)
     {
+        var customer = await context.Customers.FindAsync(dto.CustomerId)
+            ?? throw new KeyNotFoundException($"Customer with ID {dto.CustomerId} not found.");
 
         var entity = new CustomerStatusHistoryEntity
         {
@@ -16,6 +18,8 @@ public sealed class CustomerStatusHistoryRepository(AppDbContext context) : ICus
             CreatedBy = dto.CreatedBy,
             CreatedDateTime = dto.CreatedDateTime
         };
+
+        customer.Status = dto.AfterStatus;
 
         context.CustomerStatusHistories.Add(entity);
         await context.SaveChangesAsync();
