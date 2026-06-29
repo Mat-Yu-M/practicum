@@ -9,7 +9,7 @@ namespace Api.Entities.EmailDetails
         public long Id { get; init; }
         public long CustomerId { get; init; }
         public required string Email { get; init; }
-        public required CustomerEntity Customer { get; init; }
+        public CustomerEntity Customer { get; init; } = null!;
         public required string CreatedBy { get; init; }
         public required DateTime CreatedDateTime { get; init; }
 

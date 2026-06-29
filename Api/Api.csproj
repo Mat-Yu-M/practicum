@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\EmailDetails\" />
     <Folder Include="Repositories\AuditLogs\" />
     <Folder Include="Repositories\EmailDetails\" />
     <Folder Include="Repositories\CustomerStatusHistories\" />

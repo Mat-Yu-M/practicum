@@ -1,6 +1,6 @@
 ﻿namespace Api.Repositories.EmailDetails
 {
-    public class EmailDetailRepository
+    public sealed class EmailDetailRepository(AppDbContext context) : IEmailDetailRepository
     {
     }
 }
