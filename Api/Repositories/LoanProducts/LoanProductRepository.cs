@@ -76,7 +76,7 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
     public async Task<UpdateLoanProductResponse> UpdateAsync(UpdateLoanProductRequest request)
     {
-        var loanProduct = await context.LoanProducts.FindAsync(request.id);
+        var loanProduct = await context.LoanProducts.FindAsync(request.Id);
 
         if (loanProduct is null)
         {

@@ -17,6 +17,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             DateOfBirth = dto.DateOfBirth,
             CreatedDateTime = DateTime.UtcNow,
             Status = CustomerStatus.Defaulted,
+            CreatedBy = dto.CreatedBy,
         };
 
         context.Customers.Add(entity);
@@ -42,6 +43,8 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
         FirstName = entity.FirstName,
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
+        Suffix = entity.Suffix,
+        CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDateTime,
         Status = entity.Status,
         Balance = entity.Balance,

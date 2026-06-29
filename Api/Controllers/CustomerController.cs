@@ -31,7 +31,9 @@ public class CustomerController : ControllerBase
             MiddleName = req.MiddleName,
             LastName = req.LastName,
             Suffix = req.Suffix,
-            DateOfBirth = req.DateOfBirth
+            DateOfBirth = req.DateOfBirth,
+            CreatedBy = req.CreatedBy,
+            CreatedDateTime = req.CreatedDateTime
         };
 
         var resultDto = await _repository.AddAsync(customer);
@@ -72,41 +74,31 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet("get-customer")]
-    public async Task<IActionResult> GetCustomer(string id)
+    public async Task<IActionResult> GetCustomer(long Id)
     {
-        long customerId;
 
-        try
-        {
-            customerId = long.Parse(_protector.Unprotect(id));
-        }
-        catch
-        {
-            return BadRequest(new { message = "Invalid customer id." });
-        }
-
-        var customer = await _repository.GetAsync(customerId);
+        var customer = await _repository.GetAsync(Id);
 
         if (customer == null)
             return NotFound(new { message = "Customer Does not Exist" });
 
-        var response = new AuditLogResponse(AuditLogType.Fetch, "Fetched Customer Profile", $"Successfully fetched Customer {customerId}");
+        await _auditLog.LogAsync(new AuditLogResponse(
+            AuditLogType.Fetch,
+            "Fetched Customer Profile",
+            $"Successfully fetched Customer {Id}"
+        ));
 
-        await _auditLog.LogAsync(response);
-
-        var customerResponse = new CustomerResponse(
-        _protector.Protect(customer.Id.ToString()),
-        customer.FirstName,
-        customer.MiddleName,
-        customer.Suffix,
-        customer.LastName,
-        customer.DateOfBirth,
-        customer.Balance,
-        customer.Status,
-        customer.CreatedBy,
-        customer.CreatedDateTime
-        );
-
-        return Ok(customerResponse);
+        return Ok(new CustomerResponse(
+            customer.Id,
+            customer.FirstName,
+            customer.MiddleName,
+            customer.Suffix,
+            customer.LastName,
+            customer.DateOfBirth,
+            customer.Balance,
+            customer.Status,
+            customer.CreatedBy,
+            customer.CreatedDateTime
+        ));
     }
 }

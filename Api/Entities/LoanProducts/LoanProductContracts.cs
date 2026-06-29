@@ -37,7 +37,7 @@ string Name,
 string Description);
 
 public record UpdateLoanProductRequest(
-    long id,
+    long Id,
     decimal InterestRate,
     decimal MinimumAmount,
     decimal MaximumAmount,

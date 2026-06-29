@@ -3,18 +3,19 @@
 namespace Api.Entities.Customers;
 
 public record CreateCustomerRequest(
-string FirstName,
-string MiddleName,
-string LastName,
-string Suffix,
-CustomerStatus Status,
-decimal Balance,
-DateOnly DateOfBirth,
-DateTime CreatedDateTime
+    string FirstName,
+    string MiddleName,
+    string LastName,
+    string Suffix,
+    CustomerStatus Status,
+    decimal Balance,
+    DateOnly DateOfBirth,
+    string CreatedBy,
+    DateTime CreatedDateTime
 );
 
 public record CustomerResponse(
-    string EncryptedId,
+    long Id,
     string FirstName,
     string? MiddleName,
     string? Suffix,
@@ -22,6 +23,6 @@ public record CustomerResponse(
     DateOnly DateOfBirth,
     decimal Balance,
     CustomerStatus Status,
-    long CreatedBy,
+    string CreatedBy,
     DateTime CreatedDateTime
 );
