@@ -2,8 +2,8 @@
 
 namespace Api.Repositories.LoanProducts;
 
-    public sealed record LoanProductDto
-    {
+public sealed record LoanProductDto
+{
     public long Id { get; init; }
     public required string Name { get; init; }
     public required string Description { get; init; }
@@ -13,13 +13,15 @@ namespace Api.Repositories.LoanProducts;
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
-    public required bool IsPromotion { get; set; } = false;
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
-    }
+    public required bool IsPromotion { get; init; } = false;
+    public required string CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApprovedDateTime { get; init; }
+}
 
-    public sealed record AddLoanProductDto
-    {
-    public long Id { get; init; }
+public sealed record AddLoanProductDto
+{
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required LoanCategory LoanCategory { get; init; }
@@ -28,6 +30,10 @@ namespace Api.Repositories.LoanProducts;
     public decimal MaximumAmount { get; init; }
     public int MinimumTermMonths { get; init; }
     public int MaximumTermMonths { get; init; }
-    public required bool IsPromotion { get; set; } = false;
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
-    }
+    public required bool IsPromotion { get; init; } = false;
+    public required string CreatedBy { get; init; }
+    public DateTime CreatedDateTime { get; init; }
+    public required string ApprovedBy { get; init; }
+    public DateTime ApprovedDateTime { get; init; }
+
+}

@@ -3,6 +3,7 @@ using Api.Entities.Customers;
 using Api.Repositories.AuditLogs;
 using Api.Repositories.Customers;
 using Api.Services.AuditLogs;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,10 +13,13 @@ public class CustomerController : ControllerBase
 {
     private readonly ICustomerRepository _repository;
     private readonly IAuditLogService _auditLog;
-    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog)
+    private readonly IDataProtector _protector;
+
+    public CustomerController(ICustomerRepository repository, IAuditLogService auditLog, IDataProtectionProvider provider)
     {
         _repository = repository;
         _auditLog = auditLog;
+        _protector = provider.CreateProtector("CustomerIdProtector");
     }
 
     [HttpPost("register-customer")]
@@ -27,7 +31,9 @@ public class CustomerController : ControllerBase
             MiddleName = req.MiddleName,
             LastName = req.LastName,
             Suffix = req.Suffix,
-            DateOfBirth = req.DateOfBirth
+            DateOfBirth = req.DateOfBirth,
+            CreatedBy = req.CreatedBy,
+            CreatedDateTime = req.CreatedDateTime
         };
 
         var resultDto = await _repository.AddAsync(customer);
@@ -42,11 +48,12 @@ public class CustomerController : ControllerBase
         };
 
 
-        await _auditLog.LogAsync(
+        var response = new AuditLogResponse(
             AuditLogType.Add,
             "Register Customer",
-            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}."
-        );
+            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}.");
+
+        await _auditLog.LogAsync(response);
 
         return Created($"api/cus/{resultDto.Id}", new { resultDto.Id });
     }
@@ -56,12 +63,42 @@ public class CustomerController : ControllerBase
     {
         var customers = await _repository.GetAllAsync();
 
-        await _auditLog.LogAsync(
+        var response = new AuditLogResponse(
             AuditLogType.Fetch,
             "Fetch Customers",
-            "Successfully fetched list of customers."
-        );
+            "Successfully fetched list of customers.");
+
+        await _auditLog.LogAsync(response);
 
         return Ok(customers);
+    }
+
+    [HttpGet("get-customer")]
+    public async Task<IActionResult> GetCustomer(long Id)
+    {
+
+        var customer = await _repository.GetAsync(Id);
+
+        if (customer == null)
+            return NotFound(new { message = "Customer Does not Exist" });
+
+        await _auditLog.LogAsync(new AuditLogResponse(
+            AuditLogType.Fetch,
+            "Fetched Customer Profile",
+            $"Successfully fetched Customer {Id}"
+        ));
+
+        return Ok(new CustomerResponse(
+            customer.Id,
+            customer.FirstName,
+            customer.MiddleName,
+            customer.Suffix,
+            customer.LastName,
+            customer.DateOfBirth,
+            customer.Balance,
+            customer.Status,
+            customer.CreatedBy,
+            customer.CreatedDateTime
+        ));
     }
 }

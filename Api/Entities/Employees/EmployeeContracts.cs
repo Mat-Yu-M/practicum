@@ -41,4 +41,12 @@ namespace Api.Entities.Employees
     string ApprovedBy,
     DateTime ApprovedDateTime
     );
+
+    public record DeleteEmployeeRequest(
+        string EmployeeId,
+        string Email
+        )
+    {
+
+    };
 }

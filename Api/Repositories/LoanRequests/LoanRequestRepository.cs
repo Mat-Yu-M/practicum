@@ -1,7 +1,4 @@
-﻿using Api.Entities.LoanProducts;
-using Api.Entities.LoanRequests;
-using Api.Repositories.LoanProducts;
-using k8s.KubeConfigModels;
+﻿using Api.Entities.LoanRequests;
 
 namespace Api.Repositories.LoanRequests
 {
@@ -15,7 +12,7 @@ namespace Api.Repositories.LoanRequests
                 CustomerId = dto.CustomerId,
                 Name = dto.Name,
                 LoanProductId = dto.LoanProductId,
-                LoanName    = dto.LoanName,
+                LoanName = dto.LoanName,
                 Description = dto.Description,
                 Amount = dto.Amount,
                 InterestRate = dto.InterestRate,
@@ -23,9 +20,8 @@ namespace Api.Repositories.LoanRequests
                 RequestType = dto.RequestType,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
-                ApprovedDate = dto.ApprovedDate,
-                ApprovedBy = dto.ApprovedBy,
-                CreatedDate = dto.CreatedDate,
+                CreatedBy = dto.CreatedBy,
+                CreatedDateTime = dto.CreatedDate,
             };
 
             context.LoanRequests.Add(entity);
@@ -48,9 +44,8 @@ namespace Api.Repositories.LoanRequests
             RequestType = entity.RequestType,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
-            ApprovedDate = entity.ApprovedDate,
-            ApprovedBy = entity.ApprovedBy,
-            CreatedDate = entity.CreatedDate
+            CreatedBy = entity.CreatedBy,
+            CreatedDateTime = entity.CreatedDateTime
         };
     }
 

@@ -17,6 +17,7 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             DateOfBirth = dto.DateOfBirth,
             CreatedDateTime = DateTime.UtcNow,
             Status = CustomerStatus.Defaulted,
+            CreatedBy = dto.CreatedBy,
         };
 
         context.Customers.Add(entity);
@@ -31,12 +32,19 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
 
     }
 
+    public async Task<CustomerEntity?> GetAsync(long id)
+    {
+        return await context.Customers.FindAsync(id);
+    }
+
     private static CustomerDto ToDto(CustomerEntity entity) => new()
     {
         Id = entity.Id,
         FirstName = entity.FirstName,
         MiddleName = entity.MiddleName,
         LastName = entity.LastName,
+        Suffix = entity.Suffix,
+        CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDateTime,
         Status = entity.Status,
         Balance = entity.Balance,

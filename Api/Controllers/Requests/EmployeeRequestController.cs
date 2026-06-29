@@ -4,7 +4,7 @@ using Api.Repositories.EmployeeRequests;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers.Requests
 {
     [ApiController]
     [Route("api/[Controller]")]
@@ -24,11 +24,11 @@ namespace Api.Controllers
         {
             var employeeRequests = await _repository.GetAllAsync();
 
-            await _auditLog.LogAsync(
-                AuditLogType.Fetch,
+            var response = new AuditLogResponse(AuditLogType.Fetch,
                 "Get Employee Requests",
-                $"Successfully fetched {employeeRequests.Count} employee requests."
-            );
+                $"Successfully fetched {employeeRequests.Count} employee requests.");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequests);
         }
@@ -54,11 +54,14 @@ namespace Api.Controllers
             var resultDto = await _repository.AddAsync(addEmployeeRequest);
 
 
-            await _auditLog.LogAsync(
+            var response = new AuditLogResponse(
                 AuditLogType.Add,
                 "Add Employee Request",
                 $"Successfully added employee request for {addEmployeeRequest.FirstName} {addEmployeeRequest.LastName}."
             );
+
+            await _auditLog.LogAsync(response);
+
 
             return Created($"api/EmployeeRequest/{resultDto.Id}", new { resultDto.Id });
         }
@@ -74,7 +77,9 @@ namespace Api.Controllers
                 return NotFound("This request has already been processed or does not exist.");
             }
 
-            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Rejected", $"Successfully deleted Employee Request");
+            var response = new AuditLogResponse(AuditLogType.Delete, "Employee Request Rejected", $"Successfully deleted Employee Request");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequest);
         }
@@ -89,7 +94,9 @@ namespace Api.Controllers
                 return NotFound("This request has already been processed or does not exist.");
             }
 
-            await _auditLog.LogAsync(AuditLogType.Delete, "Employee Request Deleted due to Successful Registration", $"Successfully deleted Employee Request");
+            var response = new AuditLogResponse(AuditLogType.Delete, "Employee Request Deleted due to Successful Registration", $"Successfully deleted Employee Request");
+
+            await _auditLog.LogAsync(response);
 
             return Ok(employeeRequest);
         }

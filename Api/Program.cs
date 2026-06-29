@@ -30,6 +30,9 @@ builder.Services.AddOpenApi();
 //Allow for Session Tracking
 builder.Services.AddHttpContextAccessor();
 
+//For Encryption
+builder.Services.AddDataProtection();
+
 //Rate Limiting
 builder.Services.AddRateLimiter(options =>
 {

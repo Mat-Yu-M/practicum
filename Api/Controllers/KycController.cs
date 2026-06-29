@@ -42,7 +42,8 @@ public class KycController : ControllerBase
 
         var resultDto = await _repository.AddAsync(addKycDto);
 
-        await _auditLog.LogAsync(AuditLogType.Add, "Add KYC Document", $"Successfully added KYC document for customer {resultDto.CustomerId}.");
+        var response = new AuditLogResponse(AuditLogType.Add, "Add KYC Document", $"Successfully added KYC document for customer {resultDto.CustomerId}.");
+        await _auditLog.LogAsync(response);
 
         return Created($"/api/users/{resultDto.CustomerId}", new { resultDto.CustomerId });
     }

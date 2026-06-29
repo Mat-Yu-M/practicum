@@ -50,6 +50,23 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
         return await context.Employees.FirstOrDefaultAsync(e => e.Id == id);
     }
 
+    public async Task<EmployeeEntity?> DeleteAsync(DeleteEmployeeRequest request)
+    {
+        var employee = await context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == request.EmployeeId && e.Email == request.Email);
+
+        if (employee == null)
+        {
+            return null;
+        }
+
+        context.Employees.Remove(employee);
+
+        await context.SaveChangesAsync();
+        return employee;
+
+    }
+
+
     private static EmployeeDto ToDto(EmployeeEntity entity) => new()
     {
         Id = entity.Id,
@@ -75,7 +92,7 @@ public sealed class EmployeeRepository(AppDbContext context) : IEmployeeReposito
     bool isAscending,
     int page,
     int pageSize
-)
+    )
     {
         IQueryable<EmployeeEntity> query = context.Employees;
 

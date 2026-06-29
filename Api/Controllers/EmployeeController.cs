@@ -4,6 +4,7 @@ using Api.Repositories.Employees;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -44,10 +45,12 @@ public class EmployeeController : ControllerBase
 
         await _repository.AddAsync(employee);
 
-        await _auditLogService.LogAsync(
+        var response = new AuditLogResponse(
         AuditLogType.Add,
         "Employee Registration",
-        $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully."
+        $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully.");
+
+        await _auditLogService.LogAsync(response
         );
 
         return Created($"/api/employees/{employee.Email}", new { employee.EmployeeId });
@@ -72,10 +75,24 @@ public class EmployeeController : ControllerBase
             return Unauthorized(new { message = "Exists but Wrong Credentials inputted" });
         }
 
-        await _auditLogService.LogAsync(
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Email, employee.Email),
+            new Claim("employee_id", employee.EmployeeId)
+        };
+
+        foreach (var role in employee.EmployeeRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+        }
+
+
+        var response = new AuditLogResponse(
             AuditLogType.Log,
             "Employee Login",
-            $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} logged in successfully."
+            $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} logged in successfully.");
+
+        await _auditLogService.LogAsync(response
         );
 
         return Ok(new
@@ -87,7 +104,11 @@ public class EmployeeController : ControllerBase
             email = employee.Email,
             firstName = employee.FirstName,
             lastName = employee.LastName,
-            employeeRoles = employee.EmployeeRoles
+            employeeRoles = employee.EmployeeRoles,
+            createdBy = employee.CreatedBy,
+            createdDateTime = employee.CreatedDateTime,
+            approvedBy = employee.ApprovedBy,
+            approvedDateTime = employee.ApprovedDateTime
         });
 
 
@@ -98,7 +119,8 @@ public class EmployeeController : ControllerBase
     {
         var employees = await _repository.GetAllAsync();
 
-        await _auditLogService.LogAsync(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Employees Fetched", $"Employees Fetched");
+        await _auditLogService.LogAsync(response);
 
         return Ok(employees);
     }
@@ -114,13 +136,34 @@ public class EmployeeController : ControllerBase
 
         }
 
-        await _auditLogService.LogAsync(
+        var response = new AuditLogResponse(
                 AuditLogType.Fetch,
                 "Employee Fetched",
-                $"Employee {employee.EmployeeId} fetched successfully."
-            );
+                $"Employee {employee.EmployeeId} fetched successfully.");
+
+        await _auditLogService.LogAsync(response);
+
+        return Ok(employee);
+    }
+
+    [HttpDelete("delete-employee")]
+
+    public async Task<IActionResult> DeleteEmployee([FromQuery] DeleteEmployeeRequest req)
+    {
+        var employee = await _repository.DeleteAsync(req);
+
+
+        if (employee == null)
+        {
+            return NotFound(employee);
+        }
+
+        var response = new AuditLogResponse(AuditLogType.Delete, "Deleted Employee", $"Deleted Employee {employee.EmployeeId} Successfully");
+
+        await _auditLogService.LogAsync(response);
 
         return Ok(employee);
     }
 }
+
 

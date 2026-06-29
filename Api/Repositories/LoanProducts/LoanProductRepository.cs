@@ -8,7 +8,6 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
     {
         var entity = new LoanProductEntity
         {
-            Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
             LoanCategory = dto.LoanCategory,
@@ -18,7 +17,10 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
             MinimumTermMonths = dto.MinimumTermMonths,
             MaximumTermMonths = dto.MaximumTermMonths,
             IsPromotion = dto.IsPromotion,
-            CreatedAt = dto.CreatedAt
+            CreatedBy = dto.CreatedBy,
+            CreatedDateTime = dto.CreatedDateTime,
+            ApprovedBy = dto.ApprovedBy,
+            ApprovedDateTime = dto.ApprovedDateTime
         };
 
         context.LoanProducts.Add(entity);
@@ -39,7 +41,10 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         MinimumTermMonths = entity.MinimumTermMonths,
         MaximumTermMonths = entity.MaximumTermMonths,
         IsPromotion = entity.IsPromotion,
-        CreatedAt = entity.CreatedAt
+        CreatedBy = entity.CreatedBy,
+        CreatedDateTime = entity.CreatedDateTime,
+        ApprovedBy = entity.ApprovedBy,
+        ApprovedDateTime = entity.ApprovedDateTime
     };
 
     public async Task<IEnumerable<LoanProductDto>> GetAllAsync()
@@ -50,6 +55,64 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
 
     public async Task<bool> ExistsByIdAsync(long id)
     {
-       return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
+        return await context.LoanProducts.AnyAsync(lp => lp.Id == id);
+    }
+
+    public async Task<LoanProductEntity?> DeleteAsync(LoanProductDeleteRequest request)
+    {
+        var loanProduct = await context.LoanProducts.FirstOrDefaultAsync(lp => lp.Name == request.Name && lp.Description == request.Description);
+
+        if (loanProduct == null)
+        {
+            return null;
+        }
+
+        context.LoanProducts.Remove(loanProduct);
+
+        await context.SaveChangesAsync();
+
+        return loanProduct;
+    }
+
+    public async Task<UpdateLoanProductResponse> UpdateAsync(UpdateLoanProductRequest request)
+    {
+        var loanProduct = await context.LoanProducts.FindAsync(request.Id);
+
+        if (loanProduct is null)
+        {
+            return null;
+        }
+
+        context.Entry(loanProduct).Property(lpr => lpr.InterestRate).CurrentValue = request.InterestRate;
+        context.Entry(loanProduct).Property(lpr => lpr.MinimumAmount).CurrentValue = request.MinimumAmount;
+        context.Entry(loanProduct).Property(lpr => lpr.MaximumAmount).CurrentValue = request.MaximumAmount;
+        context.Entry(loanProduct).Property(lpr => lpr.MinimumTermMonths).CurrentValue = request.MinimumTermMonths;
+        context.Entry(loanProduct).Property(lpr => lpr.MaximumTermMonths).CurrentValue = request.MaximumTermMonths;
+        context.Entry(loanProduct).Property(lpr => lpr.IsPromotion).CurrentValue = request.IsPromotion;
+
+        var response = new UpdateLoanProductResponse
+        (
+        request.InterestRate,
+        request.MinimumAmount,
+        request.MaximumAmount,
+        request.MinimumTermMonths,
+        request.MaximumTermMonths,
+        request.IsPromotion
+        );
+
+        await context.SaveChangesAsync();
+
+        return response;
+    }
+
+    public async Task<LoanProductEntity?> GetAsync(long id)
+    {
+        var loanProduct = await context.LoanProducts.FindAsync(id);
+
+        if (loanProduct == null)
+            return null;
+
+
+        return loanProduct;
     }
 }

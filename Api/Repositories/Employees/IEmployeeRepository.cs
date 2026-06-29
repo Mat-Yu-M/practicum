@@ -10,6 +10,7 @@ public interface IEmployeeRepository
     Task<EmployeeDto?> GetByEmailAsync(string email);
     Task<List<EmployeeEntity>> GetAllAsync();
     Task<EmployeeEntity?> GetAsync(long id);
+    Task<EmployeeEntity?> DeleteAsync(DeleteEmployeeRequest request);
     Task<PagedResult<EmployeeDto>> QueryAsync(
     string? searchTerm,
     EmployeeRoles[] employeeRoles,
@@ -17,5 +18,5 @@ public interface IEmployeeRepository
     bool isAscending,
     int page,
     int pageSize
-    )
+    );
 }
