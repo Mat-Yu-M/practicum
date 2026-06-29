@@ -39,6 +39,8 @@ public sealed class CustomerRepository(AppDbContext context) : ICustomerReposito
             .Include(c => c.EmailDetails)
             .Include(c => c.CustomerLoanHistory)
             .Include(c => c.CustomerStatusHistory)
+            .AsSplitQuery()
+            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
