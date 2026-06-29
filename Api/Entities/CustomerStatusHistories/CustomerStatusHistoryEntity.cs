@@ -15,7 +15,6 @@ namespace Api.Entities.CustomerStatusHistories
         public required DateTime CreatedDateTime { get; init; }
         public required CustomerEntity Customer { get; init; } = null!;
 
-
     }
 
     public sealed class CustomerStatusHistoryEntityConfiguration : IEntityTypeConfiguration<CustomerStatusHistoryEntity>
