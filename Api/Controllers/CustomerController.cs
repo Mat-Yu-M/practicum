@@ -60,7 +60,7 @@ public class CustomerController : ControllerBase
 
         await _auditLog.LogAsync(response);
 
-        return Created($"api/cus/{resultDto.Id}", new { resultDto.Id });
+        return Created($"api/customer/{resultDto.Id}", new { resultDto.Id });
     }
 
     [HttpGet("get-customers")]
