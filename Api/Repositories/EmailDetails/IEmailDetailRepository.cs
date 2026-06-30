@@ -2,5 +2,6 @@
 {
     public interface IEmailDetailRepository
     {
+        Task<EmailDetailDto> AddAsync(AddEmailDetailDto dto);
     }
 }

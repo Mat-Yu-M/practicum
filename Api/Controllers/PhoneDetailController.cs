@@ -1,4 +1,5 @@
-﻿using Api.Entities.PhoneDetails;
+﻿using Api.Entities.AuditLogs;
+using Api.Entities.PhoneDetails;
 using Api.Repositories.PhoneDetails;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,10 @@ public class PhoneDetailController : ControllerBase
         };
 
         await _repository.AddAsync(phoneDetails);
+
+        var response = new AuditLogValueResponse(AuditLogType.Add, null, request.PhoneNumber, "Added Phone Detail", $"Successfully Added Phone number to {request.CustomerId}");
+
+        await _auditLogs.LogValueAsync(response);
 
         return Created($"api/phoneDetails/{phoneDetails.CustomerId}", new { phoneDetails.CustomerId });
 
