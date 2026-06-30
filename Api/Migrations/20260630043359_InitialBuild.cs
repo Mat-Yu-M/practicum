@@ -7,44 +7,28 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialBuild : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "audit_logs",
+                name: "audit_log",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     type = table.Column<int>(type: "integer", nullable: false),
                     action = table.Column<string>(type: "text", nullable: false),
+                    old_value = table.Column<string>(type: "text", nullable: true),
+                    new_value = table.Column<string>(type: "text", nullable: true),
                     performed_by = table.Column<string>(type: "text", nullable: false),
                     performed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     details = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_audit_logs", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "customer_status_histories",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_name = table.Column<string>(type: "text", nullable: false),
-                    before_status = table.Column<int>(type: "integer", nullable: false),
-                    after_status = table.Column<int>(type: "integer", nullable: false),
-                    changed_by = table.Column<string>(type: "text", nullable: false),
-                    changed_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_customer_status_histories", x => x.id);
+                    table.PrimaryKey("pk_audit_log", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,7 +44,7 @@ namespace Api.Migrations
                     date_of_birth = table.Column<DateOnly>(type: "date", nullable: false),
                     balance = table.Column<decimal>(type: "numeric", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<string>(type: "text", nullable: false),
                     created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -74,14 +58,18 @@ namespace Api.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    employee_id = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
+                    employee_id = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
+                    middle_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
+                    suffix = table.Column<string>(type: "text", nullable: true),
                     email = table.Column<string>(type: "text", nullable: false),
                     password = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     employee_roles = table.Column<int[]>(type: "integer[]", nullable: false),
+                    approved_by = table.Column<string>(type: "text", nullable: false),
+                    approved_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_by = table.Column<string>(type: "text", nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,13 +84,15 @@ namespace Api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     employee_id = table.Column<string>(type: "text", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
+                    middle_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
+                    suffix = table.Column<string>(type: "text", nullable: true),
                     email = table.Column<string>(type: "text", nullable: false),
                     password = table.Column<string>(type: "text", nullable: false),
                     employee_roles = table.Column<int[]>(type: "integer[]", nullable: false),
                     request_type = table.Column<int>(type: "integer", nullable: false),
                     created_by = table.Column<string>(type: "text", nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,7 +115,8 @@ namespace Api.Migrations
                     maximum_term_months = table.Column<int>(type: "integer", nullable: false),
                     is_promotion = table.Column<bool>(type: "boolean", nullable: false),
                     request_type = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,7 +138,10 @@ namespace Api.Migrations
                     minimum_term_months = table.Column<int>(type: "integer", nullable: false),
                     maximum_term_months = table.Column<int>(type: "integer", nullable: false),
                     is_promotion = table.Column<bool>(type: "boolean", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    approved_by = table.Column<string>(type: "text", nullable: false),
+                    approved_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,9 +165,8 @@ namespace Api.Migrations
                     request_type = table.Column<int>(type: "integer", nullable: false),
                     start_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     end_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    approved_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    approved_by = table.Column<string>(type: "text", nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,58 +174,27 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "customer_history",
+                name: "customer_status_histories",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    loan_id = table.Column<long>(type: "bigint", nullable: false),
-                    loan_amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    repayment_schedule_id = table.Column<long>(type: "bigint", nullable: false),
-                    action = table.Column<string>(type: "text", nullable: true),
-                    approved_by = table.Column<string>(type: "text", nullable: true),
-                    approved_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_customer_history", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_customer_history_customers_customer_id",
-                        column: x => x.customer_id,
-                        principalTable: "customers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "customer_request",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    first_name = table.Column<string>(type: "text", nullable: false),
-                    middle_name = table.Column<string>(type: "text", nullable: true),
-                    suffix = table.Column<string>(type: "text", nullable: true),
-                    last_name = table.Column<string>(type: "text", nullable: false),
-                    date_of_birth = table.Column<DateOnly>(type: "date", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    request_type = table.Column<int>(type: "integer", nullable: false),
-                    request_status_type = table.Column<int>(type: "integer", nullable: false),
-                    rejection_reason = table.Column<string>(type: "text", nullable: true),
-                    customer_id = table.Column<long>(type: "bigint", nullable: true),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
+                    customer_name = table.Column<string>(type: "text", nullable: false),
+                    before_status = table.Column<int>(type: "integer", nullable: false),
+                    after_status = table.Column<int>(type: "integer", nullable: false),
+                    created_by = table.Column<string>(type: "text", nullable: false),
                     created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_customer_request", x => x.id);
+                    table.PrimaryKey("pk_customer_status_histories", x => x.id);
                     table.ForeignKey(
-                        name: "fk_customer_request_customers_customer_id",
+                        name: "fk_customer_status_histories_customers_customer_id",
                         column: x => x.customer_id,
                         principalTable: "customers",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,7 +204,9 @@ namespace Api.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    email = table.Column<string>(type: "text", nullable: false)
+                    email = table.Column<string>(type: "text", nullable: false),
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,18 +226,17 @@ namespace Api.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customer_id = table.Column<long>(type: "bigint", nullable: false),
+                    full_name = table.Column<string>(type: "text", nullable: false),
                     document_type = table.Column<string>(type: "text", nullable: true),
+                    document_image_path = table.Column<string>(type: "text", nullable: false),
                     country = table.Column<string>(type: "text", nullable: false),
                     zip_code = table.Column<string>(type: "text", nullable: false),
-                    address_line1 = table.Column<string>(type: "text", nullable: false),
-                    address_line2 = table.Column<string>(type: "text", nullable: true),
-                    address_line3 = table.Column<string>(type: "text", nullable: true),
-                    minimum_monthly_salary = table.Column<double>(type: "double precision", nullable: false),
-                    maximum_monthly_salary = table.Column<double>(type: "double precision", nullable: false),
-                    full_name = table.Column<string>(type: "text", nullable: false),
-                    document_image_path = table.Column<string>(type: "text", nullable: false),
+                    address_line = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
                     submitted_by = table.Column<string>(type: "text", nullable: false),
-                    submitted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    submitted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    reviewed_by = table.Column<string>(type: "text", nullable: true),
+                    reviewed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,14 +256,9 @@ namespace Api.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    phone_number = table.Column<string>(type: "text", nullable: true),
-                    country_code = table.Column<string>(type: "text", nullable: true),
-                    area_code = table.Column<string>(type: "text", nullable: true),
-                    extension_number = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: false),
                     created_by = table.Column<string>(type: "text", nullable: false),
-                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_by = table.Column<string>(type: "text", nullable: true),
-                    modified_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -329,9 +287,10 @@ namespace Api.Migrations
                     status = table.Column<int>(type: "integer", nullable: false),
                     start_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     end_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    approved_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    approved_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     approved_by = table.Column<string>(type: "text", nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -353,9 +312,10 @@ namespace Api.Migrations
                     loan_id = table.Column<long>(type: "bigint", nullable: false),
                     customer_id = table.Column<long>(type: "bigint", nullable: false),
                     installment_number = table.Column<int>(type: "integer", nullable: false),
-                    principal_amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    interest_amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    remaining_balance = table.Column<decimal>(type: "numeric", nullable: false),
+                    total_amount_due = table.Column<decimal>(type: "numeric", nullable: false),
+                    principal_amount = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    interest_amount = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    remaining_balance = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     due_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_paid = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -367,7 +327,7 @@ namespace Api.Migrations
                         column: x => x.customer_id,
                         principalTable: "customers",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_repayment_schedules_loans_loan_id",
                         column: x => x.loan_id,
@@ -376,14 +336,64 @@ namespace Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "customer_loan_history",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    customer_id = table.Column<long>(type: "bigint", nullable: false),
+                    loan_id = table.Column<long>(type: "bigint", nullable: false),
+                    loan_amount = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
+                    repayment_schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    due_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_by = table.Column<string>(type: "text", nullable: false),
+                    created_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    approved_by = table.Column<string>(type: "text", nullable: false),
+                    approved_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_customer_loan_history", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_customer_loan_history_customers_customer_id",
+                        column: x => x.customer_id,
+                        principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_customer_loan_history_loan_repayment_schedules_repayment_sc",
+                        column: x => x.repayment_schedule_id,
+                        principalTable: "repayment_schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_customer_loan_history_loans_loan_id",
+                        column: x => x.loan_id,
+                        principalTable: "loans",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "ix_customer_history_customer_id",
-                table: "customer_history",
+                name: "ix_customer_loan_history_customer_id",
+                table: "customer_loan_history",
                 column: "customer_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_customer_request_customer_id",
-                table: "customer_request",
+                name: "ix_customer_loan_history_loan_id",
+                table: "customer_loan_history",
+                column: "loan_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_customer_loan_history_repayment_schedule_id",
+                table: "customer_loan_history",
+                column: "repayment_schedule_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_customer_status_histories_customer_id",
+                table: "customer_status_histories",
                 column: "customer_id");
 
             migrationBuilder.CreateIndex(
@@ -435,13 +445,10 @@ namespace Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "audit_logs");
+                name: "audit_log");
 
             migrationBuilder.DropTable(
-                name: "customer_history");
-
-            migrationBuilder.DropTable(
-                name: "customer_request");
+                name: "customer_loan_history");
 
             migrationBuilder.DropTable(
                 name: "customer_status_histories");

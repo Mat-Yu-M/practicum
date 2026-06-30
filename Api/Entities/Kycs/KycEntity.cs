@@ -19,8 +19,8 @@ public sealed class KycEntity
     public CommonStatus Status { get; set; } = CommonStatus.Pending;
     public required string SubmittedBy { get; set; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
-    public string ReviewedBy { get; set; } = null!;
-    public DateTime ReviewedAt { get; set; } = DateTime.UtcNow;
+    public string? ReviewedBy { get; set; } = null!;
+    public DateTime? ReviewedAt { get; set; } = DateTime.UtcNow;
 }
 
 public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>

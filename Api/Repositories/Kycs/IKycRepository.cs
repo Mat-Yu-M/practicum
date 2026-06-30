@@ -8,7 +8,6 @@ namespace Api.Repositories.KycDocuments
         Task<bool> ExistsAsync(long customerId);
         Task<List<KycEntity>> GetAsync();
         Task<ApproveKycResponse> ApproveAsync(ApproveKycRequest request);
-
-        Task<ApproveKycResponse> RejectAsync(ApproveKycRequest request)
+        Task<ApproveKycResponse> RejectAsync(ApproveKycRequest request);
     }
 }

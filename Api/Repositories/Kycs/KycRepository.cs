@@ -100,13 +100,13 @@ public sealed class KycRepository(AppDbContext context, ICustomerStatusHistoryRe
 
         context.Entry(document).Property(d => d.ReviewedBy).CurrentValue = request.ReviewedBy;
         context.Entry(document).Property(d => d.ReviewedAt).CurrentValue = request.ReviewedAt;
-        context.Entry(document).Property(d => d.Status).CurrentValue = CommonStatus.Approved;
+        context.Entry(document).Property(d => d.Status).CurrentValue = CommonStatus.Rejected;
 
 
         var response = new ApproveKycResponse
         (
         request.FullName,
-        CommonStatus.Approved,
+        CommonStatus.Rejected,
         request.SubmittedBy,
         request.SubmittedAt,
         request.ReviewedBy,
@@ -118,7 +118,7 @@ public sealed class KycRepository(AppDbContext context, ICustomerStatusHistoryRe
             CustomerId = request.CustomerId,
             CustomerName = request.FullName,
             BeforeStatus = CustomerStatus.PendingRequirements,
-            AfterStatus = CustomerStatus.Verified,
+            AfterStatus = CustomerStatus.RequirementsRejected,
             CreatedBy = request.ReviewedBy,
             CreatedDateTime = request.ReviewedAt
         };

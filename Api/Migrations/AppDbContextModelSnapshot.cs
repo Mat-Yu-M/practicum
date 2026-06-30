@@ -858,11 +858,8 @@ namespace Api.Migrations
                         .HasColumnName("remaining_balance");
 
                     b.Property<decimal>("TotalAmountDue")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
-                        .HasColumnName("total_amount_due")
-                        .HasComputedColumnSql("principal_amount + interest_amount", true);
+                        .HasColumnType("numeric")
+                        .HasColumnName("total_amount_due");
 
                     b.HasKey("Id")
                         .HasName("pk_repayment_schedules");

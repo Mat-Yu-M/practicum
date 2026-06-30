@@ -1,6 +1,7 @@
 ﻿using Api.Repositories.AuditLogs;
 using Api.Repositories.CustomerLoanHistories;
 using Api.Repositories.Customers;
+using Api.Repositories.CustomerStatusHistories;
 using Api.Repositories.EmailDetails;
 using Api.Repositories.EmployeeRequests;
 using Api.Repositories.Employees;
@@ -31,7 +32,7 @@ namespace Api.Repositories
             services.AddScoped<IEmailDetailRepository, EmailDetailRepository>();
             services.AddScoped<IPhoneDetailRepository, PhoneDetailRepository>();
             services.AddScoped<ICustomerLoanHistoryRepository, CustomerLoanHistoryRepository>();
-
+            services.AddScoped<ICustomerStatusHistoryRepository, CustomerStatusHistoryRepository>();
 
             services.AddScoped<IEmployeeRequestRepository, EmployeeRequestRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();

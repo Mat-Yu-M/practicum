@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260625014143_NullableAuditLogValues2")]
-    partial class NullableAuditLogValues2
+    [Migration("20260630043359_InitialBuild")]
+    partial class InitialBuild
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,74 +69,6 @@ namespace Api.Migrations
                     b.ToTable("audit_log", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Entities.CustomerRequests.CustomerRequestEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date_time");
-
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("customer_id");
-
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date")
-                        .HasColumnName("date_of_birth");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("first_name");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("last_name");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("text")
-                        .HasColumnName("middle_name");
-
-                    b.Property<string>("RejectionReason")
-                        .HasColumnType("text")
-                        .HasColumnName("rejection_reason");
-
-                    b.Property<int>("RequestStatusType")
-                        .HasColumnType("integer")
-                        .HasColumnName("request_status_type");
-
-                    b.Property<int>("RequestType")
-                        .HasColumnType("integer")
-                        .HasColumnName("request_type");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
-
-                    b.Property<string>("Suffix")
-                        .HasColumnType("text")
-                        .HasColumnName("suffix");
-
-                    b.HasKey("Id")
-                        .HasName("pk_customer_request");
-
-                    b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_customer_request_customer_id");
-
-                    b.ToTable("customer_request", (string)null);
-                });
-
             modelBuilder.Entity("Api.Entities.CustomerStatusHistories.CustomerStatusHistoryEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -154,14 +86,14 @@ namespace Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("before_status");
 
-                    b.Property<string>("ChangedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("changed_by");
+                        .HasColumnName("created_by");
 
-                    b.Property<DateTime>("ChangedDate")
+                    b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("changed_date");
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -174,6 +106,9 @@ namespace Api.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_customer_status_histories");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_customer_status_histories_customer_id");
 
                     b.ToTable("customer_status_histories", (string)null);
                 });
@@ -191,8 +126,9 @@ namespace Api.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("balance");
 
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDateTime")
@@ -239,6 +175,15 @@ namespace Api.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -360,8 +305,8 @@ namespace Api.Migrations
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("employee_id");
 
                     b.PrimitiveCollection<int[]>("EmployeeRoles")
@@ -489,9 +434,14 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_date_time");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -550,9 +500,23 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<string>("ApprovedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("approved_by");
+
+                    b.Property<DateTime>("ApprovedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("approved_date_time");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -611,18 +575,14 @@ namespace Api.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("amount");
 
-                    b.Property<string>("ApprovedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("approved_by");
+                        .HasColumnName("created_by");
 
-                    b.Property<DateTime>("ApprovedDate")
+                    b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("approved_date");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -691,13 +651,18 @@ namespace Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("approved_by");
 
-                    b.Property<DateTime>("ApprovedDate")
+                    b.Property<DateTime>("ApprovedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("approved_date");
+                        .HasColumnName("approved_date_time");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -756,14 +721,6 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("AreaCode")
-                        .HasColumnType("text")
-                        .HasColumnName("area_code");
-
-                    b.Property<string>("CountryCode")
-                        .HasColumnType("text")
-                        .HasColumnName("country_code");
-
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("text")
@@ -777,19 +734,8 @@ namespace Api.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
-                    b.Property<string>("ExtensionNumber")
-                        .HasColumnType("text")
-                        .HasColumnName("extension_number");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("text")
-                        .HasColumnName("modified_by");
-
-                    b.Property<DateTime?>("ModifiedDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_date_time");
-
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
 
@@ -812,24 +758,35 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Action")
-                        .HasColumnType("text")
-                        .HasColumnName("action");
-
                     b.Property<DateTime>("ApprovedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("approved_at");
 
                     b.Property<string>("ApprovedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("approved_by");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date_time");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("due_date");
+
                     b.Property<decimal>("LoanAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
                         .HasColumnName("loan_amount");
 
                     b.Property<long>("LoanId")
@@ -849,6 +806,12 @@ namespace Api.Migrations
 
                     b.HasIndex("CustomerId")
                         .HasDatabaseName("ix_customer_loan_history_customer_id");
+
+                    b.HasIndex("LoanId")
+                        .HasDatabaseName("ix_customer_loan_history_loan_id");
+
+                    b.HasIndex("RepaymentScheduleId")
+                        .HasDatabaseName("ix_customer_loan_history_repayment_schedule_id");
 
                     b.ToTable("customer_loan_history", (string)null);
                 });
@@ -875,7 +838,8 @@ namespace Api.Migrations
                         .HasColumnName("installment_number");
 
                     b.Property<decimal>("InterestAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
                         .HasColumnName("interest_amount");
 
                     b.Property<bool>("IsPaid")
@@ -887,12 +851,18 @@ namespace Api.Migrations
                         .HasColumnName("loan_id");
 
                     b.Property<decimal>("PrincipalAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
                         .HasColumnName("principal_amount");
 
                     b.Property<decimal>("RemainingBalance")
-                        .HasColumnType("numeric")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
                         .HasColumnName("remaining_balance");
+
+                    b.Property<decimal>("TotalAmountDue")
+                        .HasColumnType("numeric")
+                        .HasColumnName("total_amount_due");
 
                     b.HasKey("Id")
                         .HasName("pk_repayment_schedules");
@@ -906,12 +876,14 @@ namespace Api.Migrations
                     b.ToTable("repayment_schedules", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Entities.CustomerRequests.CustomerRequestEntity", b =>
+            modelBuilder.Entity("Api.Entities.CustomerStatusHistories.CustomerStatusHistoryEntity", b =>
                 {
                     b.HasOne("Api.Entities.Customers.CustomerEntity", "Customer")
-                        .WithMany()
+                        .WithMany("CustomerStatusHistory")
                         .HasForeignKey("CustomerId")
-                        .HasConstraintName("fk_customer_request_customers_customer_id");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_customer_status_histories_customers_customer_id");
 
                     b.Navigation("Customer");
                 });
@@ -971,6 +943,20 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_customer_loan_history_customers_customer_id");
 
+                    b.HasOne("Api.Entities.Loans.LoanEntity", null)
+                        .WithMany()
+                        .HasForeignKey("LoanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_customer_loan_history_loans_loan_id");
+
+                    b.HasOne("RepaymentScheduleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("RepaymentScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_customer_loan_history_loan_repayment_schedules_repayment_sc");
+
                     b.Navigation("Customer");
                 });
 
@@ -979,7 +965,7 @@ namespace Api.Migrations
                     b.HasOne("Api.Entities.Customers.CustomerEntity", null)
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_repayment_schedules_customers_customer_id");
 
@@ -994,6 +980,8 @@ namespace Api.Migrations
             modelBuilder.Entity("Api.Entities.Customers.CustomerEntity", b =>
                 {
                     b.Navigation("CustomerLoanHistory");
+
+                    b.Navigation("CustomerStatusHistory");
 
                     b.Navigation("EmailDetails");
 

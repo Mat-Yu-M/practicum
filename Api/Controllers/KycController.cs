@@ -85,7 +85,7 @@ public class KycController : ControllerBase
         var response = new AuditLogValueResponse(
             AuditLogType.Update,
             CustomerStatus.PendingRequirements.ToString(),
-            CustomerStatus.Verified.ToString(),
+            CustomerStatus.RequirementsRejected.ToString(),
             "Updated Customer Document Submission",
             $"Updated {request.CustomerId} Status to Verified"
 
