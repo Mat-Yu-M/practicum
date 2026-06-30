@@ -1,5 +1,10 @@
 ﻿using Api.Entities.AuditLogs;
+using Api.Entities.CustomerLoanHistories;
 using Api.Entities.Customers;
+using Api.Entities.CustomerStatusHistories;
+using Api.Entities.EmailDetails;
+using Api.Entities.Kycs;
+using Api.Entities.PhoneDetails;
 using Api.Repositories.AuditLogs;
 using Api.Repositories.Customers;
 using Api.Services.AuditLogs;
@@ -98,7 +103,13 @@ public class CustomerController : ControllerBase
             customer.Balance,
             customer.Status,
             customer.CreatedBy,
-            customer.CreatedDateTime
+            customer.CreatedDateTime,
+            customer.EmailDetails.Select(e => new EmailDetailResponse(e.CustomerId, e.Email, e.CreatedBy, e.CreatedDateTime)),
+            customer.PhoneDetails.Select(p => new PhoneDetailResponse(p.CustomerId, p.PhoneNumber, p.CreatedBy, p.CreatedDateTime)),
+            customer.KycDetails.Select(k => new KycResponse(k.CustomerId, k.FullName, k.Country, k.ZipCode, k.AddressLine
+            , k.DocumentType, k.DocumentImagePath, k.SubmittedBy, k.SubmittedAt)),
+            customer.CustomerStatusHistory.Select(csh => new CustomerStatusHistoryResponse(csh.CustomerId, csh.CustomerName, csh.BeforeStatus, csh.AfterStatus, csh.CreatedBy, csh.CreatedDateTime)),
+            customer.CustomerLoanHistory.Select(clh => new CustomerLoanHistoryResponse(clh.CustomerId, clh.LoanId, clh.LoanAmount, clh.Status, clh.RepaymentScheduleId, clh.DueDate, clh.CreatedBy, clh.CreatedDateTime, clh.ApprovedBy, clh.ApprovedAt))
         ));
     }
 }

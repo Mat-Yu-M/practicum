@@ -22,7 +22,7 @@ public record KycResponse(
     string? DocumentType,
     string DocumentImagePath,
     string SubmittedBy,
-    string SubmittedDateTime
+    DateTime SubmittedDateTime
     );
 
 

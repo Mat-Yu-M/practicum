@@ -34,6 +34,11 @@ public sealed class KycRepository(AppDbContext context, ICustomerStatusHistoryRe
 
     public async Task<List<KycEntity>> GetAsync()
     {
+        return await context.Kycs.Where(k => k.Status == CommonStatus.Pending).AsNoTracking().ToListAsync();
+    }
+
+    public async Task<List<KycEntity>> GetAllAsync()
+    {
         return await context.Kycs.AsNoTracking().ToListAsync();
     }
     private static KycDto ToDto(KycEntity entity) => new()

@@ -9,5 +9,6 @@ namespace Api.Repositories.KycDocuments
         Task<List<KycEntity>> GetAsync();
         Task<ApproveKycResponse> ApproveAsync(ApproveKycRequest request);
         Task<ApproveKycResponse> RejectAsync(ApproveKycRequest request);
+        Task<List<KycEntity>> GetAllAsync();
     }
 }
