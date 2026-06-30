@@ -30,7 +30,7 @@ public record CustomerResponse(
     CustomerStatus Status,
     string CreatedBy,
     DateTime CreatedDateTime,
-        IEnumerable<EmailDetailResponse> EmailDetails,
+    IEnumerable<EmailDetailResponse> EmailDetails,
     IEnumerable<PhoneDetailResponse> PhoneDetails,
     IEnumerable<KycResponse> KycDetails,
     IEnumerable<CustomerStatusHistoryResponse> CustomerStatusHistories,

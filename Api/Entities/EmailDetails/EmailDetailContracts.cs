@@ -5,6 +5,6 @@
     long CustomerId,
     string Email,
     string CreatedBy,
-    string CreatedDateTime
+    DateTime CreatedDateTime
     );
 }
