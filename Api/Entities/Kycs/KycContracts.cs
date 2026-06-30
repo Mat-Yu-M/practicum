@@ -1,5 +1,4 @@
 ﻿using Api.Constants;
-using Api.Entities.Customers;
 
 namespace Api.Entities.Kycs;
 
@@ -40,7 +39,6 @@ public record ApproveKycRequest(
 long Id,
 long CustomerId,
 string FullName,
-CustomerEntity? Customer,
 string? DocumentType,
 string DocumentImagePath,
 string Country,
