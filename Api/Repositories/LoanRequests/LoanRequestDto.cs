@@ -12,7 +12,6 @@ public sealed record LoanRequestDto
     public required decimal Amount { get; set; }
     public required decimal InterestRate { get; set; }
     public required decimal FinalAmount { get; set; }
-
     public required CommonStatus Status { get; set; }
     public required int Months { get; set; }
     public required string CreatedBy { get; set; }
@@ -29,7 +28,6 @@ public sealed record AddLoanRequestDto
     public required decimal Amount { get; set; }
     public required decimal InterestRate { get; set; }
     public required decimal FinalAmount { get; set; }
-
     public required CommonStatus Status { get; set; }
     public required int Months { get; set; }
     public required string CreatedBy { get; set; }

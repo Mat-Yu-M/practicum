@@ -1,5 +1,4 @@
-﻿using Api.Constants;
-using Api.Entities.AuditLogs;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.LoanRequests;
 using Api.Repositories.LoanRequests;
 using Api.Services.AuditLogs;
@@ -21,7 +20,7 @@ public class LoanRequestController : ControllerBase
     }
 
     [HttpPost("add-loan-request")]
-    public async Task<IActionResult> AddLoanRequest(LoanRequestRequest request)
+    public async Task<IActionResult> AddLoanRequest([FromBody] LoanRequestRequest request)
     {
 
 
@@ -31,9 +30,10 @@ public class LoanRequestController : ControllerBase
             Name = request.Name,
             LoanProductId = request.LoanProductId,
             LoanName = request.LoanName,
-            Status = CommonStatus.Pending,
+            Status = request.Status,
             InterestRate = request.InterestRate,
             Amount = request.Amount,
+            FinalAmount = request.FinalAmount,
             Months = request.Months,
             CreatedBy = request.CreatedBy,
             CreatedDate = request.CreatedDateTime
@@ -54,16 +54,16 @@ public class LoanRequestController : ControllerBase
 
 
     [HttpDelete("reject-loan-request")]
-    public async Task<IActionResult> RejectLoanRequest(long id)
+    public async Task<IActionResult> RejectLoanRequest([FromQuery] long id)
     {
 
-        await _repository.DeleteAsync(id);
+        var loan = await _repository.DeleteAsync(id);
 
         var response = new AuditLogResponse(AuditLogType.Reject, "Successfully Rejected Loan Request", $"Rejected {id}");
 
         await _auditLog.LogAsync(response);
 
-        return Ok();
+        return Ok(loan);
 
     }
 
