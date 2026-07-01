@@ -99,6 +99,25 @@ namespace Api.Controllers
 
             return Ok(updatedLoanProduct);
         }
+        [HttpGet("get-loan-product")]
+        public async Task<IActionResult> GetLoanProduct(long id)
+        {
+            var loanProduct = await _repository.GetAsync(id);
 
+            if (loanProduct == null)
+            {
+                return NotFound(new { message = "Account does not exist." });
+
+            }
+
+            var response = new AuditLogResponse(
+                    AuditLogType.Fetch,
+                    "Loan Product Fetched",
+                    $"Loan Product {loanProduct.Name} fetched successfully.");
+
+            await _auditLogService.LogAsync(response);
+
+            return Ok(loanProduct);
+        }
     }
 }
