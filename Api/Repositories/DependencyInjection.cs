@@ -27,6 +27,7 @@ namespace Api.Repositories
 
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<ILoanRequestRepository, LoanRequestRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
 
             services.AddScoped<IKycRepository, KycRepository>();
             services.AddScoped<IEmailDetailRepository, EmailDetailRepository>();

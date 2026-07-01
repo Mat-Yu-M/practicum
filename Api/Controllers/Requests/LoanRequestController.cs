@@ -54,7 +54,7 @@ public class LoanRequestController : ControllerBase
 
 
     [HttpDelete("reject-loan-request")]
-    public async Task<IActionResult> RejectLoanRequest([FromQuery] long id)
+    public async Task<IActionResult> RejectLoanRequest(long id)
     {
 
         var loan = await _repository.DeleteAsync(id);
