@@ -11,7 +11,6 @@ namespace Api.Entities.LoanRequests
         public required string Name { get; set; }
         public long LoanProductId { get; set; }
         public required string LoanName { get; set; }
-        public required string Description { get; set; }
         public required decimal Amount { get; set; }
         public required decimal InterestRate { get; set; }
         public required CommonStatus Status { get; set; }
