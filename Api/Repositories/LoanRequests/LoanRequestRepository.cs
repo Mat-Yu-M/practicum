@@ -48,5 +48,12 @@ namespace Api.Repositories.LoanRequests
         };
     }
 
+        context.LoanRequests.Remove(response);
+
+        await context.SaveChangesAsync();
+        return response;
+    }
 
 }
+
+

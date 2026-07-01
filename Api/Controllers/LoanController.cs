@@ -1,4 +1,5 @@
 ﻿using Api.Entities.AuditLogs;
+using Api.Entities.Loans;
 using Api.Repositories.Loans;
 using Api.Services.AuditLogs;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,7 @@ public class LoanController : ControllerBase
         return Ok(loans);
     }
 
+    [HttpGet("get-loan")]
     public async Task<IActionResult> GetLoan(long id)
     {
         var loan = await _repository.GetAsync(id);
@@ -53,10 +55,36 @@ public class LoanController : ControllerBase
 
     }
 
-    //public async Task<IActionResult> AddLoan()
-    //{
-    //    var loan = 
-    //    return Ok(loan);
-    //}
+
+    [HttpPost("add-loan")]
+    public async Task<IActionResult> AddLoan([FromBody] AddLoanRequest request)
+    {
+
+        var loan = new AddLoanDto
+        {
+            CustomerId = request.CustomerId,
+            Name = request.Name,
+            LoanProductId = request.LoanProductId,
+            LoanName = request.LoanName,
+            Amount = request.Amount,
+            InterestRate = request.InterestRate,
+            FinalAmount = request.FinalAmount,
+            Status = request.Status,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
+            CreatedBy = request.CreatedBy,
+            CreatedDateTime = request.CreatedDateTime,
+            ApprovedBy = request.ApprovedBy,
+            ApprovedDateTime = request.ApprovedDateTime
+        };
+
+        var result = await _repository.AddAsync(loan);
+
+        var response = new AuditLogResponse(AuditLogType.Add, "Successfully Added Loan", $"Added Loan {result.Id}");
+
+        await _auditLog.LogAsync(response);
+
+        return Ok();
+    }
 }
 

@@ -8,5 +8,6 @@
         Delete,
         Approve,
         Fetch,
+        Reject,
     }
 }
