@@ -32,11 +32,9 @@ public class LoanRequestController : ControllerBase
             LoanProductId = request.LoanProductId,
             LoanName = request.LoanName,
             Status = CommonStatus.Pending,
-            RequestType = LoanRequestType.Add,
             InterestRate = request.InterestRate,
             Amount = request.Amount,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
+            Months = request.Months,
             CreatedBy = request.CreatedBy,
             CreatedDate = request.CreatedDateTime
         };
@@ -67,6 +65,18 @@ public class LoanRequestController : ControllerBase
 
         return Ok();
 
+    }
+
+    [HttpGet("get-loan-requests")]
+    public async Task<List<LoanRequestEntity>> GetAll()
+    {
+        var loanRequests = await _repository.GetAllAsync();
+
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Fetched Loan Requests", "Fetched Loan Requests");
+
+        await _auditLog.LogAsync(response);
+
+        return loanRequests;
     }
 
 }

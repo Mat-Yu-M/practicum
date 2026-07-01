@@ -9,10 +9,9 @@ namespace Api.Entities.LoanRequests
     string LoanName,
     decimal Amount,
     decimal InterestRate,
+    decimal FinalAmount,
     CommonStatus Status,
-    LoanRequestType RequestType,
-    DateTime StartDate,
-    DateTime EndDate,
+    int Months,
     string CreatedBy,
     DateTime CreatedDateTime
     );

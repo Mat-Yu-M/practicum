@@ -1,4 +1,5 @@
 ﻿using Api.Entities.LoanRequests;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories.LoanRequests;
 
@@ -15,9 +16,8 @@ public class LoanRequestRepository(AppDbContext context) : ILoanRequestRepositor
             Amount = dto.Amount,
             InterestRate = dto.InterestRate,
             Status = dto.Status,
-            RequestType = dto.RequestType,
-            StartDate = dto.StartDate,
-            EndDate = dto.EndDate,
+            Months = dto.Months,
+            FinalAmount = dto.FinalAmount,
             CreatedBy = dto.CreatedBy,
             CreatedDateTime = dto.CreatedDate,
         };
@@ -37,10 +37,9 @@ public class LoanRequestRepository(AppDbContext context) : ILoanRequestRepositor
         LoanName = entity.LoanName,
         Amount = entity.Amount,
         InterestRate = entity.InterestRate,
+        FinalAmount = entity.FinalAmount,
         Status = entity.Status,
-        RequestType = entity.RequestType,
-        StartDate = entity.StartDate,
-        EndDate = entity.EndDate,
+        Months = entity.Months,
         CreatedBy = entity.CreatedBy,
         CreatedDateTime = entity.CreatedDateTime
     };
@@ -57,7 +56,12 @@ public class LoanRequestRepository(AppDbContext context) : ILoanRequestRepositor
         return response;
     }
 
+    public async Task<List<LoanRequestEntity>> GetAllAsync()
+    {
+        var response = await context.LoanRequests.AsNoTracking().ToListAsync();
 
+        return response;
+    }
 }
 
 

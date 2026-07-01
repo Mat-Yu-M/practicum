@@ -13,10 +13,9 @@ namespace Api.Entities.LoanRequests
         public required string LoanName { get; set; }
         public required decimal Amount { get; set; }
         public required decimal InterestRate { get; set; }
+        public required decimal FinalAmount { get; set; }
         public required CommonStatus Status { get; set; }
-        public required LoanRequestType RequestType { get; set; }
-        public required DateTime StartDate { get; set; }
-        public required DateTime EndDate { get; set; }
+        public required int Months { get; set; }
         public required string CreatedBy { get; set; }
         public required DateTime CreatedDateTime { get; set; }
     }
