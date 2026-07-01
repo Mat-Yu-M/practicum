@@ -18,7 +18,7 @@ public sealed class CustomerEntity
     public DateOnly DateOfBirth { get; set; }
     public decimal Balance { get; set; } = 0;
     public CustomerStatus Status { get; set; }
-    public string CreatedBy { get; init; }
+    public required string CreatedBy { get; init; }
     public DateTime CreatedDateTime { get; init; } = DateTime.UtcNow;
     public ICollection<KycEntity> KycDetails { get; set; } = [];
     public ICollection<PhoneDetailEntity> PhoneDetails { get; set; } = [];
@@ -47,6 +47,16 @@ public sealed class CustomerEntityConfiguration : IEntityTypeConfiguration<Custo
 
         builder
         .HasMany(c => c.CustomerStatusHistory)
+        .WithOne(csh => csh.Customer)
+        .HasForeignKey(csh => csh.CustomerId);
+
+        builder
+        .HasMany(c => c.CustomerLoanHistory)
+        .WithOne(csh => csh.Customer)
+        .HasForeignKey(csh => csh.CustomerId);
+
+        builder
+        .HasMany(c => c.KycDetails)
         .WithOne(csh => csh.Customer)
         .HasForeignKey(csh => csh.CustomerId);
     }

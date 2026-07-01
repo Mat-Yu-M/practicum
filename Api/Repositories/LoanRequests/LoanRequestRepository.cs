@@ -8,7 +8,6 @@ namespace Api.Repositories.LoanRequests
         {
             var entity = new LoanRequestEntity
             {
-                Id = dto.Id,
                 CustomerId = dto.CustomerId,
                 Name = dto.Name,
                 LoanProductId = dto.LoanProductId,

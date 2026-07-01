@@ -44,7 +44,6 @@
     <Folder Include="Repositories\AuditLogs\" />
     <Folder Include="Repositories\EmailDetails\" />
     <Folder Include="Repositories\CustomerStatusHistories\" />
-    <Folder Include="Repositories\CustomerRequests\" />
     <Folder Include="Repositories\CustomerLoanHistories\" />
     <Folder Include="Repositories\PhoneDetails\" />
     <Folder Include="Repositories\Repayment_Schedules\" />

@@ -1,4 +1,5 @@
-﻿using Api.Entities.AuditLogs;
+﻿using Api.Constants;
+using Api.Entities.AuditLogs;
 using Api.Entities.Kycs;
 using Api.Repositories.KycDocuments;
 using Api.Services.AuditLogs;
@@ -53,6 +54,45 @@ public class KycController : ControllerBase
     {
         var kycs = await _repository.GetAsync();
         return Ok(kycs);
+    }
 
+    [HttpPatch("approve-customer-documents")]
+    public async Task<IActionResult> ApproveAsync(ApproveKycRequest request)
+    {
+
+        var document = await _repository.ApproveAsync(request);
+
+        var response = new AuditLogValueResponse(
+            AuditLogType.Update,
+            CustomerStatus.PendingRequirements.ToString(),
+            CustomerStatus.Verified.ToString(),
+            "Updated Customer Document Submission",
+            $"Updated {request.CustomerId} Status to Verified"
+
+            );
+
+        await _auditLog.LogValueAsync(response);
+
+        return Ok();
+    }
+
+    [HttpPatch("reject-customer-documents")]
+    public async Task<IActionResult> RejectAsync(ApproveKycRequest request)
+    {
+
+        var document = await _repository.RejectAsync(request);
+
+        var response = new AuditLogValueResponse(
+            AuditLogType.Update,
+            CustomerStatus.PendingRequirements.ToString(),
+            CustomerStatus.RequirementsRejected.ToString(),
+            "Updated Customer Document Submission",
+            $"Updated {request.CustomerId} Status to Verified"
+
+            );
+
+        await _auditLog.LogValueAsync(response);
+
+        return Ok();
     }
 }

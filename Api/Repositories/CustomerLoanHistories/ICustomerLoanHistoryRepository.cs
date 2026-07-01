@@ -2,5 +2,6 @@
 {
     public interface ICustomerLoanHistoryRepository
     {
+        Task<CustomerLoanHistoryDto> AddAsync(AddCustomerLoanHistoryDto dto);
     }
 }

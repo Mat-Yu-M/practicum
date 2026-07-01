@@ -1,4 +1,9 @@
 ﻿using Api.Constants;
+using Api.Entities.CustomerLoanHistories;
+using Api.Entities.CustomerStatusHistories;
+using Api.Entities.EmailDetails;
+using Api.Entities.Kycs;
+using Api.Entities.PhoneDetails;
 
 namespace Api.Entities.Customers;
 
@@ -24,5 +29,10 @@ public record CustomerResponse(
     decimal Balance,
     CustomerStatus Status,
     string CreatedBy,
-    DateTime CreatedDateTime
+    DateTime CreatedDateTime,
+    IEnumerable<EmailDetailResponse> EmailDetails,
+    IEnumerable<PhoneDetailResponse> PhoneDetails,
+    IEnumerable<KycResponse> KycDetails,
+    IEnumerable<CustomerStatusHistoryResponse> CustomerStatusHistories,
+    IEnumerable<CustomerLoanHistoryResponse> CustomerLoanHistories
 );

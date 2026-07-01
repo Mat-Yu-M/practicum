@@ -52,5 +52,11 @@ public class LoanController : ControllerBase
         return Ok(loan);
 
     }
+
+    //public async Task<IActionResult> AddLoan()
+    //{
+    //    var loan = 
+    //    return Ok(loan);
+    //}
 }
 

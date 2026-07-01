@@ -112,7 +112,6 @@ public sealed class LoanProductRepository(AppDbContext context) : ILoanProductRe
         if (loanProduct == null)
             return null;
 
-
         return loanProduct;
     }
 }

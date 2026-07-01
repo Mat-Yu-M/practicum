@@ -27,6 +27,20 @@ public class AuditLogService : IAuditLogService
         };
         await _auditLogRepository.AddAsync(auditLogDto);
     }
+    public async Task LogValueAsync(AuditLogValueResponse response)
+    {
+        var auditLogDto = new AddAuditLogDto
+        {
+            Type = response.AuditLogType,
+            OldValue = response.OldValue,
+            NewValue = response.NewValue,
+            Action = response.Action,
+            Details = response.Details,
+            PerformedBy = GetCurrentUser(),
+            PerformedAt = DateTime.UtcNow
+        };
+        await _auditLogRepository.AddAsync(auditLogDto);
+    }
     public string GetCurrentUser()
     {
         return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Admin";

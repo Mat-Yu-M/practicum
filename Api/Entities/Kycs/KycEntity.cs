@@ -1,6 +1,5 @@
 ﻿using Api.Constants;
 using Api.Entities.Customers;
-using Microsoft;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,8 +19,8 @@ public sealed class KycEntity
     public CommonStatus Status { get; set; } = CommonStatus.Pending;
     public required string SubmittedBy { get; set; }
     public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
-    public string? ReviewedBy { get; set; }
-    public DateTime? ReviewedAt { get; set; }
+    public string? ReviewedBy { get; set; } = null!;
+    public DateTime? ReviewedAt { get; set; } = DateTime.UtcNow;
 }
 
 public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
@@ -31,10 +30,5 @@ public sealed class KycEntityConfiguration : IEntityTypeConfiguration<KycEntity>
         builder.ToTable("kyc");
 
         builder.HasKey(k => k.Id);
-
-        builder.HasOne(k => k.Customer)     
-                   .WithMany(c => c.KycDetails)   
-                   .HasForeignKey(k => k.CustomerId)   
-                   .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -8,7 +8,6 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
     {
         var entity = new LoanEntity
         {
-            Id = dto.Id,
             CustomerId = dto.CustomerId,
             Name = dto.Name,
             LoanProductId = dto.LoanProductId,
@@ -55,7 +54,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
         return await context.Loans.AsNoTracking().ToListAsync();
     }
 
-    public async Task<LoanEntity> GetAsync(long id)
+    public async Task<LoanEntity?> GetAsync(long id)
     {
         return await context.Loans.FindAsync(id);
     }
