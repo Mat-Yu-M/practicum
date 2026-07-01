@@ -13,7 +13,7 @@ public class LoanController : ControllerBase
     private readonly ILoanRepository _repository;
     private readonly IAuditLogService _auditLog;
 
-    private LoanController(ILoanRepository repository, IAuditLogService auditLog)
+    public LoanController(ILoanRepository repository, IAuditLogService auditLog)
     {
         _repository = repository;
         _auditLog = auditLog;
@@ -84,7 +84,7 @@ public class LoanController : ControllerBase
 
         await _auditLog.LogAsync(response);
 
-        return Ok();
+        return Created($"/api/loans/{result.Id}", new { result.Id });
     }
 }
 
