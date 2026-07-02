@@ -20,7 +20,7 @@ string ApprovedBy,
 DateTime ApprovedDateTime
 );
 
-public record LoanReponse
+public record LoanResponse
 (
 string LoanName,
 decimal Amount,
@@ -36,7 +36,7 @@ DateTime ApprovedDateTime
 
 public record LoanBalanceRequest(
 long Id,
-decimal Balance
+decimal PaymentAmount
 );
 public record LoanBalanceResponse(
 long Id,

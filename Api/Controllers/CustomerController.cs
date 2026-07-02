@@ -153,7 +153,7 @@ public class CustomerController : ControllerBase
             CreatedBy = "Admin",
             CreatedDateTime = DateTime.Now
         };
-        var resultDto = await _repository.AddAsync(customer);
+        var resultDto = await _repository.AddAsync(req);
 
 
         var auditLogDto = new AddAuditLogDto

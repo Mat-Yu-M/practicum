@@ -92,13 +92,14 @@ public class LoanController : ControllerBase
     {
         var result = await _repository.ReduceBalanceAsync(request);
 
-        var response = new AuditLogValueResponse(AuditLogType.Update, request.Balance.ToString(), result.FinalAmount.ToString(), "Successfully Reduced Loan Balance", $"Reduced Loan Balance {result.Id}");
+        var response = new AuditLogValueResponse(AuditLogType.Update, request.PaymentAmount.ToString(), result.FinalAmount.ToString(), "Successfully Reduced Loan Balance", $"Reduced Loan Balance {result.Id}");
 
         await _auditLog.LogValueAsync(response);
 
         return Ok(result);
     }
 
+    [HttpGet("get-customer-loans")]
     public async Task<IActionResult> GetCustomerOngoingLoans(long customerId)
     {
         var result = await _repository.GetCustomerLoan(customerId);

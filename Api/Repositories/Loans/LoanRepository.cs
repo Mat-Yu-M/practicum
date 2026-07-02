@@ -69,12 +69,12 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
             throw new InvalidOperationException($"Loan with ID {request.Id} not found.");
         }
 
-        if (loan.FinalAmount < request.Balance)
+        if (loan.FinalAmount < request.PaymentAmount)
         {
-            throw new InvalidOperationException($"Cannot reduce balance by {request.Balance}. Current balance is {loan.FinalAmount}.");
+            throw new InvalidOperationException($"Cannot reduce balance by {request.PaymentAmount}. Current balance is {loan.FinalAmount}.");
         }
 
-        loan.FinalAmount -= request.Balance;
+        loan.FinalAmount -= request.PaymentAmount;
         await context.SaveChangesAsync();
 
         return new LoanBalanceResponse(loan.Id, loan.FinalAmount);
@@ -82,7 +82,7 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
 
     public async Task<List<LoanEntity>> GetCustomerLoan(long customerId)
     {
-        var customerLoan = await context.Loans.Where(l => l.CustomerId == customerId && l.Status == CommonStatus.Ongoing).ToListAsync();
+        var customerLoan = await context.Loans.Where(l => l.CustomerId == customerId && l.Status == CommonStatus.Approved || l.Status == CommonStatus.Ongoing).ToListAsync();
 
         return customerLoan;
     }

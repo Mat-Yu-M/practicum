@@ -1,5 +1,4 @@
-﻿using Api.Constants;
-using Api.Entities.AuditLogs;
+﻿using Api.Entities.AuditLogs;
 using Api.Entities.Employees;
 using Api.Repositories.Employees;
 using Api.Services.AuditLogs;
@@ -166,76 +165,6 @@ public class EmployeeController : ControllerBase
         return Ok(employee);
     }
 
-    [HttpPost("test-create-employee")]
-    public async Task<IActionResult> TestCreateEmployee()
-    {
-        var firstNames = new[]
-        {
-        "Adrian", "Bianca", "Carlo", "Danielle", "Ethan",
-        "Faith", "Gabriel", "Hannah", "Isaac", "Jasmine",
-        "Joshua", "Kevin", "Liam", "Maria", "Nathaniel",
-        "Olivia", "Patrick", "Rafael", "Sophia", "Tristan"
-    };
-
-        var middleNames = new[]
-        {
-        "Miguel", "Marie", "Paul", "Anne", "James",
-        "Nicole", "Lorenzo", "Sophia", "Daniel", "Mae",
-        "Kyle", "Joy", "Patrick", "Angela", "John",
-        "Grace", "Vincent", "Dominic", "Claire", "Louise"
-    };
-
-        var lastNames = new[]
-        {
-        "Santos", "Reyes", "Garcia", "Cruz", "Mendoza",
-        "Torres", "Navarro", "Aquino", "Villanueva", "Castillo",
-        "Flores", "Ramos", "Herrera", "Mercado", "Fernandez",
-        "Rosario", "Bautista", "Gonzales", "Morales", "Cabrera"
-    };
-
-        var suffixes = new[] { "", "", "", "", "Jr.", "Sr.", "III" };
-
-        var random = new Random();
-
-        for (int x = 0; x < 10; x++)
-        {
-            var firstName = firstNames[random.Next(firstNames.Length)];
-            var middleName = middleNames[random.Next(middleNames.Length)];
-            var lastName = lastNames[random.Next(lastNames.Length)];
-            var suffix = suffixes[random.Next(suffixes.Length)];
-            EmployeeRoles = new List<EmployeeRoles>
-{
-    EmployeeRoles.EmployeeRoleMaker
-},
-            var employee = new RegisterEmployeeDto
-            {
-                FirstName = firstName,
-                MiddleName = middleName,
-                LastName = lastName,
-                Suffix = suffix,
-                Email = $"{firstName.ToLower()}.{lastName.ToLower()}@gmail.com",
-                Password = "Password123!",
-                EmployeeId = $"EMP{random.Next(100000, 999999)}",
-                EmployeeRoles = [EmployeeRoles.EmployeeRoleMaker],
-                CreatedBy = "Admin",
-                CreatedDateTime = DateTime.Now,
-                ApprovedBy = "System",
-                ApprovedDateTime = DateTime.Now,
-            };
-
-            await _repository.AddAsync(employee);
-
-            var response = new AuditLogResponse(
-                AuditLogType.Add,
-                "Employee Registration",
-                $"Employee {employee.FirstName} {employee.LastName} with ID {employee.EmployeeId} registered successfully."
-            );
-
-            await _auditLogService.LogAsync(response);
-        }
-
-        return Ok();
-    }
 
 }
 
