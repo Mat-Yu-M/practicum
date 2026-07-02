@@ -86,5 +86,27 @@ public class LoanController : ControllerBase
 
         return Created($"/api/loans/{result.Id}", new { result.Id });
     }
-}
 
+    [HttpPost("reduce-balance")]
+    public async Task<IActionResult> ReduceBalance([FromBody] LoanBalanceRequest request)
+    {
+        var result = await _repository.ReduceBalanceAsync(request);
+
+        var response = new AuditLogValueResponse(AuditLogType.Update, request.Balance.ToString(), result.FinalAmount.ToString(), "Successfully Reduced Loan Balance", $"Reduced Loan Balance {result.Id}");
+
+        await _auditLog.LogValueAsync(response);
+
+        return Ok(result);
+    }
+
+    public async Task<IActionResult> GetCustomerOngoingLoans(long customerId)
+    {
+        var result = await _repository.GetCustomerLoan(customerId);
+
+        var response = new AuditLogResponse(AuditLogType.Fetch, "Successfully Fetched Customer's Ongoing Loans", $" Fetched Loan {result}");
+
+        await _auditLog.LogAsync(response);
+
+        return Ok(result);
+    }
+}

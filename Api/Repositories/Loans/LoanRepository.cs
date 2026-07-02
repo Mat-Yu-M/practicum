@@ -1,4 +1,5 @@
-﻿using Api.Entities.Loans;
+﻿using Api.Constants;
+using Api.Entities.Loans;
 using Microsoft.EntityFrameworkCore;
 namespace Api.Repositories.Loans;
 
@@ -57,5 +58,32 @@ public sealed class LoanRepository(AppDbContext context) : ILoanRepository
     public async Task<LoanEntity?> GetAsync(long id)
     {
         return await context.Loans.FindAsync(id);
+    }
+
+    public async Task<LoanBalanceResponse> ReduceBalanceAsync(LoanBalanceRequest request)
+    {
+        var loan = await context.Loans.FindAsync(request.Id);
+
+        if (loan == null)
+        {
+            throw new InvalidOperationException($"Loan with ID {request.Id} not found.");
+        }
+
+        if (loan.FinalAmount < request.Balance)
+        {
+            throw new InvalidOperationException($"Cannot reduce balance by {request.Balance}. Current balance is {loan.FinalAmount}.");
+        }
+
+        loan.FinalAmount -= request.Balance;
+        await context.SaveChangesAsync();
+
+        return new LoanBalanceResponse(loan.Id, loan.FinalAmount);
+    }
+
+    public async Task<List<LoanEntity>> GetCustomerLoan(long customerId)
+    {
+        var customerLoan = await context.Loans.Where(l => l.CustomerId == customerId && l.Status == CommonStatus.Ongoing).ToListAsync();
+
+        return customerLoan;
     }
 }

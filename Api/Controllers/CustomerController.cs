@@ -112,4 +112,66 @@ public class CustomerController : ControllerBase
             customer.CustomerLoanHistory.Select(clh => new CustomerLoanHistoryResponse(clh.CustomerId, clh.LoanId, clh.LoanAmount, clh.Status, clh.RepaymentScheduleId, clh.DueDate, clh.CreatedBy, clh.CreatedDateTime, clh.ApprovedBy, clh.ApprovedAt))
         ));
     }
+
+    [HttpPost("test-add-customer")]
+    public async Task<IActionResult> CreateTestCustomer()
+    {
+        var firstNames = new[]
+        {
+        "Adrian", "Bianca", "Carlo", "Danielle", "Ethan",
+        "Faith", "Gabriel", "Hannah", "Isaac", "Jasmine",
+        "Joshua", "Kevin", "Liam", "Maria", "Nathaniel",
+        "Olivia", "Patrick", "Rafael", "Sophia", "Tristan"
+        };
+
+        var middleNames = new[]
+        {
+        "Miguel", "Marie", "Paul", "Anne", "James",
+        "Nicole", "Lorenzo", "Sophia", "Daniel", "Mae",
+        "Kyle", "Joy", "Patrick", "Angela", "John",
+        "Grace", "Vincent", "Dominic", "Claire", "Louise"
+        };
+
+        var lastNames = new[]
+        {
+        "Santos", "Reyes", "Garcia", "Cruz", "Mendoza",
+        "Torres", "Navarro", "Aquino", "Villanueva", "Castillo",
+        "Flores", "Ramos", "Herrera", "Mercado", "Fernandez",
+        "Rosario", "Bautista", "Gonzales", "Morales", "Cabrera"
+        };
+
+        var suffixes = new[] { "", "", "", "", "Jr.", "Sr.", "III" };
+
+        var random = new Random();
+        var req = new RegisterCustomerDto
+        {
+            FirstName = firstNames[random.Next(firstNames.Length)],
+            MiddleName = middleNames[random.Next(middleNames.Length)],
+            LastName = lastNames[random.Next(lastNames.Length)],
+            Suffix = suffixes[random.Next(suffixes.Length)],
+            DateOfBirth = DateOnly.FromDateTime(DateTime.Today.AddYears(-random.Next(18, 65)).AddDays(-random.Next(365))),
+            CreatedBy = "Admin",
+            CreatedDateTime = DateTime.Now
+        };
+        var resultDto = await _repository.AddAsync(customer);
+
+
+        var auditLogDto = new AddAuditLogDto
+        {
+            Type = AuditLogType.Add,
+            Action = "Register Customer",
+            Details = $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}.",
+            PerformedAt = DateTime.UtcNow
+        };
+
+
+        var response = new AuditLogResponse(
+            AuditLogType.Add,
+            "Register Customer",
+            $"Successfully registered customer {resultDto.FirstName} {resultDto.LastName} with ID {resultDto.Id}.");
+
+        await _auditLog.LogAsync(response);
+
+        return Created($"api/customer/{resultDto.Id}", new { resultDto.Id });
+    }
 }
