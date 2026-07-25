@@ -4,7 +4,7 @@ var postgres = builder.AddPostgres("postgres")
                       .WithDataVolume()
                       .WithPgAdmin();
 
-var myDb = postgres.AddDatabase("practicumdb");
+var myDb = postgres.AddDatabase("db");
 
 var web = builder.AddExternalService("web", "http://localhost:3000");
 
