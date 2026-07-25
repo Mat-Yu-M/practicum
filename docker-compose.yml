@@ -1,20 +1,20 @@
 services:
   loan-app:
     build:
-      context: ./PracticumProject
+      context: ./TemplateProject
       dockerfile: Dockerfile
     ports:
       - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=loan-db;Database=loan_db;Username=postgres;Password=p@ssword123
+      - ConnectionStrings__DefaultConnection=Host=loan-db;Database=db;Username=postgres;Password=p@ssword123
     depends_on:
-      - loan-db
+      - db
 
-  loan-db:
+  db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: loan_db
+      POSTGRES_DB: db
       POSTGRES_PASSWORD: p@ssword123
     ports:
       - "5432:5432"
